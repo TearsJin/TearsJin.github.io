@@ -13,8 +13,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<meta name="description" content="222222"/><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
-<link rel="canonical" href="http://tearsjin.github.io/page/3/"/>
+<meta name="description" content="write for 2021AntCTFxD^3CTF"/><meta name="keywords" content="Crypto, WriteUp, Lattice, K1rit0's Blog" /><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://tearsjin.github.io/2021/03/08/write-for-2021AntCTFxD-3CTF/"/>
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
@@ -40,7 +40,7 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
 </script>
 
-    <title>K1rit0's Blog</title>
+    <title>write for 2021AntCTFxD^3CTF - K1rit0's Blog</title>
   <meta name="generator" content="Hexo 5.4.0"></head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -107,9 +107,9 @@
 
       <main id="main" class="main">
         <div class="content-wrapper">
-          <div id="content" class="content"><section id="posts" class="posts"><article class="post">
+          <div id="content" class="content"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/08/write-for-2021AntCTFxD-3CTF/">write for 2021AntCTFxD^3CTF</a>
+      <h1 class="post-title">write for 2021AntCTFxD^3CTF
         </h1>
 
       <div class="post-meta">
@@ -121,7 +121,12 @@
         </div>
     </header>
 
-    <div class="post-content"><p>啊这次的这个比赛因为不会Lattice, 导致基本不会做啊, 虽然比赛后半段去学了也试着做了, 虽然格子造出来还被自己蠢到了, 但还是…收获很多hh</p>
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#babylattice"><span class="toc-text">babylattice</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem"><span class="toc-text">problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BA%E7%8E%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">出现的参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E6%9C%9F%E8%A7%A3"><span class="toc-text">预期解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#simpleGroup"><span class="toc-text">simpleGroup</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-1"><span class="toc-text">problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90-1"><span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exp"><span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E7%94%A8%E6%B6%88%E5%8E%BB-r-%E7%9A%84%E8%A7%A3"><span class="toc-text">不用消去$r$的解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exp-1"><span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-text">后记</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AliceWantFlag"><span class="toc-text">AliceWantFlag</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#EasyCurve"><span class="toc-text">EasyCurve</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><p>啊这次的这个比赛因为不会Lattice, 导致基本不会做啊, 虽然比赛后半段去学了也试着做了, 虽然格子造出来还被自己蠢到了, 但还是…收获很多hh</p>
 <p>记录一下吧</p>
 <h1 id="babylattice"><a href="#babylattice" class="headerlink" title="babylattice"></a>babylattice</h1><p>当时做题的时候完全没有看到明文就是一个数字, 并不能转换成有语义的字符串….导致格子都造出来了还一直卡着<br>但也体会到了一些造格子的方法, 以及格约出向量后需要注意的地方</p>
 <h2 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line">PublicKey = namedtuple(<span class="string">&#x27;PublicKey&#x27;</span>, [<span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;b&#x27;</span>])</span><br><span class="line">SecretKey = namedtuple(<span class="string">&#x27;SecretKey&#x27;</span>, [<span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;A&#x27;</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_key</span>():</span></span><br><span class="line">    p = random_prime(<span class="number">2</span>^<span class="number">512</span>, lbound=<span class="number">2</span>^<span class="number">511</span>)</span><br><span class="line">    q = random_prime(<span class="number">2</span>^<span class="number">512</span>, lbound=<span class="number">2</span>^<span class="number">511</span>)</span><br><span class="line">    n = p * q</span><br><span class="line">    a11, a12, a21 = [random_prime(<span class="number">2</span>^<span class="number">100</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)]</span><br><span class="line">    a22 = random_prime(<span class="number">2</span>^<span class="number">100</span>)</span><br><span class="line">    <span class="keyword">while</span> a11 * a22 == a12 * a21:</span><br><span class="line">        a22 = random_prime(<span class="number">2</span>^<span class="number">100</span>)</span><br><span class="line">    A = Matrix(ZZ, [[a11, a12], [a21, a22]])</span><br><span class="line">    a1 = crt([a11, a21], [p, q])</span><br><span class="line">    a2 = crt([a12, a22], [p, q])</span><br><span class="line">    b = a1 * inverse_mod(a2, n) % n</span><br><span class="line">    PK = PublicKey(n, b)</span><br><span class="line">    SK = SecretKey(p, q, A)</span><br><span class="line">    <span class="keyword">return</span> (PK, SK)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">m, pk</span>):</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="number">0</span> &lt; m &lt; <span class="number">2</span>^<span class="number">400</span></span><br><span class="line">    r = randint(<span class="number">0</span>, <span class="number">2</span>^<span class="number">400</span>-<span class="number">1</span>)</span><br><span class="line">    c = (pk.b*m + r) % pk.n</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span>(<span class="params">c, sk</span>):</span></span><br><span class="line">    a2 = crt([sk.A[<span class="number">0</span>,<span class="number">1</span>], sk.A[<span class="number">1</span>,<span class="number">1</span>]], [sk.p, sk.q])</span><br><span class="line">    s1 = a2 * c % sk.p</span><br><span class="line">    s2 = a2 * c % sk.q</span><br><span class="line">    m, r = sk.A.solve_right(vector([s1, s2]))</span><br><span class="line">    <span class="keyword">return</span> m</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">pk, sk, num=<span class="number">3</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        m = randint(<span class="number">0</span>, <span class="number">2</span>^<span class="number">400</span>-<span class="number">1</span>)</span><br><span class="line">        c = encrypt(m, pk)</span><br><span class="line">        mm = decrypt(c, sk)</span><br><span class="line">        <span class="keyword">assert</span> m == mm</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line">    <span class="keyword">from</span> secret <span class="keyword">import</span> m, FLAG</span><br><span class="line">    <span class="keyword">assert</span> FLAG == <span class="string">&#x27;d3ctf&#123;%s&#125;&#x27;</span> % sha256(<span class="built_in">int</span>(m).to_bytes(<span class="number">50</span>, <span class="string">&#x27;big&#x27;</span>)).hexdigest()</span><br><span class="line">    PK, SK = gen_key()</span><br><span class="line">    test(PK, SK)</span><br><span class="line">    c = encrypt(m, PK)</span><br><span class="line">    print(<span class="string">f&quot;PK = <span class="subst">&#123;PK&#125;</span>&quot;</span>)</span><br><span class="line">    print(<span class="string">f&quot;c = <span class="subst">&#123;c&#125;</span>&quot;</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">PK = PublicKey(n=69804507328197961654128697510310109608046244030437362639637009184945533884294737870524186521509776189989451383438084507903660182212556466321058025788319193059894825570785105388123718921480698851551024108844782091117408753782599961943040695892323702361910107399806150571836786642746371968124465646209366215361, b=65473938578022920848984901484624361251869406821863616908777213906525858437236185832214198627510663632409869363143982594947164139220013904654196960829350642413348771918422220404777505345053202159200378935309593802916875681436442734667249049535670986673774487031873808527230023029662915806344014429627710399196)</span></span><br><span class="line"><span class="string">c = 64666354938466194052720591810783769030566504653409465121173331362654665231573809234913985758725048071311571549777481776826624728742086174609897160897118750243192791021577348181130302572185911750797457793921069473730039225991755755340927506766395262125949939309337338656431876690470938261261164556850871338570</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -180,16 +185,39 @@
 <p>studying~</p>
 </blockquote>
 
-        </div></article>
-      <nav class="pagination"><a class="prev" href="/page/2/">
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="http://tearsjin.github.io">K1rit0</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="http://tearsjin.github.io/2021/03/08/write-for-2021AntCTFxD-3CTF/">http://tearsjin.github.io/2021/03/08/write-for-2021AntCTFxD-3CTF/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Crypto/">Crypto</a>
+            <a href="/tags/WriteUp/">WriteUp</a>
+            <a href="/tags/Lattice/">Lattice</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2021/03/12/Reading-notes-Extending-Wiener-s-Attack-in-the-Presence-of-Many-Decrypting-Exponents/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
+        <span class="prev-text nav-default">Reading notes Extending Wiener's Attack in the Presence of Many Decrypting Exponents</span>
+        <span class="prev-text nav-mobile">Prev</span>
       </a>
-    <a class="next" href="/page/4/">
-        <span class="next-text">Next</span>
+    <a class="next" href="/2021/01/18/writeup-for-2020-starCTF/">
+        <span class="next-text nav-default">writeup for 2020 starCTF</span>
+        <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
-    </nav></section></div></div>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
