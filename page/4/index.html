@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="222222"/><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://tearsjin.github.io/page/4/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>K1rit0's Blog</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">K1rit0's Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">K1rit0's Blog</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><section id="posts" class="posts"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2020/12/10/HITCTF2020-ezRSA-The-learing-or-Coppers/">HITCTF2020 ezRSA - The learing or Coppersmith attack</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-12-10
+        </span><span class="post-category">
+            <a href="/categories/CryptoSummary/">CryptoSummary</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><blockquote>
+<p>关于出去玩只能在手机上用Sage Cell Server做题那件事<br>也是好久没写博客了, 刚好学习一下coppersmith attack</p>
+</blockquote>
+<p>先把题目放上来吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /bin/bash python2</span></span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag = flag+os.urandom(<span class="number">32</span>)</span><br><span class="line"></span><br><span class="line">p = getPrime(<span class="number">512</span>)</span><br><span class="line">q = getPrime(<span class="number">512</span>)</span><br><span class="line">n = p*q</span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">phi = (p-<span class="number">1</span>)*(q-<span class="number">1</span>)</span><br><span class="line">d = inverse(e,phi)</span><br><span class="line"></span><br><span class="line">m1 = bytes_to_long(flag)</span><br><span class="line">m2 = bytes_to_long(flag+os.urandom(<span class="number">8</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">pow</span>(m1,<span class="number">3</span>) &gt; n</span><br><span class="line"></span><br><span class="line">c1 = <span class="built_in">pow</span>(m1,e,n)</span><br><span class="line">c2 = <span class="built_in">pow</span>(m2,e,n)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;c1 = %d&quot;</span>%c1</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;c2 = %d&quot;</span>%c2</span><br><span class="line"><span class="built_in">print</span>  <span class="string">&quot;n = %d&quot;</span>%n</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">c1 = 80653989110793139102855968265870741534421660712327094406252902072101613222389965470648960909763762225046314865847982289607336162281576790259047039000290839621007818742162307587677505606906923990312494483089046762906753345262127057162580025978324312642501118741099945205580088180943278903718853065363662232083</span></span><br><span class="line"><span class="string">c2 = 5400424653941721880728309040044485787870754570249463205700803061685717472238274158687499478247752712211743180931379853481727502849946080245130393042405383007613277703993980940893569303012323853427216643473698166348237252515222556282004058588218846910754415888401275689026778751805826968590155607937830708498</span></span><br><span class="line"><span class="string">n = 92782661709340169703868140576276816382956055756557631391697803785121887338308072309948803413610339884338861040226250478895118923994109662815448681629315227440953320952623296140315432654804940766553284237954507627610922864055435652884184926768295740697589798180602153344302964255974935777945481843144629875127</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>做这个之前, 先来看看coppersmith attack(直接翻CTF wiki</p>
+<p><img src="http://47.98.130.190:8090/upload/2020/12/%E5%9B%BE%E7%89%87-586a877790ff4bc2b6343a9dcc51fb52.png" alt="图片.png"></p>
+<p>对于单变量的方程(多变量的还没接触过, 能否使用coppersmith attack 就看变量是否满足上面这部分所提到的约束.</p>
+<p>来分析一下这些约束, 对于一般的RSA列出模N意义下的多项式方程求解根的时候, 因为N往往是两个大素数的乘积, <strong>那么N必定会有一个因子 $b$ 是满足 $b &gt; N^{0.5}$ 的, 所以一般 $β$ 是取0.4~0.6的</strong></p>
+<p><strong>但是有需要注意的是, 有时候求解根并不是在模N的意义下进行的, 这个时候就需要慎重的考虑一下$β$的取值了</strong></p>
+<p>而对于 $δ$ , 也就是多项式的阶数, 阶数越小对根的约束就越宽松, 这也就是为什么CTF wiki上会有这么一句<br><img src="http://47.98.130.190:8090/upload/2020/12/%E5%9B%BE%E7%89%87-2ab4f8c151f8487bb406b1f35bd879c8.png" alt="图片.png"></p>
+<p>所以, 判断是否可以使用coppersmith attack, 就看需要解的根是否足够小(一般通过题目所给的信息来判断根的位数, 再通过e 和 N 的位数,来判断是否可以使用coppersmith attack </p>
+<p><strong>需要注意的是!由于LLL是启发式算法, 所以有的时候解出来的根会不满足约束, 也就是说当需要解的根近乎足够小就可以试试coppersmith了</strong></p>
+<p>现在回到题目, 先来分析一下题目</p>
+<p>这题先对flag进行了一次填充<code>flag = flag+os.urandom(32)</code>, 如果flag太小是可能直接解出来的.</p>
+<p>然后就是对明文进行加密,再进行一次填充再加密, 写成式子就是<br>$$<br>m^3 = c_1 \ (mod \ n) \<br>(2^{64}m + diff)^3 = c_2 \ (mod \ n )<br>$$</p>
+<p>其实可以令M=2^64^m 和 $c_1 = 2^{192}c_1$, 就可以有<br>$$<br>M^3 = c_1 \ (mod \ n) \<br>(M + diff)^3 = c_2 \ (mod \ n)<br>$$<br>两个方程, 两个未知数, 肯定是可以解出根来的, 只不过是难不难解出来的问题了. 注意到这里的$diff$ 是64位的, 而$N$是1024位的, e=3也很小, 可以考虑试试coppersmith先解出$diff$. </p>
+<p>事实上解$diff$用到的就是<strong>Coppersmith’s short-pad attack</strong></p>
+<h2 id="Coppersmith’s-short-pad-attack"><a href="#Coppersmith’s-short-pad-attack" class="headerlink" title="Coppersmith’s short-pad attack"></a>Coppersmith’s short-pad attack</h2><p><img src="http://47.98.130.190:8090/upload/2020/12/%E5%9B%BE%E7%89%87-d485fe72d1cf494dadf262039448ace2.png" alt="图片.png"></p>
+<p>wiki上说的也很清楚了, 在对明文进行填充的时候, 如果填充的$diff$位数很少,就可以算出$diff$,只需要$diff &lt; N^{1/e}$, 就可以解出$diff$了. 在这里显然是满足的.</p>
+<p>我们先把两个方程化成只有一个未知数$diff$的方程(代码里diff = xn ,<br>然后用<code>small_root()</code>求解</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">C1 = <span class="number">80653989110793139102855968265870741534421660712327094406252902072101613222389965470648960909763762225046314865847982289607336162281576790259047039000290839621007818742162307587677505606906923990312494483089046762906753345262127057162580025978324312642501118741099945205580088180943278903718853065363662232083</span></span><br><span class="line">C2 = <span class="number">5400424653941721880728309040044485787870754570249463205700803061685717472238274158687499478247752712211743180931379853481727502849946080245130393042405383007613277703993980940893569303012323853427216643473698166348237252515222556282004058588218846910754415888401275689026778751805826968590155607937830708498</span></span><br><span class="line">n = <span class="number">92782661709340169703868140576276816382956055756557631391697803785121887338308072309948803413610339884338861040226250478895118923994109662815448681629315227440953320952623296140315432654804940766553284237954507627610922864055435652884184926768295740697589798180602153344302964255974935777945481843144629875127</span></span><br><span class="line">C1=(C1*<span class="number">2</span>**<span class="number">192</span>)%n</span><br><span class="line">e = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">n1 = n</span><br><span class="line">PRxy.&lt;x,y&gt; = PolynomialRing(Zmod(n1))</span><br><span class="line">PRx.&lt;xn&gt; = PolynomialRing(Zmod(n1))</span><br><span class="line">PRZZ.&lt;xz,yz&gt; = PolynomialRing(Zmod(n1))</span><br><span class="line"> </span><br><span class="line">g1 = x**e - C1</span><br><span class="line">g2 = (x + y)**e - C2</span><br><span class="line"> </span><br><span class="line">q1 = g1.change_ring(PRZZ)</span><br><span class="line">q2 = g2.change_ring(PRZZ)</span><br><span class="line"></span><br><span class="line">h = q2.resultant(q1)</span><br><span class="line">h = h.univariate_polynomial()</span><br><span class="line">h = h.change_ring(PRx).subs(y=xn)</span><br><span class="line">h = h.monic()</span><br><span class="line"></span><br><span class="line">roots = h.small_roots(X=<span class="number">2</span>**<span class="number">64</span>, beta=<span class="number">0.4</span>)</span><br><span class="line">diff = roots[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># diff = 15325913216714639606</span></span><br></pre></td></tr></table></figure>
+<p><strong>这里的<code>small_root()</code>的参数很重要, X是设置根的上界的, 这个要尽可能的接近根的大小, 这样求解出来的可能性才高. 而beta一般0.4~0.6就行了.</strong></p>
+<p>接下来就是算M了, 这个又是另外一个method - Franklin-Reiter related-message attack</p>
+<h2 id="Franklin-Reiter-related-message-attack"><a href="#Franklin-Reiter-related-message-attack" class="headerlink" title="Franklin-Reiter related-message attack"></a>Franklin-Reiter related-message attack</h2><p>先来看看wiki上怎么说<br><img src="http://47.98.130.190:8090/upload/2020/12/%E5%9B%BE%E7%89%87-1cca0e9bc4784a4c87a66851ebbedb15.png" alt="图片.png"><br><img src="http://47.98.130.190:8090/upload/2020/12/%E5%9B%BE%E7%89%87-3bb6344f8b434ae284b5e306dad19abb.png" alt="图片.png"><br>通俗一点就是, 当两个明文满足线性关系$M_2 = aM_1+b$的时候,$x - M_2$是两个方程<br>$$<br>g_1(x) = f(x)^e - C_1 \ (mod \ N) \<br>g_2(x) = x^e - C_2 \ (mod \ N)<br>$$<br>的一个公因式, 因此可以利用在多项式的欧几里得算法算出这个公因式$x - M_2$, 也就是我们要算的M</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">x = PRx.gen() </span><br><span class="line">g1 = x**e - C1</span><br><span class="line">g2 = (x + diff)**e - C2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 辗转相除法求公因式</span></span><br><span class="line"><span class="keyword">while</span> g2:</span><br><span class="line">    g1, g2 = g2, g1 % g2</span><br><span class="line"></span><br><span class="line">g = g1.monic()</span><br><span class="line"><span class="comment"># g = xn + 92782661709340169703868140576276816382956055756557631391697803785121887338308072309948803413610339884338855507056808173780823100612346393533355160251650215111996263513671265306614427524745781162849613136748611330041590288489365015322686961617690785110909682202890569108842866175345662756188830323253136519607</span></span><br><span class="line">M = -g[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>M算出来了别忘了除一个2^64(一开始为了方便计算所以把m放大了, 还好不影响解题, 以后做的时候要小心为了方便计算导致算不出根来, 所以最后的代码是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">C1 = <span class="number">80653989110793139102855968265870741534421660712327094406252902072101613222389965470648960909763762225046314865847982289607336162281576790259047039000290839621007818742162307587677505606906923990312494483089046762906753345262127057162580025978324312642501118741099945205580088180943278903718853065363662232083</span></span><br><span class="line">C2 = <span class="number">5400424653941721880728309040044485787870754570249463205700803061685717472238274158687499478247752712211743180931379853481727502849946080245130393042405383007613277703993980940893569303012323853427216643473698166348237252515222556282004058588218846910754415888401275689026778751805826968590155607937830708498</span></span><br><span class="line">n = <span class="number">92782661709340169703868140576276816382956055756557631391697803785121887338308072309948803413610339884338861040226250478895118923994109662815448681629315227440953320952623296140315432654804940766553284237954507627610922864055435652884184926768295740697589798180602153344302964255974935777945481843144629875127</span></span><br><span class="line">C1=(C1*<span class="number">2</span>**<span class="number">192</span>)%n</span><br><span class="line">e = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">n1 = n</span><br><span class="line">PRxy.&lt;x,y&gt; = PolynomialRing(Zmod(n1))</span><br><span class="line">PRx.&lt;xn&gt; = PolynomialRing(Zmod(n1))</span><br><span class="line">PRZZ.&lt;xz,yz&gt; = PolynomialRing(Zmod(n1))</span><br><span class="line"> </span><br><span class="line">g1 = x**e - C1</span><br><span class="line">g2 = (x + y)**e - C2</span><br><span class="line"> </span><br><span class="line">q1 = g1.change_ring(PRZZ)</span><br><span class="line">q2 = g2.change_ring(PRZZ)</span><br><span class="line"></span><br><span class="line">h = q2.resultant(q1)</span><br><span class="line">h = h.univariate_polynomial()</span><br><span class="line">h = h.change_ring(PRx).subs(y=xn)</span><br><span class="line">h = h.monic()</span><br><span class="line"></span><br><span class="line">roots = h.small_roots(X=<span class="number">2</span>**<span class="number">64</span>, beta=<span class="number">0.4</span>)</span><br><span class="line">diff = roots[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">x = PRx.gen() </span><br><span class="line">g1 = x**e - C1</span><br><span class="line">g2 = (x + diff)**e - C2</span><br><span class="line"> </span><br><span class="line"><span class="keyword">while</span> g2:</span><br><span class="line">    g1, g2 = g2, g1 % g2</span><br><span class="line"></span><br><span class="line">g = g1.monic()</span><br><span class="line"></span><br><span class="line">M = -g[<span class="number">0</span>]</span><br><span class="line">h =<span class="built_in">hex</span>(M*inverse_mod(<span class="number">2</span>**<span class="number">64</span>,n))[<span class="number">2</span>:]</span><br><span class="line">s=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(h),<span class="number">2</span>):</span><br><span class="line">    s+=<span class="built_in">chr</span>(<span class="built_in">int</span>(h[i:i+<span class="number">2</span>],<span class="number">16</span>))</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line"><span class="comment"># s = HITCTF2020&#123;dde65d8adf22b5e1a0c0c10eff23c24c&#125;¤ÜZ[öã¯WÇîBA6#5~_ò± 0Ç·æî</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一下子学了两个方法好爽啊, 在看到e很小的时候, 一定要想起coppersmith来.<br>不过这些应该都算是基础的, 特别是coppersmith的使用感觉还有很多很深奥的地方,</p>
+</blockquote>
+
+        </div></article>
+      <nav class="pagination"><a class="prev" href="/page/3/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">Prev</span>
+      </a>
+    <a class="next" href="/page/5/">
+        <span class="next-text">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></section></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/ahonn" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2015 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">K1rit0</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
