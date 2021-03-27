@@ -13,8 +13,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<meta name="description" content="222222"/><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
-<link rel="canonical" href="http://tearsjin.github.io/"/>
+<meta name="description" content="writeup for 2021 3月dsactf"/><meta name="keywords" content="Crypto, NTRU, Stream, K1rit0's Blog" /><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://tearsjin.github.io/2021/03/27/writeup-for-2021-3月dsactf/"/>
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
@@ -40,7 +40,7 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
 </script>
 
-    <title>K1rit0's Blog</title>
+    <title>writeup for 2021 3月dsactf - K1rit0's Blog</title>
   <meta name="generator" content="Hexo 5.4.0"></head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -107,9 +107,9 @@
 
       <main id="main" class="main">
         <div class="content-wrapper">
-          <div id="content" class="content"><section id="posts" class="posts"><article class="post">
+          <div id="content" class="content"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/27/writeup-for-2021-3%E6%9C%88dsactf/">writeup for 2021 3月dsactf</a>
+      <h1 class="post-title">writeup for 2021 3月dsactf
         </h1>
 
       <div class="post-meta">
@@ -121,7 +121,12 @@
         </div>
     </header>
 
-    <div class="post-content"><blockquote>
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-crypto-threshold"><span class="toc-text">0x00 crypto_threshold</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem"><span class="toc-text">problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#analyses"><span class="toc-text">analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp"><span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-FeedBack"><span class="toc-text">0x01 FeedBack</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-1"><span class="toc-text">problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#analyses-1"><span class="toc-text">analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp-1"><span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-son-of-NTRU"><span class="toc-text">0x02 son_of_NTRU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-2"><span class="toc-text">problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#analyses-2"><span class="toc-text">analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp-2"><span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-threshold"><span class="toc-text">0x03 threshold</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-3"><span class="toc-text">problem</span></a></li></ol></li></ol>
+    </div>
+  </div><div class="post-content"><blockquote>
 <p>orz 还是太菜了，这个比赛密码都被A穿了，我还是做不出NTRU，师傅们都说简单，多项式杀我<br>还是详细记录一下吧，加油</p>
 </blockquote>
 <h1 id="0x00-crypto-threshold"><a href="#0x00-crypto-threshold" class="headerlink" title="0x00 crypto_threshold"></a>0x00 crypto_threshold</h1><blockquote>
@@ -155,12 +160,34 @@
 <h2 id="problem-3"><a href="#problem-3" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#make.sage</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">flag = <span class="built_in">bytearray</span>(<span class="string">&quot;DASCTF&#123;********************************&#125;&quot;</span>.encode())</span><br><span class="line">flag = <span class="built_in">list</span>(flag)</span><br><span class="line">length = <span class="built_in">len</span>(flag)</span><br><span class="line">N=<span class="number">53</span></span><br><span class="line">p=<span class="number">257</span></span><br><span class="line">q=<span class="number">28019</span></span><br><span class="line">d=<span class="number">18</span></span><br><span class="line">f=[<span class="number">1</span>]*<span class="number">19</span>+[-<span class="number">1</span>]*<span class="number">18</span>+[<span class="number">0</span>]*<span class="number">16</span></span><br><span class="line">random.shuffle(f)</span><br><span class="line">g=[<span class="number">1</span>]*<span class="number">18</span>+[-<span class="number">1</span>]*<span class="number">18</span>+[<span class="number">0</span>]*<span class="number">17</span></span><br><span class="line">random.shuffle(g)</span><br><span class="line"></span><br><span class="line">Q.&lt;x&gt; = Zmod(q)[]</span><br><span class="line">P.&lt;y&gt; = Zmod(p)[]</span><br><span class="line">fx=Q(f)</span><br><span class="line">fy=P(f)</span><br><span class="line">gx=Q(g)</span><br><span class="line">Fqx=fx.inverse_mod(x^N-<span class="number">1</span>)</span><br><span class="line">Fpy=fy.inverse_mod(y^N-<span class="number">1</span>)</span><br><span class="line">hx=(Fqx*gx).mod(x^N-<span class="number">1</span>)</span><br><span class="line">r=[<span class="number">1</span>]*<span class="number">10</span>+[-<span class="number">1</span>]*<span class="number">22</span>+[<span class="number">0</span>]*<span class="number">21</span></span><br><span class="line">random.shuffle(r)</span><br><span class="line">rx=Q(r)</span><br><span class="line">mx=Q(flag)</span><br><span class="line">ex=(p*rx*hx+mx).mod(x^N-<span class="number">1</span>)</span><br><span class="line">print(ex)</span><br><span class="line">print(hx)</span><br><span class="line"></span><br><span class="line"><span class="comment">#7367*x^52 + 24215*x^51 + 5438*x^50 + 7552*x^49 + 22666*x^48 + 21907*x^47 + 10572*x^46 + 19756*x^45 + 4083*x^44 + 22080*x^43 + 1757*x^42 + 5708*x^41 + 22838*x^40 + 4022*x^39 + 9239*x^38 + 1949*x^37 + 27073*x^36 + 8192*x^35 + 955*x^34 + 4373*x^33 + 17877*x^32 + 25592*x^31 + 13535*x^30 + 185*x^29 + 9471*x^28 + 9793*x^27 + 22637*x^26 + 3293*x^25 + 27047*x^24 + 21985*x^23 + 13584*x^22 + 6809*x^21 + 24770*x^20 + 16964*x^19 + 8866*x^18 + 22102*x^17 + 18006*x^16 + 3198*x^15 + 19024*x^14 + 2777*x^13 + 9252*x^12 + 9684*x^11 + 3604*x^10 + 7840*x^9 + 17573*x^8 + 11382*x^7 + 12726*x^6 + 6811*x^5 + 10104*x^4 + 7485*x^3 + 858*x^2 + 15100*x + 15860</span></span><br><span class="line"><span class="comment">#14443*x^52 + 10616*x^51 + 11177*x^50 + 24769*x^49 + 23510*x^48 + 23059*x^47 + 21848*x^46 + 24145*x^45 + 12420*x^44 + 1976*x^43 + 16947*x^42 + 7373*x^41 + 16708*x^40 + 18435*x^39 + 18561*x^38 + 21557*x^37 + 16115*x^36 + 7873*x^35 + 20005*x^34 + 11543*x^33 + 9488*x^32 + 2865*x^31 + 11797*x^30 + 2961*x^29 + 14944*x^28 + 22631*x^27 + 24061*x^26 + 9792*x^25 + 6791*x^24 + 10423*x^23 + 3534*x^22 + 26233*x^21 + 14223*x^20 + 15555*x^19 + 3381*x^18 + 23641*x^17 + 2697*x^16 + 11303*x^15 + 6030*x^14 + 7355*x^13 + 20693*x^12 + 1768*x^11 + 10059*x^10 + 27822*x^9 + 8150*x^8 + 5458*x^7 + 21270*x^6 + 22651*x^5 + 8381*x^4 + 2819*x^3 + 3987*x^2 + 8610*x + 6022</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
-        </div></article>
-      <nav class="pagination"><a class="next" href="/page/2/">
-        <span class="next-text">Next</span>
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="http://tearsjin.github.io">K1rit0</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="http://tearsjin.github.io/2021/03/27/writeup-for-2021-3%E6%9C%88dsactf/">http://tearsjin.github.io/2021/03/27/writeup-for-2021-3%E6%9C%88dsactf/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Crypto/">Crypto</a>
+            <a href="/tags/NTRU/">NTRU</a>
+            <a href="/tags/Stream/">Stream</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/03/25/Reading-notes-An-Introduction-to-Lenstra-Lenstra-Lovasz-Lattice-Basis-Reduction-Algorithm/">
+        <span class="next-text nav-default">Reading notes An Introduction to Lenstra-Lenstra-Lovasz Lattice Basis Reduction Algorithm</span>
+        <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
-    </nav></section></div></div>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>

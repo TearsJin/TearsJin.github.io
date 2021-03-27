@@ -109,128 +109,117 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/21/The-learning-of-php-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">The learning of php 文件包含</a>
+      <h1 class="post-title"><a class="post-link" href="/2021/03/23/The-learning-of-php-unserialize/">The learning of php unserialize</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2021-03-21
+          2021-03-23
         </span><span class="post-category">
             <a href="/categories/WebSummary/">WebSummary</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>文件包含顾名思义, 通过某些函数来引入一些文件但传入的文件名没有经过合理的验证, 从而操作了预想之外的文件, 就可能导致意外的文件泄漏甚至恶意代码注入。</p>
-<h2 id="常见的文件包含函数"><a href="#常见的文件包含函数" class="headerlink" title="常见的文件包含函数"></a>常见的文件包含函数</h2><ol>
-<li><p><code>include()</code></p>
+    <div class="post-content"><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>当<code>unserialize()</code>的参数可控时, 可以传入一个构造好的序列串控制类内部的变量甚至函数, 如果类内部存在比较危险的函数<code>include() eval()</code>等等, 将会造成严重后果</p>
+<h1 id="如何利用"><a href="#如何利用" class="headerlink" title="如何利用"></a>如何利用</h1><p>当服务端代码中存在某个类的时候, 可以通过<code>unserialize()</code>创建一个该类的对象, 而我们可控的就是类中的属性, 还可以利用一些技巧去绕过一些魔术方法或者是利用一些魔术方法. 通过控制魔术方法和属性达到我们想要的攻击效果.</p>
+<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><ol>
+<li><p> 寻找参数可控的<code>unserialize()</code></p>
 </li>
-<li><p><code>require()</code></p>
+<li><p>寻找可以用于命令执行, 文件包含等等的函数在危险类</p>
 </li>
-<li><p><code>include_once()</code></p>
-</li>
-<li><p><code>require_once()</code></p>
-</li>
-<li><p><code>highlight_file()</code></p>
-</li>
-<li><p><code>show_source()</code></p>
-</li>
-<li><p><code>readfile()</code></p>
-</li>
-<li><p><code>file_get_contents()</code></p>
-</li>
-<li><p><code>fopen()</code></p>
-</li>
-<li><p><code>file()</code></p>
+<li><p>找到一个控制链控制危险类中的危险函数</p>
 </li>
 </ol>
-<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>通常情况下有文件包含函数还不够, 需要搭配伪协议才能干更多的事情</p>
-<table>
-<thead>
-<tr>
-<th align="center">协议</th>
-<th align="center">PHP版本</th>
-<th align="center">alow_url_fopen</th>
-<th align="center">allow_url_include</th>
-<th align="left">用法示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">file://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">file://D:/soft/phpStudy/WWW/flag.txt</td>
-</tr>
-<tr>
-<td align="center">php://filter</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">php://filter/read=convert.base64-encode/resource=./index.php</td>
-</tr>
-<tr>
-<td align="center">php://input</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center"><strong>on</strong></td>
-<td align="left">php://input  [post data]: <code>&lt;?php phpinfo() ?&gt;</code></td>
-</tr>
-<tr>
-<td align="center">zip://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">zip://D:/soft/phpStudy/WWW/file.zip%23flag.txt</td>
-</tr>
-<tr>
-<td align="center">compress.bzip2://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">compress.bzip2://D:/soft/phpStudy/WWW/file.bz2<br />compress.bzip2://./file.bz2</td>
-</tr>
-<tr>
-<td align="center">compress.zlib://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">同上</td>
-</tr>
-<tr>
-<td align="center">data://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center"><strong>on</strong></td>
-<td align="center"><strong>on</strong></td>
-<td align="left">data://text/plain,<code>&lt;?php phpinfo()?&gt;</code><br />data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</td>
-</tr>
-</tbody></table>
-<h2 id="包含日志文件"><a href="#包含日志文件" class="headerlink" title="包含日志文件"></a>包含日志文件</h2><p>Web服务器一般会将用户的访问记录保存在日志文件当中. 如果存在文件包含的函数, 而且知道日志文件的路径, 可以构造请求把PHP代码写进日志文件中并引入执行</p>
-<h3 id="寻找日志文件"><a href="#寻找日志文件" class="headerlink" title="寻找日志文件"></a>寻找日志文件</h3><p>日志文件的目录一般会被修改, 可以寻找<code>httpd.conf,nginx,conf</code>或者根据<code>phpinfo()</code>中的信息来得知日志文件目录</p>
-<p>Apache:</p>
+<h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">__wakeup() &#x2F;&#x2F;执行unserialize()时，先会调用这个函数</span><br><span class="line">__sleep() &#x2F;&#x2F;执行serialize()时，先会调用这个函数</span><br><span class="line">__destruct() &#x2F;&#x2F;对象被销毁时触发</span><br><span class="line">__call() &#x2F;&#x2F;在对象上下文中调用不可访问的方法时触发</span><br><span class="line">__callStatic() &#x2F;&#x2F;在静态上下文中调用不可访问的方法时触发</span><br><span class="line">__get() &#x2F;&#x2F;用于从不可访问的属性读取数据或者不存在这个键都会调用此方法</span><br><span class="line">__set() &#x2F;&#x2F;用于将数据写入不可访问的属性</span><br><span class="line">__isset() &#x2F;&#x2F;在不可访问的属性上调用isset()或empty()触发</span><br><span class="line">__unset() &#x2F;&#x2F;在不可访问的属性上使用unset()时触发</span><br><span class="line">__toString() &#x2F;&#x2F;把类当作字符串使用时触发</span><br><span class="line">__invoke() &#x2F;&#x2F;当尝试将对象调用为函数时触发</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是, <code>__toString()</code>这个方法触发的方式比较多:</p>
 <ol>
-<li><p>Windows: <code>&lt;Apache安装目录&gt;\logs\access.log | error.log</code></p>
-</li>
-<li><p>Linux: <code>/usr/local/apache/logs/access_log | error_log </code></p>
-</li>
+<li><code>echo ($obj) / print($obj) </code>打印时会触发</li>
+<li>反序列化对象与字符串连接时</li>
+<li>反序列化对象参与格式化字符串时</li>
+<li>反序列化对象与字符串进行<code>==</code>比较时（<code>PHP</code>进行<code>==</code>比较的时候会转换参数类型）</li>
+<li>反序列化对象参与格式化<code>SQL</code>语句，绑定参数时</li>
+<li>反序列化对象在经过<code>php</code>字符串函数，如 <code>strlen()</code>、<code>addslashes()</code>时</li>
+<li>在in_array()方法中，第一个参数是反序列化对象，第二个参数的数组中有<code>toString</code>返回的字符串的时候<code>toString</code>会被调用</li>
+<li>反序列化的对象作为 class_exists() 的参数的时候</li>
 </ol>
-<p>Nginx:</p>
-<ol>
-<li><code>/var/log/nginx</code></li>
-</ol>
-<h2 id="包含session-upload-progress"><a href="#包含session-upload-progress" class="headerlink" title="包含session.upload_progress"></a>包含<code>session.upload_progress</code></h2><blockquote>
-<p>PHP版本: 5.4+</p>
+<h1 id="关于绕过的Trick"><a href="#关于绕过的Trick" class="headerlink" title="关于绕过的Trick"></a>关于绕过的Trick</h1><h2 id="绕过-wake"><a href="#绕过-wake" class="headerlink" title="绕过__wake()"></a>绕过__wake()</h2><blockquote>
+<p>版本:<br>php 5&lt; 5.6.25<br>php 7&gt; 7.0.10</p>
 </blockquote>
-<p>在php5.4以上添加了一个新的功能 <code>session.upload_progress</code>, 这个功能在客户端上传文件的时候会创建一个<code>session</code>文件, 默认路径应该是<code>/tmp/tmp</code>, 这个文件里存储的上传文件的进度. </p>
-<p>不过, 要利用这个<code>session.upload_progress</code>, 还要依靠另外一个<code>php.ini</code>的默认选项<code>session.use_strict_mode = 0</code>, 当这个值为0的时候, 用户是可以自己定义<code>Session ID</code>的, 比如在<code>Cookies</code>中设置<code>PHPSESSID = k1rit0</code>, <code>php</code>将在服务器上创建一个<code>tmp/tmp/sess_k1rit0</code>, 并且自动初始化, 也就是会在里面写入</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.upload_progress.prefix + session.upload_progress.name</span><br></pre></td></tr></table></figure>
+<p>利用方法:<strong>当序列化的字符串中的属性个数大于类中实际的属性个数时, 就会跳过__wake()函数</strong></p>
+<h2 id="绕过正则表达式"><a href="#绕过正则表达式" class="headerlink" title="绕过正则表达式"></a>绕过正则表达式</h2><ol>
+<li><p>加号绕过, 在反序列化的时候, 数字前面的加号会被当成是正号而正则匹配的时候则不会这样识别</p>
+<p>比如说<code>O:4:&quot;test&quot;:1:&#123;s:1:&quot;a&quot;;s:3:&quot;abc&quot;;&#125;</code>, 有时候题目会通过正则<code>O\:\d</code>来匹配<code>O:4</code>, 这时将序列改<br>成<code>O:+4:&quot;test&quot;:1:&#123;s:1:&quot;a&quot;;s:3:&quot;abc&quot;;&#125;</code>就能绕过该匹配</p>
+</li>
+</ol>
+<h2 id="变量引用"><a href="#变量引用" class="headerlink" title="变量引用"></a>变量引用</h2><p>利用变量引用使得类中两个变量始终相等</p>
+<h1 id="php原生类反序列化"><a href="#php原生类反序列化" class="headerlink" title="php原生类反序列化"></a>php原生类反序列化</h1><h2 id="SoapClient反序列化利用"><a href="#SoapClient反序列化利用" class="headerlink" title="SoapClient反序列化利用"></a>SoapClient反序列化利用</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>php安装<code>php-soap</code>扩展之后, 可以反序列化原生类<code>SoapClient</code>, 来发送<code>http post</code>请求来实现<code>SSRF</code><br>通过反序列化<code>SoapClient</code>对象后调用不存在的方法触发<code>__call()</code>方法<br>这个<code>__call()</code>方法会向指定<code>URL</code>发送<code>HTTP POST</code>请求, 因为<code>User-Agent</code>字段可控, 所以可以通过<code>CRLF</code>来构造请求头实现自定义<code>POST DATA</code></p>
+<p>如果要在自己的环境复现则需要更改<code>php.ini</code>中的<code>extension=soap</code></p>
+<h3 id="利用方法"><a href="#利用方法" class="headerlink" title="利用方法"></a>利用方法</h3><p>举个栗子</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$target</span> = <span class="string">&quot;http://127.0.0.1/test.php&quot;</span>;</span><br><span class="line">	<span class="variable">$ua</span> = <span class="string">&quot;kirito-zbds&quot;</span>;</span><br><span class="line">    <span class="variable">$a</span> = <span class="keyword">new</span> SoapClient(<span class="literal">NULL</span>,<span class="keyword">array</span>(<span class="string">&#x27;location&#x27;</span>=&gt;<span class="variable">$target</span>,<span class="string">&#x27;uri&#x27;</span>=&gt;<span class="string">&#x27;k1rit0&#x27;</span>,<span class="string">&#x27;user_agent&#x27;</span>=&gt;<span class="variable">$ua</span>));</span><br><span class="line">    <span class="variable">$b</span> = serialize(<span class="variable">$a</span>);</span><br><span class="line">	<span class="variable">$c</span> = unserialize(<span class="variable">$b</span>);</span><br><span class="line">	<span class="variable">$c</span> -&gt; tan90_function();</span><br></pre></td></tr></table></figure>
 
-<p><code>session.upload_progress.prefix</code>是服务端设置的, 默认为<code>upload_progress_</code><br><code>session.upload_progress.name</code>是用户<code>POST</code>的<code>data</code>: <code>PHP_SESSION_UPLOAD_PROGRESS</code>, 比如<code>POST</code> <code>PHP_SESSION_UPLOAD_PROGRESS= &lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;</code><br>那么用户在上传文件的时候, 就会生成这么一个<code>session</code>文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_progress_<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&quot;cmd&quot;</span>]);<span class="meta">?&gt;</span> | <span class="comment">// 后面是上传进度</span></span><br></pre></td></tr></table></figure>
+<p>当<code>SoapClient</code>对象被逆序列化出来并调用一个不存在的<code>tan90_function()</code>方法时.<code>__call()</code>方法会向<code>location</code>也就是<code>http://127.0.0.1/test.php</code>发送一个<code>HTTP POST</code>请求, 而请求头中会有:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: kirito-zbds</span><br><span class="line">SOAPAction: k1rit0#tan90_function()    &#x2F;&#x2F; uri + 被调用的不存在的函数名</span><br></pre></td></tr></table></figure>
 
+<p>可以看到, 请求头中的这些字段会变成可控的, 但这样只能通过内网访问<code>test.php</code>, 并不能任意<code>POST</code>数据. 要想<code>POST</code>数据, 就要用到<code>CRLF</code>了.</p>
+<h4 id="什么是CRLF"><a href="#什么是CRLF" class="headerlink" title="什么是CRLF"></a>什么是CRLF</h4><p><code>CRLF</code>就是<code>\r\n</code>的缩写, <code>HTTP</code>协议中<code>header</code>之间是用一个<code>\r\n</code>来分隔的, 而<code>HTTP header</code>和<code>HTTP body</code>之间是用<code>\r\n\r\n</code>也就是两个<code>\r\n</code>来分割的. 如果请求头中的字段可控, 那么可以手动添加<code>\r\n</code>用以在请求中添加字段甚至是添加<code>HTTP body</code>用以<code>POST data</code>. </p>
+<p>比如在上面的例子中, 我们把<code>$ua</code>改为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ua</span> = <span class="string">&quot;kirito-zbds\r\nContent-Type:application-www-form-urlencoded\r\nContent-Length:17\r\n\r\ndata=this_is_data&quot;</span></span><br></pre></td></tr></table></figure>
 
+<p>那么<code>HTTP POST</code>的请求头中就会出现这么一串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: kirito-zbds</span><br><span class="line">Content-Type: application-www-form-urlencoded</span><br><span class="line">Content-Length: 17</span><br><span class="line"></span><br><span class="line">data&#x3D;this_is_data</span><br><span class="line">SOAPAction: k1rit0#tan90_function()</span><br></pre></td></tr></table></figure>
 
-<p>很显然这个文件如果被文件包含函数包含, 则可以执行一系列的命令<br><strong>但是这个<code>session</code>文件将在文件上传完成之后自动删除.<strong>这里就需要利用</strong>条件竞争</strong>了, 不停的上传同样的文件, 使得<code>session</code>一直存在.</p>
+<p>这样就成功伪造出<code>HTTP POST</code>请求并传输参数了</p>
+<h1 id="php-session反序列化"><a href="#php-session反序列化" class="headerlink" title="php-session反序列化"></a>php-session反序列化</h1><p>又是<code>session</code>, 上次在文件包含也有<code>session</code>, 其实这里的反序列化也要用到那边的知识</p>
+<h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><h3 id="关于session-upload-progress"><a href="#关于session-upload-progress" class="headerlink" title="关于session.upload_progress"></a>关于<code>session.upload_progress</code></h3><p>这个<code>php-session</code>反序列化其实跟<code>session.uplaod_progress</code>有关, 详细的可以看文件包含那部分的笔记<br>这里只简单的说一下, 服务端的<code>php.ini</code>默认配置<code>session.use_strict_mode = 0</code>, 这样用户可以自己设置<br><code>Cookies: PHPSESSID = xxxxxx</code>, 服务端将会创建一个<code>/tmp/sess_xxxxxx</code>文件</p>
+<p>并且, 如果用户向服务端传送文件, 那么服务端将会在<code>/tmp/sess_xxxxxx</code>中写入上传进度, 最重要的是. 如果用户的<br><code>POST DATA</code>中含有<code>PHP_SESSION_UPLOAD_PROGRESS=xxx</code>, 那么服务端将会在<code>/tmp/sess_xxxxxx</code>中写入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_progress_xxx | 上传进度</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于session-serialize-handler"><a href="#关于session-serialize-handler" class="headerlink" title="关于session.serialize_handler"></a>关于<code>session.serialize_handler</code></h3><p>在执行<code>php</code>代码时可以设置这么两个东西</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ini_set(<span class="string">&#x27;session.serialize_handler&#x27;</span>,<span class="string">&#x27;php_serialize&#x27;</span>);</span><br><span class="line">ini_set(<span class="string">&#x27;session.serialize_handler&#x27;</span>,<span class="string">&#x27;php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这里设置的是php处理<code>session</code>的方式,<code>php</code>或<code>php_serialize</code>. 默认是<code>php</code><br>这两个方式的不同就在于, 存取<code>session</code>文件的格式不同.<br>下面从一个例子来详细的看一下这两个方式的区别</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">&#x27;session.serialize_handler&#x27;</span>, <span class="string">&#x27;php&#x27;</span>);</span><br><span class="line"><span class="comment">// ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span></span><br><span class="line">session_start();</span><br><span class="line"><span class="variable">$_SESSION</span>[<span class="string">&#x27;k1rit0&#x27;</span>] = <span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">var_dump(<span class="variable">$_SESSION</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>php</code>方式的存取的格式是:<code>键名|serialize_string</code>, 当我传<code>?a=a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:3:&quot;age&quot;;i:14;&#125;</code><br><code>session</code>文件中存的是<code>k1rit0|s:45:&quot;a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:3:&quot;age&quot;;i:14;&#125;&quot;;</code></p>
+<p>而如果用的是<code>php_serialize</code>方式,存取的格式就是<code>serialize_string</code>, <code>session</code>文件中存的便是<br><code>a:1:&#123;s:6:&quot;k1rit0&quot;;s:45:&quot;a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:3:&quot;age&quot;;i:14;&#125;&quot;;&#125;</code></p>
+<h2 id="利用方法-1"><a href="#利用方法-1" class="headerlink" title="利用方法"></a>利用方法</h2><p>根据上面的两个<code>session</code>存取方法, 如果我们先以<code>php_serialize</code>储存 再按<code>php</code>的方式读取, 就可以反序列化一些恶意的序列. 就拿上面的例子来说, 先以<code>php_serialize</code>储存<code>?a=|a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:3:&quot;age&quot;;i:14;&#125;</code>,注意那个<code>|</code></p>
+<p>这个时候来看看<code>session</code>里是啥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:1:&#123;s:6:&quot;k1rit0&quot;;s:46:&quot;|a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:3:&quot;age&quot;;i:14;&#125;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果这个时候, 按<code>php</code>的方式读取这个<code>session</code>文件, 就会被识别成两部分:</p>
+<ol>
+<li><code>|</code>前面的<code>a:1:&#123;s:6:&quot;k1rit0&quot;;s:46:&quot;</code></li>
+<li><code>|</code>后面的<code>a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:3:&quot;age&quot;;i:14;&#125;&quot;;&#125;</code></li>
+</ol>
+<p> <code>|</code>后面的前一部分``a:2:{s:4:”name”;s:6:”kirito”;s:3:”age”;i:14;}`, 会被识别成一个完整的序列化串</p>
+<blockquote>
+<p>这里有个session_start()的小知识, 如果php代码中存在session_start()而且处理session的方式是php, 那么在执行<br>session_start()时会反序列化session中<code>|</code>后的序列化串, 并赋值给$_SESSION变量</p>
+</blockquote>
+<p>如果<code>php</code>代码中某些类中有<code>__wake()</code>或<code>__destruct()</code>, 并且这两个魔法函数中存在危险的函数, 则可以通过<code>session</code>反序列化控制这些危险函数.</p>
+<p>至于如何在<code>session</code>文件中写入恶意序列化串呢? 那就要用到<code>session.upload_progress</code>中的<br><code>PHP_SESSION_UPLOAD_PROGRESS</code>了, 具体怎么用, 去看文件包含那篇笔记吧</p>
+<h1 id="反序列化字符逃逸"><a href="#反序列化字符逃逸" class="headerlink" title="反序列化字符逃逸"></a>反序列化字符逃逸</h1><p>如果存在对序列化后的字符进行替换, 并且替换后字符长度会变, 则有可能存在字符逃逸</p>
+<h2 id="替换后字符变长"><a href="#替换后字符变长" class="headerlink" title="替换后字符变长"></a>替换后字符变长</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">change</span>(<span class="params"><span class="variable">$str</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> str_replace(<span class="string">&quot;o&quot;</span>, <span class="string">&quot;oo&quot;</span>, <span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比如说上面这个函数, 把输入的字符串中的<code>o</code>替换成<code>oo</code><br>如果有这么个数组<code>array(&quot;name&quot; =&gt; &quot;kirito&quot;,&quot;level&quot; =&gt; &quot;18&quot;);</code>,<br>序列化之后就是<code>a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kirito&quot;;s:5:&quot;level&quot;;s:2:&quot;18&quot;;&#125;</code><br>再用上面的函数处理序列化字符串, 就会变成<code>a:2:&#123;s:4:&quot;name&quot;;s:6:&quot;kiritoo&quot;;s:5:&quot;level&quot;;s:2:&quot;18&quot;;&#125;</code>, 这里就会出现一个错误<code>s:6:&quot;kiritoo&quot;</code>, 长度应该为6的字符变成7了</p>
+<p>逃逸逃逸, 目的就是逃出双引号, 如果我们的数组是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">array</span>(</span><br><span class="line">	<span class="string">&quot;name&quot;</span> =&gt; <span class="string">&#x27;kiritooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;&#x27;</span>,</span><br><span class="line">	<span class="string">&quot;level&quot;</span> =&gt; <span class="string">&#x27;18&#x27;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>序列化之后就是<br><code>a:2:&#123;s:4:&quot;name&quot;;s:55:&quot;kiritooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;&quot;;s:5:&quot;level&quot;;s:2:&quot;18&quot;;&#125;</code></p>
+<p>这里<code>name</code>里面本身就有双引号, 但是不能实现逃逸, 是因为反序列化时候, 会读取指定长度的字符后下一个字符是否是<code>&quot;</code><br>就比如这里的<code>s:55:&quot;kiritooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;&quot;</code>,<br>读取55个字符<code>kiritooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;</code>后, 就剩下结尾的<code>&quot;</code>, 所以中间的<code>&quot;</code>并不影响反序列化</p>
+<p>但如果将序列化之后的字符串进行替换操作, 将会变成<br><code>s:55:&quot;kiritoooooooooooooooooooooooooooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;</code>, 现在再来看看读取55个字符后是啥, 我们发现<code>kiritoooooooooooooooooooooooooooooooooooooooooooooooooo</code>刚好就是55个字符, 而后面刚好就是一个<code>&quot;</code>, 这意味着在反序列化的时候, 后面的<code>;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;</code>则会逃逸出去, 被识别成序列化字符串的另一部分.(具体原因就是因为多出的<code>o</code>的长度刚好就是<code>&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;</code>)的长度</p>
+<p>最后, 我们来看看总的字符串处理完是怎样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:2:&#123;s:4:&quot;name&quot;;s:55:&quot;kiritoooooooooooooooooooooooooooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;&quot;;s:5:&quot;level&quot;;s:2:&quot;18&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反序列化有个特点, 当判断反序列化结束后, 后面的字符将会自动忽略, 那么这里反序列化就会只处理<br><code>a:2:&#123;s:4:&quot;name&quot;;s:55:&quot;kiritoooooooooooooooooooooooooooooooooooooooooooooooooo&quot;;s:5:&quot;level&quot;;s:3:&quot;999&quot;;&#125;</code><br>后面的<code>&quot;;s:5:&quot;level&quot;;s:2:&quot;18&quot;;&#125;</code>会被自动忽略, 这样我们就成功通过控制<code>name</code>, 逃逸并修改了<code>level</code></p>
+<p>将处理后的字符串反序列化的结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array(2) &#123; </span><br><span class="line">	[&quot;name&quot;]&#x3D;&gt; string(55) &quot;kiritoooooooooooooooooooooooooooooooooooooooooooooooooo&quot; 			[&quot;level&quot;]&#x3D;&gt; string(3) &quot;999&quot; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><blockquote>
+<p>y4爷爷的反序列化总结: <a target="_blank" rel="noopener" href="https://blog.csdn.net/solitudi/article/details/113588692?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161638163316780357284910%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&amp;request_id=161638163316780357284910&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v1~rank_blog_v1-14-113588692.pc_v1_rank_blog_v1&amp;utm_term=show">https://blog.csdn.net/solitudi/article/details/113588692?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161638163316780357284910%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&amp;request_id=161638163316780357284910&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v1~rank_blog_v1-14-113588692.pc_v1_rank_blog_v1&amp;utm_term=show</a></p>
+<p>CRLF总结: <a target="_blank" rel="noopener" href="https://wooyun.js.org/drops/CRLF%20Injection%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90.html">https://wooyun.js.org/drops/CRLF%20Injection%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90.html</a></p>
+</blockquote>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/6/">
