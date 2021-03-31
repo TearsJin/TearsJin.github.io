@@ -192,11 +192,7 @@
 </blockquote>
 <p>在$As + e = b \mod q$中</p>
 <p>我们可以把矩阵$A$和向量$b$看成$A=\begin{pmatrix}A_1 \\ A_2\end{pmatrix}$,$b=\begin{pmatrix}b_1 \\ b_2\end{pmatrix}=\begin{pmatrix}A_1 \\ A_2\end{pmatrix}s + \begin{pmatrix}e_1 \\ e_2\end{pmatrix} $</p>
-<p>所以咱们就可以构造出这么一个格子<br>$$<br>\begin{pmatrix}<br>I_n&amp;0&amp;b_1 \\<br>A_2A_1^{-1}&amp;qI_{m-n}&amp;b_2 \\<br>0&amp;0&amp;1<br>\end{pmatrix}<br>\begin{pmatrix}<br>A_1s \\</p>
-<ul>
-<li>\\</li>
-</ul>
-<p>-1<br>\end{pmatrix}<br>=<br>\begin{pmatrix}<br>-e_1 \\<br>-e_2 \\<br>-1<br>\end{pmatrix}<br>$$<br>规约出来的就直接是噪音$e$了, 有了$e$就能解出$s$, 不过这边还是有几个点要去注意</p>
+<p>所以咱们就可以构造出这么一个格子<br>$$<br>\begin{pmatrix}<br>I_n&amp;0&amp;b_1 \\<br>A_2A_1^{-1}&amp;qI_{m-n}&amp;b_2 \\<br>0&amp;0&amp;1<br>\end{pmatrix}<br>\begin{pmatrix}<br>A_1s \\<br>k \\<br>-1<br>\end{pmatrix}<br>=<br>\begin{pmatrix}<br>-e_1 \\<br>-e_2 \\<br>-1<br>\end{pmatrix}<br>$$<br>规约出来的就直接是噪音$e$了, 有了$e$就能解出$s$, 不过这边还是有几个点要去注意</p>
 <ol>
 <li>上面式子给出的格子并不是扔进<code>sage</code>里规约的格子, 真正扔进去规约的是它的转置, 也不知道是不是<code>sage</code>默认对行向量规约, 只能把它转置才能规约出结果, 结果也是行向量来的</li>
 <li>格子中有一个$A_2A_1^{-1}$, 其中的逆矩阵$A_1^{-1}$是模$q$的逆, 有时候会出现模$q$不能求逆的情况, 这个时候可以适当的调换$A$中的行向量, 使得$A_1 \mod q$的逆存在, 但要记得向量$b$也要跟着调换, 而且最后求到的结果也是调换之后的, 需要还原回去</li>
