@@ -109,38 +109,128 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/12/Reading-notes-Extending-Wiener-s-Attack-in-the-Presence-of-Many-Decrypting-Exponents/">Reading notes Extending Wiener's Attack in the Presence of Many Decrypting Exponents</a>
+      <h1 class="post-title"><a class="post-link" href="/2021/03/21/The-learning-of-php-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">The learning of php 文件包含</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2021-03-12
+          2021-03-21
         </span><span class="post-category">
-            <a href="/categories/Reading-notes/">Reading notes</a>
+            <a href="/categories/WebSummary/">WebSummary</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><h2 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h2><p>the purpose of this paper is given only several public exponents for a given modulus and the know-ledge of the corresponding private being quiet small.</p>
-<h2 id="Low-Private-Exponent-Attacks-on-RSA"><a href="#Low-Private-Exponent-Attacks-on-RSA" class="headerlink" title="Low Private Exponent Attacks on RSA"></a>Low Private Exponent Attacks on RSA</h2><h3 id="Wiener’s-Approach"><a href="#Wiener’s-Approach" class="headerlink" title="Wiener’s Approach"></a>Wiener’s Approach</h3><p>The Wiener’s Attack in this paper not the same as I had learnt before.<br>$$<br>e \cdot d  - k \lambda(N) = 1 \<br>$$</p>
-<p>Let $ \lambda(N) = {(p-1)(q-1) \over g} , s = 1 - p - q$ then we have<br>$$<br>e \cdot d - {k(p-1)(q-1) \over g} \<br>= e \cdot d - {k(N+s) \over g} = 1 \<br>$$</p>
-<p>$$<br>egd - kN = g + ks \tag{1}<br>$$</p>
-<p>Dividing both side of equation (1) by $dgN$<br>$$<br>{e \over N} - {k \over dg} = {g + ks \over dgN} = ({k \over dg})({s\over N})+{1 \over dN}<br>$$<br>Because $e \approx N$ and $s \approx N^{1 \over 2}$, we have ${k \over dg} \approx 1$, hence $({k \over dg})({s\over N})+{1 \over dN} \approx N^{-{1 \over 2}}$</p>
-<p>Then we need to quote an important conclusion:</p>
-<p>if<br>$$<br>|x - {a \over b }| &lt; {1 \over 2b^2}<br>$$<br>then ${a\over b} $ is a continued fraction approximant of $ x$</p>
-<p>so if<br>$$<br>N^{-{1 \over 2}}&lt;{1 \over 2(dg)^2}\<br>$$<br>then ${k \over dg}$ will be a continued fraction approximant of $ {e \over N}$</p>
-<p>Condition can convert to gm<br>$$<br>d &lt; {2^{-{1\over 2}}N^{1\over4} \over g} \tag{2}<br>$$<br>and g will be small under the assumption that $\lambda(N) \approx N$(but  $g \ge 2 $ since p,q is odd)<br>when we get $dg$ , we can factor N so that break the RSA cryptosystem.</p>
-<h3 id="Guo’s-Approach"><a href="#Guo’s-Approach" class="headerlink" title="Guo’s Approach"></a>Guo’s Approach</h3><p>This approach assumes that one has more than one $e_i$ for a given N, and each of these $e_i$ has a relatively small $d_i$.</p>
-<p>For 2 encryption exponents, we have following relations:<br>$$<br>e_1d_1g - k_1(p-1)(q-1) = g \<br>e_2d_2g - k_2(p-1)(q-1) = g<br>$$<br>Multiplying the first by $k_2$ and the second by $k_1$, and Subtraction of two formulas gives<br>$$<br>k_2d_1e_1 - k_1d_2e_2 = k_2 - k_1 \tag{3}<br>$$<br>Dividing both sides of equation 3 by $k_2d_1e_2$<br>$$<br>{e_1 \over e_2} - {k_1d_2 \over k_2d_1} = {k_2 - k_1 \over k_2d_1e_2}<br>$$<br>and assuming that the $d_i$ are at most $N^{\alpha}$ , so the right-hand side is about $N^{-(1 + \alpha)}$<br>if we want the fraction $k_1d_2 \over k_2d_1$ could be a continued fraction approximant of $e_1 \over e_2$, we must have<br>$$<br>2(k_2d_1)^2 &lt; N^{1 + \alpha}<br>$$<br>and with the assumption that $k_2$ and $d_1$ are at most $N^{\alpha}$ and the g is small this condition will be true where $\alpha  = {1 \over 3} - \epsilon $ with $\epsilon &gt; 0$</p>
-<p>But known the $k_2d_1$ and $k_1d_2$ can not break the RSA cryptosystem for two reason.<br>The solution is omitted here ….</p>
-<h3 id="Overview-of-our-Extension-Approach"><a href="#Overview-of-our-Extension-Approach" class="headerlink" title="Overview of our Extension Approach"></a>Overview of our Extension Approach</h3><p>This approach also assumes that we have more than one $e_i$ and each of these $e_i$ has a relatively small $d_i$ and the bounds of $d_i \ (i = 1,2,\cdots,n)$ is:</p>
-<p>The $d$ can  as large as $N^{\alpha} $ where<br>$$<br>{(2n+1)2^n - (2n+1) { n \choose n/2 }<br>\over<br>(2n-2)2^n + (4n+2) { n \choose n/2 }}<br> \quad if\ n\ is\ even<br> \\<br> {(2n+1)2^n - 4n {n-1\choose (n-1)/2 }<br> \over<br> (2n-2)2^n + 8n {n-1\choose (n-1)/2}}<br>\quad if\ n\ is\ odd,<br>$$<br>For some reason , the attack is only practical for small $n$(the number of $e$, not the modulus $N$).</p>
-<h2 id="An-Extension-in-the-Presence-of-Many-Small-Decryption-Exponents"><a href="#An-Extension-in-the-Presence-of-Many-Small-Decryption-Exponents" class="headerlink" title="An Extension in the Presence of Many Small Decryption Exponents"></a>An Extension in the Presence of Many Small Decryption Exponents</h2><h3 id="Preliminaries"><a href="#Preliminaries" class="headerlink" title="Preliminaries"></a>Preliminaries</h3><p>Let us refer to the relations of the form<br>$$<br>W_i = d_ige_i - k_iN =g+ k_is \<br>G_{i,j} = k_id_je_j - k_jd_ie_i = k_i - k_j<br>$$<br>we shall also assume, for a given $n$, that the $d_i$ and $k_i$ are at most $N^{\alpha_{n}}$, the $g$ is very small, the $s$ is about $N^{1 \over 2}$</p>
-<h2 id="RSA-in-the-presence-of-2-Small-Decryption-Exponents"><a href="#RSA-in-the-presence-of-2-Small-Decryption-Exponents" class="headerlink" title="RSA in the presence of 2 Small Decryption Exponents"></a>RSA in the presence of 2 Small Decryption Exponents</h2><p>If we have two small decryption exponents,then the following relations hold:$W_1, G_{1,2},W_1W_2,$ or more explicitly:  (这部分英文没看懂, 把原句抄下来了)<br>$$<br>d_1ge_1 - k_1N =g +k_1s, \\<br>k_1d_2e_2 - k_2d_1e_1 = k_1 - k_2,\\<br>d_1d_2g^{2}e_1e_2 - d_1gk_2e_1N - d_2gk_1e_2N + k_1k_2N^2 = (g + k_1s)(g+ k_2s)<br>$$<br>Multiplying the first by $k_2$ , we may write these equations in the matrix form below.<br>$$<br>(k_1k_2,d_1gk_2,d_2gk_1,d_1d_2g^2)\begin{pmatrix}1&amp;-N&amp;0&amp;N^2 \\ 0&amp;e_1&amp;-e_1&amp;-e_1N \\  0&amp;0&amp;e_2&amp;-e_2N \\  0&amp;0&amp;0&amp;e_1e_2\end{pmatrix} \\  =(k_1k_2,k_2(g+k_1s),k_1-k_2,(g+k_1s)(g+k_2s))<br>$$<br>The sizes of the entries of the vectors on the right-hand side are at most $N^{2\alpha_2} , N^{2\alpha_2 + {1 \over 2}}, N^{\alpha_2},N^{1+2\alpha_2} $respectively</p>
-<p>Multiplying the first three columns of the matrix by $N,M_1=N^{1\over2},M_2=N^{1+\alpha_2}$ respectively, which gives following matrix:<br>$$<br>L_2=\begin{pmatrix}N&amp;-M_1N&amp;0&amp;N^2\\0&amp;M_1e_1&amp;-M_2e_1&amp;-e_1N\\0&amp;0&amp;M_2e_2&amp;-e_2N\\0&amp;0&amp;0&amp;e_1e_2\end{pmatrix}<br>$$<br>In this case the vector $b=(k_1k_2,d_1gk_2,d_2gk_1,d_1d_2g^2)$ will be such that<br>$$<br>||bL_2|| &lt; 2N^{1+2\alpha_2}.<br>$$<br>if the Lattice $L_2$ is pretty “random” , there are almost no lattice points of $L_2$ shorter than the Minkowski bounds $2\Delta^{1\over 4}$. Under this assumptions, then $bL_2$ is the shortest point in $L_2$, if<br>$$<br>2N^{1+2\alpha_2}&lt;({1\over{c_2}})(N^{ {13\over2}+\alpha_2})^{1\over4}<br>$$<br> for some small $c_2$, which is true if<br>$$<br>\alpha_2&lt;{5\over 14}-\epsilon<br>$$</p>
-<p>So, if$\alpha_2&lt;{5\over14}-\epsilon$, the vector $b = (b_1,b_2,b_3,b_4)$ can be found via Lattice basis reduction algorithms(e.g. LLL), so that we can calculate ${d_1g \over k_1} = {b2 \over b1}$. Then we can factor N via wiener’s approach.</p>
-<h3 id="RSA-in-the-presence-of-3-Small-Decryption-Exponents"><a href="#RSA-in-the-presence-of-3-Small-Decryption-Exponents" class="headerlink" title="RSA in the presence of 3 Small Decryption Exponents"></a>RSA in the presence of 3 Small Decryption Exponents</h3><p>Just like the last section(RSA in the presence of 2 Small Decryption Exponents), the Lattice is:<br>$$<br>L_3 =<br>\begin{pmatrix}<br>1&amp;-N&amp;0&amp;-N^2&amp;0&amp;0&amp;0&amp;-N^3\\<br>0&amp;e_1&amp;-e_1&amp;-e_1N&amp;-e_1&amp;0&amp;e_1N&amp;e_1N^{2}\\<br>0&amp;0&amp;e_2&amp;-e_2N&amp;0&amp;e_2N&amp;0&amp;e_2N^2\\<br>0&amp;0&amp;0&amp;e_1e_2&amp;0&amp;-e_1e_2&amp;-e_1e_2&amp;-e_1e_2N\\<br>0&amp;0&amp;0&amp;0&amp;e_3&amp;-e_3N&amp;-e_3N&amp;e_3N^2\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;e_1e_3&amp;0&amp;-e_1e_3N\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;e_2e_3&amp;e_2e_3N\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;e_1e_2e_3\\<br>\end{pmatrix}<br>\cdot D<br>$$<br>where $D$ is:<br>$$<br>diag(N^{3 \over2},N,N^{({3\over 2})+\alpha_3},N^{1\over2},N^{({3\over2})+\alpha_3},N^{1+\alpha_3},N^{1+\alpha_3},1)<br>$$</p>
-<h3 id="RSA-in-the-presence-of-4-Small-Decryption-Exponents"><a href="#RSA-in-the-presence-of-4-Small-Decryption-Exponents" class="headerlink" title="RSA in the presence of 4 Small Decryption Exponents"></a>RSA in the presence of 4 Small Decryption Exponents</h3><p>The matrix is too big…..</p>
+    <div class="post-content"><h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>文件包含顾名思义, 通过某些函数来引入一些文件但传入的文件名没有经过合理的验证, 从而操作了预想之外的文件, 就可能导致意外的文件泄漏甚至恶意代码注入。</p>
+<h2 id="常见的文件包含函数"><a href="#常见的文件包含函数" class="headerlink" title="常见的文件包含函数"></a>常见的文件包含函数</h2><ol>
+<li><p><code>include()</code></p>
+</li>
+<li><p><code>require()</code></p>
+</li>
+<li><p><code>include_once()</code></p>
+</li>
+<li><p><code>require_once()</code></p>
+</li>
+<li><p><code>highlight_file()</code></p>
+</li>
+<li><p><code>show_source()</code></p>
+</li>
+<li><p><code>readfile()</code></p>
+</li>
+<li><p><code>file_get_contents()</code></p>
+</li>
+<li><p><code>fopen()</code></p>
+</li>
+<li><p><code>file()</code></p>
+</li>
+</ol>
+<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>通常情况下有文件包含函数还不够, 需要搭配伪协议才能干更多的事情</p>
+<table>
+<thead>
+<tr>
+<th align="center">协议</th>
+<th align="center">PHP版本</th>
+<th align="center">alow_url_fopen</th>
+<th align="center">allow_url_include</th>
+<th align="left">用法示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">file://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">file://D:/soft/phpStudy/WWW/flag.txt</td>
+</tr>
+<tr>
+<td align="center">php://filter</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">php://filter/read=convert.base64-encode/resource=./index.php</td>
+</tr>
+<tr>
+<td align="center">php://input</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center"><strong>on</strong></td>
+<td align="left">php://input  [post data]: <code>&lt;?php phpinfo() ?&gt;</code></td>
+</tr>
+<tr>
+<td align="center">zip://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">zip://D:/soft/phpStudy/WWW/file.zip%23flag.txt</td>
+</tr>
+<tr>
+<td align="center">compress.bzip2://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">compress.bzip2://D:/soft/phpStudy/WWW/file.bz2<br />compress.bzip2://./file.bz2</td>
+</tr>
+<tr>
+<td align="center">compress.zlib://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">同上</td>
+</tr>
+<tr>
+<td align="center">data://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center"><strong>on</strong></td>
+<td align="center"><strong>on</strong></td>
+<td align="left">data://text/plain,<code>&lt;?php phpinfo()?&gt;</code><br />data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</td>
+</tr>
+</tbody></table>
+<h2 id="包含日志文件"><a href="#包含日志文件" class="headerlink" title="包含日志文件"></a>包含日志文件</h2><p>Web服务器一般会将用户的访问记录保存在日志文件当中. 如果存在文件包含的函数, 而且知道日志文件的路径, 可以构造请求把PHP代码写进日志文件中并引入执行</p>
+<h3 id="寻找日志文件"><a href="#寻找日志文件" class="headerlink" title="寻找日志文件"></a>寻找日志文件</h3><p>日志文件的目录一般会被修改, 可以寻找<code>httpd.conf,nginx,conf</code>或者根据<code>phpinfo()</code>中的信息来得知日志文件目录</p>
+<p>Apache:</p>
+<ol>
+<li><p>Windows: <code>&lt;Apache安装目录&gt;\logs\access.log | error.log</code></p>
+</li>
+<li><p>Linux: <code>/usr/local/apache/logs/access_log | error_log </code></p>
+</li>
+</ol>
+<p>Nginx:</p>
+<ol>
+<li><code>/var/log/nginx</code></li>
+</ol>
+<h2 id="包含session-upload-progress"><a href="#包含session-upload-progress" class="headerlink" title="包含session.upload_progress"></a>包含<code>session.upload_progress</code></h2><blockquote>
+<p>PHP版本: 5.4+</p>
+</blockquote>
+<p>在php5.4以上添加了一个新的功能 <code>session.upload_progress</code>, 这个功能在客户端上传文件的时候会创建一个<code>session</code>文件, 默认路径应该是<code>/tmp/tmp</code>, 这个文件里存储的上传文件的进度. </p>
+<p>不过, 要利用这个<code>session.upload_progress</code>, 还要依靠另外一个<code>php.ini</code>的默认选项<code>session.use_strict_mode = 0</code>, 当这个值为0的时候, 用户是可以自己定义<code>Session ID</code>的, 比如在<code>Cookies</code>中设置<code>PHPSESSID = k1rit0</code>, <code>php</code>将在服务器上创建一个<code>tmp/tmp/sess_k1rit0</code>, 并且自动初始化, 也就是会在里面写入</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.upload_progress.prefix + session.upload_progress.name</span><br></pre></td></tr></table></figure>
+
+<p><code>session.upload_progress.prefix</code>是服务端设置的, 默认为<code>upload_progress_</code><br><code>session.upload_progress.name</code>是用户<code>POST</code>的<code>data</code>: <code>PHP_SESSION_UPLOAD_PROGRESS</code>, 比如<code>POST</code> <code>PHP_SESSION_UPLOAD_PROGRESS= &lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;</code><br>那么用户在上传文件的时候, 就会生成这么一个<code>session</code>文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_progress_<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&quot;cmd&quot;</span>]);<span class="meta">?&gt;</span> | <span class="comment">// 后面是上传进度</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>很显然这个文件如果被文件包含函数包含, 则可以执行一系列的命令<br><strong>但是这个<code>session</code>文件将在文件上传完成之后自动删除.<strong>这里就需要利用</strong>条件竞争</strong>了, 不停的上传同样的文件, 使得<code>session</code>一直存在.</p>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/12/">

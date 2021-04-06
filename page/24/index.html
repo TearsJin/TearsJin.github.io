@@ -109,47 +109,38 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2020/09/26/Williams-s-p-1-algorithm/">Williams's p+1 algorithm</a>
+      <h1 class="post-title"><a class="post-link" href="/2020/10/22/web-md5%E5%BC%B1%E7%B1%BB%E5%9E%8B/">PHP Weak type about MD5</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2020-09-26
+          2020-10-22
         </span><span class="post-category">
-            <a href="/categories/Algorithm/">Algorithm</a>
+            <a href="/categories/WebSummary/">WebSummary</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><p>在计算数论中，Williams的p+1算法是一种整数分解算法，是代数群因子分解算法家族中的一种。它是Hugh C. Williams在1982年发明的。<br>如果要分解的数N包含一个或多个素数因子p，且p+1是光滑的(即p+1只包含小的因子)，那么Williams’s p+1有效。<br>Williams’s p+1使用Lucas序列在二次域中执行求幂运算。</p>
-<p>它类似于Pollard的p−1算法。</p>
-<h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><p>选择一个大于2的整数A来计算Lucas序列:<br>$$ V_0 = 2,V_1 = A $$<br>$$ V_j = AV_{j-1}-V_{j-2} $$<br><strong>其中所有的运算都是模N的</strong></p>
-<p>当M是$p-(D/p)$的倍数时，奇素数p整除$gcd(N,V_M-2)$，</p>
+    <div class="post-content"><p>主要就是对一些在PHP中MD5值判断的漏洞的积累吧(<del>每次都要查payload很麻烦的</del></p>
 <blockquote>
-<p>$D=A^2-4$<br>$(D/P)$是jacobi symbol</p>
+<p>为了方便, 文章中的所有变量都不带$</p>
 </blockquote>
-<p>我们要求$(D/p)=-1$，即D应该是一个模p的二次的非剩余，但是由于我们不知道p，所以在找到解之前可能需要一个以上的A值。($D=A^2-4$)</p>
-<p>如果$(D/p)=+1$，则该算法退化为Pollard的p−1算法的慢版本。</p>
-<p>因此，对于不同的M值，我们计算 $gcd(N,V_{M-2})$ ，当结果不等于1或N时，我们便找到了N的一个非平凡因子。</p>
-<p>使用的M值是连续的阶乘，而 $V_M$ 是以 $V_{M-1}$ 为特征的序列的第M个值</p>
-<p>为了找到以B为特征的序列的第M个元素V，我们以类似于从左到右求幂的方式进行计算:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x :&#x3D; B</span><br><span class="line">y :&#x3D; ( B ^ 2 - 2 ) MOD N</span><br><span class="line">for each bit of M to the right of the most significant bit do</span><br><span class="line">	if the bit is 1 then</span><br><span class="line">		x :&#x3D; ( x * y - B ) MOD N</span><br><span class="line">		y :&#x3D; ( y ^ 2 - 2 ) MOD N</span><br><span class="line">	else</span><br><span class="line">		y :&#x3D; ( x ^ y - B ) MOD N</span><br><span class="line">		x :&#x3D; ( x ^ 2 - 2 ) MOD N</span><br><span class="line">V :&#x3D; x</span><br></pre></td></tr></table></figure>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>令n = 112729，A = 5，求得的$V_M$的连续值为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">V1 of seq(5) &#x3D; V1! of seq(5) &#x3D; 5</span><br><span class="line">V2 of seq(V1) &#x3D; V2! of seq(5) &#x3D; 23</span><br><span class="line">V3 of seq(V2) &#x3D; V3! of seq(5) &#x3D; 12098</span><br><span class="line">V4 of seq(V3) &#x3D; V4! of seq(5) &#x3D; 87680</span><br><span class="line">V5 of seq(V4) &#x3D; V5! of seq(5) &#x3D; 53242</span><br><span class="line">V6 of seq(V5) &#x3D; V6! of seq(5) &#x3D; 27666</span><br><span class="line">V7 of seq(V6) &#x3D; V7! of seq(5) &#x3D; 110229</span><br></pre></td></tr></table></figure>
-<p>此时，$gcd(110229-2,112729) = 139$，所以139 是112729的一个非平凡素因子。<br>注意到 $p+1 = 140 = 2^2 * 5 * 7$。而 $7!$ 是最小的是140的倍数的阶乘数，所以我们找到了一个合适的因子139。</p>
-<h2 id="例题-V-amp-N2020-公开赛-easy-RSA"><a href="#例题-V-amp-N2020-公开赛-easy-RSA" class="headerlink" title="例题 [V&amp;N2020 公开赛]easy_RSA"></a>例题 [V&amp;N2020 公开赛]easy_RSA</h2><p>就是因为这题，才会想到Williams’s p+1<br>审计代码发现n = q<em>p</em>r 中三个因子都是p+1光滑的所以想到Williams’s p+1</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">7941371739956577280160664419383740967516918938781306610817149744988379280561359039016508679365806108722198157199058807892703837558280678711420411242914059658055366348123106473335186505617418956630780649894945233345985279471106888635177256011468979083320605103256178446993230320443790240285158260236926519042413378204298514714890725325831769281505530787739922007367026883959544239568886349070557272869042275528961483412544495589811933856131557221673534170105409</span></span><br><span class="line">A = [<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">seq</span>(<span class="params">t, base, n</span>):</span></span><br><span class="line">    x = <span class="number">2</span></span><br><span class="line">    y = base</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        x, y = y, (base * y - x) % n</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> i == t:</span><br><span class="line">            <span class="keyword">return</span> x</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">fac = []</span><br><span class="line"><span class="keyword">for</span> v <span class="keyword">in</span> A:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">5000</span>):</span><br><span class="line">        v = seq(i, v, n)</span><br><span class="line">        p = gmpy2.gcd(v - <span class="number">2</span>, n)</span><br><span class="line">        print(i,p)</span><br><span class="line">        <span class="keyword">if</span> p != <span class="number">1</span>:</span><br><span class="line">            fac.append(p)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(fac) != <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
-<p>当程序在A = 5 , i = 2391时<br>就跑出了其中一个因子为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">102634610559478918970860957918259981057327949366949344137104804864768237961662136189827166317524151288799657758536256924609797810164397005081733039415393</span><br></pre></td></tr></table></figure>
-<p>然后用n除以这个因子并对得数继续Williams’s p+1便可以分解出剩下的两个因子</p>
-<blockquote>
-<p>wiki没有中文可真是头大(原理和例子其实就是英文wiki上Williams’s p+1的摘抄+翻译啦</p>
-</blockquote>
+<h2 id="1-a-b-and-md5-a-md5-b"><a href="#1-a-b-and-md5-a-md5-b" class="headerlink" title="1. a != b and md5(a) == md5(b)"></a>1. a != b and md5(a) == md5(b)</h2><p>用==来判断两个变量(<del>这样写肯定会被学长骂的!!!</del>, 怎么绕过呢?<br>先给出两个字符串吧<code>QNKCDZO</code> 和 <code>240610708</code> 而这两个字符串的MD5值为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0e830400451993494058024219903391</span></span><br><span class="line"><span class="number">0e462097431906509019562988736854</span></span><br></pre></td></tr></table></figure>
+<p>PHP在处理哈希字符串时, 它把每一个以“0E”开头的哈希值都解释为0, 具体的原因呢是因为0e开头会被认为是科学计数法, e后面的数会被认为是次幂, 而不管0乘10的几次幂都是0. 所以如果两个不同的密码经过哈希以后, 其哈希值都是以“0E”开头的, 那么PHP将会认为他们相同, 都是0.</p>
+<h2 id="2-a-b-and-md5-a-md5-b"><a href="#2-a-b-and-md5-a-md5-b" class="headerlink" title="2. a !== b and md5(a) === md5(b)"></a>2. a !== b and md5(a) === md5(b)</h2><p>要通过这个判断, 要利用MD5不能处理数组这个漏洞, 就是说当a和b都是数组的时候, md5(a) === md5(b) 会判断为真. 至于怎么让a !== b, <code>a[]=1;b[]=2</code>就行了.</p>
+<h2 id="3-string-a-string-b-and-md5-a-md5-b"><a href="#3-string-a-string-b-and-md5-a-md5-b" class="headerlink" title="3. (string)a !== (string)b and md5(a) === md5(b)"></a>3. (string)a !== (string)b and md5(a) === md5(b)</h2><p>啊这…这个可以直接去找两个相等md5的字符串.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$Param1</span>=<span class="string">&quot;\x4d\xc9\x68\xff\x0e\xe3\x5c\x20\x95\x72\xd4\x77\x7b\x72\x15\x87\xd3\x6f\xa7\xb2\x1b\xdc\x56\xb7\x4a\x3d\xc0\x78\x3e\x7b\x95\x18\xaf\xbf\xa2\x00\xa8\x28\x4b\xf3\x6e\x8e\x4b\x55\xb3\x5f\x42\x75\x93\xd8\x49\x67\x6d\xa0\xd1\x55\x5d\x83\x60\xfb\x5f\x07\xfe\xa2&quot;</span>;</span><br><span class="line"><span class="variable">$Param2</span>=<span class="string">&quot;\x4d\xc9\x68\xff\x0e\xe3\x5c\x20\x95\x72\xd4\x77\x7b\x72\x15\x87\xd3\x6f\xa7\xb2\x1b\xdc\x56\xb7\x4a\x3d\xc0\x78\x3e\x7b\x95\x18\xaf\xbf\xa2\x02\xa8\x28\x4b\xf3\x6e\x8e\x4b\x55\xb3\x5f\x42\x75\x93\xd8\x49\x67\x6d\xa0\xd1\xd5\x5d\x83\x60\xfb\x5f\x07\xfe\xa2&quot;</span>;</span><br><span class="line"><span class="comment">#008ee33a9d58b51cfeb425b0959121c9</span></span><br></pre></td></tr></table></figure>
+<p>使用的时候记得直接添加到包里面去, 浏览器上输入是无效的</p>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/23/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text">Prev</span>
+      </a>
+    <a class="next" href="/page/25/">
+        <span class="next-text">Next</span>
+        <i class="iconfont icon-right"></i>
       </a>
     </nav></section></div></div>
       </main>
