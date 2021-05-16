@@ -146,7 +146,7 @@
 <li><code>hint</code>: $hint = d^e (mod \ n)$</li>
 </ul>
 <p>这题不算难, 仔细算一下就能知道这个<code>hint</code>有什么用了<br>首先看一下<code>d = inverse(e,lcm(p,lcm(p-1,q-1)))</code>, $p$都已经是素数了, 公倍数肯定是$kp$</p>
-<p>那么我们就有<br>$$<br>e \cdot d = 1 (mod \ kp)<br>$$<br>把<code>hint</code>的式子和这个式子都改写成:<br>$$<br>e \cdot d  = 1 + k_1p \\<br>d^e = hint + k_2n<br>$$<br>联立一下就有:<br>$$<br>({k_1p+1 \over e})^e  = hint + k_2n \Rightarrow (k_1p+1) = e^e(hint + k_2n) \\<br>\Rightarrow (k_1-e^ek_2q)p = e^e \cdot hint - 1<br>$$<br>取个<code>gcd(e**e * hint - 1,n)</code>, 就可以有<code>p</code>了, 分解<code>n</code>就好做了, 这一层还是挺有意思的</p>
+<p>那么我们就有<br>$$<br>e \cdot d = 1 (mod \ kp)<br>$$<br>把<code>hint</code>的式子和这个式子都改写成:<br>$$<br>e \cdot d  = 1 + k_1p \\<br>d^e = hint + k_2n<br>$$<br>联立一下就有:<br>$$<br>({k_1p+1 \over e})^e  = hint + k_2n \Rightarrow (Kp+1) = e^e(hint + k_2n) \\<br>\Rightarrow (K-e^ek_2q)p = e^e \cdot hint - 1<br>$$<br>取个<code>gcd(e**e * hint - 1,n)</code>, 就可以有<code>p</code>了, 分解<code>n</code>就好做了, 这一层还是挺有意思的</p>
 <h2 id="第二层-Boneh-Durfee-attack"><a href="#第二层-Boneh-Durfee-attack" class="headerlink" title="第二层  Boneh_Durfee attack"></a>第二层  Boneh_Durfee attack</h2><p>这一层的私钥$d \approx 2^{256}$, 而$n \approx 2^{1024}$, 满足使用Boneh_Durfee attack的条件, 直接扔到脚本里跑就能跑出$d$来了<br>有了$d$直接解密即可</p>
 <h2 id="第三层-Coppersmith’s-Short-pad-Attack"><a href="#第三层-Coppersmith’s-Short-pad-Attack" class="headerlink" title="第三层 Coppersmith’s Short-pad Attack"></a>第三层 Coppersmith’s Short-pad Attack</h2><p>第二层出来一个网站<code>https://dawn-whisper.lanzous.com/iCAv0lod7yj-password:gzjq&#39;</code>, 以及密码</p>
 <p>打开后还是一道RSA</p>

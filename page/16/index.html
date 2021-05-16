@@ -117,27 +117,128 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/12/2020%E7%BA%B5%E6%A8%AA%E6%9D%AF-comon-Extending-Wiener-attack/">2020纵横杯 comon-Extending Wiener attack</a>
+      <h1 class="post-title"><a class="post-link" href="/2021/03/21/The-learning-of-php-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">The learning of php 文件包含</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2021-03-12
+          2021-03-21
         </span><span class="post-category">
-            <a href="/categories/CryptoSummary/">CryptoSummary</a>
+            <a href="/categories/WebSummary/">WebSummary</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><h2 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">e1 =  <span class="number">28720970875923431651096339432854172528258265954461865674640550905460254396153781189674547341687577425387833579798322688436040388359600753225864838008717449960738481507237546818409576080342018413998438508242156786918906491731633276138883100372823397583184685654971806498370497526719232024164841910708290088581</span></span><br><span class="line">e2 =  <span class="number">131021266002802786854388653080729140273443902141665778170604465113620346076511262124829371838724811039714548987535108721308165699613894661841484523537507024099679248417817366537529114819815251239300463529072042548335699747397368129995809673969216724195536938971493436488732311727298655252602350061303755611563</span></span><br><span class="line">N =  <span class="number">159077408219654697980513139040067154659570696914750036579069691821723381989448459903137588324720148582015228465959976312274055844998506120677137485805781117564072817251103154968492955749973403646311198170703330345340987100788144707482536112028286039187104750378366564167383729662815980782817121382587188922253</span></span><br><span class="line">flag = <span class="string">b&quot;flag&#123;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#125;&quot;</span></span><br><span class="line">f1 = bytes_to_long(flag[:<span class="number">21</span>])</span><br><span class="line">f2 = bytes_to_long(flag[<span class="number">21</span>:])</span><br><span class="line">c1 = <span class="built_in">pow</span>(f1, e1, N)</span><br><span class="line">c2 = <span class="built_in">pow</span>(f2, e2, N)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;e1 = &quot;</span>, e1)</span><br><span class="line">print(<span class="string">&quot;e2 = &quot;</span>, e2)</span><br><span class="line">print(<span class="string">&quot;N = &quot;</span>, N)</span><br><span class="line">print(<span class="string">&quot;c1 = &quot;</span>, c1)</span><br><span class="line">print(<span class="string">&quot;c2 = &quot;</span>, c2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <div class="post-content"><h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>文件包含顾名思义, 通过某些函数来引入一些文件但传入的文件名没有经过合理的验证, 从而操作了预想之外的文件, 就可能导致意外的文件泄漏甚至恶意代码注入。</p>
+<h2 id="常见的文件包含函数"><a href="#常见的文件包含函数" class="headerlink" title="常见的文件包含函数"></a>常见的文件包含函数</h2><ol>
+<li><p><code>include()</code></p>
+</li>
+<li><p><code>require()</code></p>
+</li>
+<li><p><code>include_once()</code></p>
+</li>
+<li><p><code>require_once()</code></p>
+</li>
+<li><p><code>highlight_file()</code></p>
+</li>
+<li><p><code>show_source()</code></p>
+</li>
+<li><p><code>readfile()</code></p>
+</li>
+<li><p><code>file_get_contents()</code></p>
+</li>
+<li><p><code>fopen()</code></p>
+</li>
+<li><p><code>file()</code></p>
+</li>
+</ol>
+<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>通常情况下有文件包含函数还不够, 需要搭配伪协议才能干更多的事情</p>
+<table>
+<thead>
+<tr>
+<th align="center">协议</th>
+<th align="center">PHP版本</th>
+<th align="center">alow_url_fopen</th>
+<th align="center">allow_url_include</th>
+<th align="left">用法示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">file://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">file://D:/soft/phpStudy/WWW/flag.txt</td>
+</tr>
+<tr>
+<td align="center">php://filter</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">php://filter/read=convert.base64-encode/resource=./index.php</td>
+</tr>
+<tr>
+<td align="center">php://input</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center"><strong>on</strong></td>
+<td align="left">php://input  [post data]: <code>&lt;?php phpinfo() ?&gt;</code></td>
+</tr>
+<tr>
+<td align="center">zip://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">zip://D:/soft/phpStudy/WWW/file.zip%23flag.txt</td>
+</tr>
+<tr>
+<td align="center">compress.bzip2://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">compress.bzip2://D:/soft/phpStudy/WWW/file.bz2<br />compress.bzip2://./file.bz2</td>
+</tr>
+<tr>
+<td align="center">compress.zlib://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center">off/on</td>
+<td align="center">off/on</td>
+<td align="left">同上</td>
+</tr>
+<tr>
+<td align="center">data://</td>
+<td align="center">&gt;=5.2</td>
+<td align="center"><strong>on</strong></td>
+<td align="center"><strong>on</strong></td>
+<td align="left">data://text/plain,<code>&lt;?php phpinfo()?&gt;</code><br />data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</td>
+</tr>
+</tbody></table>
+<h2 id="包含日志文件"><a href="#包含日志文件" class="headerlink" title="包含日志文件"></a>包含日志文件</h2><p>Web服务器一般会将用户的访问记录保存在日志文件当中. 如果存在文件包含的函数, 而且知道日志文件的路径, 可以构造请求把PHP代码写进日志文件中并引入执行</p>
+<h3 id="寻找日志文件"><a href="#寻找日志文件" class="headerlink" title="寻找日志文件"></a>寻找日志文件</h3><p>日志文件的目录一般会被修改, 可以寻找<code>httpd.conf,nginx,conf</code>或者根据<code>phpinfo()</code>中的信息来得知日志文件目录</p>
+<p>Apache:</p>
+<ol>
+<li><p>Windows: <code>&lt;Apache安装目录&gt;\logs\access.log | error.log</code></p>
+</li>
+<li><p>Linux: <code>/usr/local/apache/logs/access_log | error_log </code></p>
+</li>
+</ol>
+<p>Nginx:</p>
+<ol>
+<li><code>/var/log/nginx</code></li>
+</ol>
+<h2 id="包含session-upload-progress"><a href="#包含session-upload-progress" class="headerlink" title="包含session.upload_progress"></a>包含<code>session.upload_progress</code></h2><blockquote>
+<p>PHP版本: 5.4+</p>
+</blockquote>
+<p>在php5.4以上添加了一个新的功能 <code>session.upload_progress</code>, 这个功能在客户端上传文件的时候会创建一个<code>session</code>文件, 默认路径应该是<code>/tmp/tmp</code>, 这个文件里存储的上传文件的进度. </p>
+<p>不过, 要利用这个<code>session.upload_progress</code>, 还要依靠另外一个<code>php.ini</code>的默认选项<code>session.use_strict_mode = 0</code>, 当这个值为0的时候, 用户是可以自己定义<code>Session ID</code>的, 比如在<code>Cookies</code>中设置<code>PHPSESSID = k1rit0</code>, <code>php</code>将在服务器上创建一个<code>tmp/tmp/sess_k1rit0</code>, 并且自动初始化, 也就是会在里面写入</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.upload_progress.prefix + session.upload_progress.name</span><br></pre></td></tr></table></figure>
 
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这个题一看还以为是简单的Common Attack, 只有同一个明文, 不同的$e$才能用Common Attack 这里显然两个密文对应的不是同一个明文…<br>这种题估计都有什么攻击方法, 后来找wp看了, 果然是有一种攻击方法的, 把paper(Extending Wiener’s Attack in the Presence of Many Decrypting Exponents)详细的学了一遍, 才明白具体该怎么解,</p>
-<p>这个攻击方法适用于$e$特别大, 并且有多个$e$的时候(显然$e$还有大到可以直接winner)<br>大概思路是造一个格子求出参数让问题转变成winner要解决的问题(连分数的分解), 但是这里$g$是为1的所以不需要连分数可以直接求出phi</p>
-<p>构造格子的方法paper里有, 阅读笔记里也有这里就不多说, 直接造!<br>$$<br>L_2 =<br>\begin{pmatrix}<br>N&amp;-M_1N&amp;0&amp;N^2 \\<br>0&amp;M_1e_1&amp;-M_2e_1&amp;-e_1N \\<br>0&amp;0&amp;M_2e_2&amp;-e_2N \\<br>0&amp;0&amp;0&amp;e_1e_2<br>\end{pmatrix}<br>$$<br>这里$M_1 = N^{1 \over 2},M_2 = N^{1+\alpha_2},\alpha_2 = {5 \over 14 } - \epsilon’$<br>LLL()规约出基$b =(b_1,b_2,b_3,b_4)$后求phi即可</p>
-<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line">e1 =  <span class="number">28720970875923431651096339432854172528258265954461865674640550905460254396153781189674547341687577425387833579798322688436040388359600753225864838008717449960738481507237546818409576080342018413998438508242156786918906491731633276138883100372823397583184685654971806498370497526719232024164841910708290088581</span></span><br><span class="line">e2 =  <span class="number">131021266002802786854388653080729140273443902141665778170604465113620346076511262124829371838724811039714548987535108721308165699613894661841484523537507024099679248417817366537529114819815251239300463529072042548335699747397368129995809673969216724195536938971493436488732311727298655252602350061303755611563</span></span><br><span class="line">N =  <span class="number">159077408219654697980513139040067154659570696914750036579069691821723381989448459903137588324720148582015228465959976312274055844998506120677137485805781117564072817251103154968492955749973403646311198170703330345340987100788144707482536112028286039187104750378366564167383729662815980782817121382587188922253</span></span><br><span class="line">c1 =  <span class="number">89410578059910615243542114610890994179298819076294899300341196922537672226283347286177838507350481980653301675042566354947161446918391494634173771489921535378415952543761341962187827617956463740415683816828323475428328607025791449389552492799278886876413138326117622825124519567340298133646090783889193450681</span></span><br><span class="line">c2 =  <span class="number">106022564245731443282859231814772725680579944691962958987527668508496192529331599682371642691880849071915084510118117099828154554231286326729922119326305261125960484865171940233343041874124811917291652357776045940511178855947892557181650249473057939642726565131933445072147505756108121271288834439942107732015</span></span><br><span class="line"><span class="keyword">for</span> epsilon <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    M1 = <span class="built_in">int</span>(N^(<span class="number">0.5</span>))</span><br><span class="line">    M2 = <span class="built_in">int</span>(N^(<span class="number">1</span>+<span class="number">5</span>/<span class="number">14</span> - (epsilon*<span class="number">0.01</span>)))</span><br><span class="line">    <span class="comment">#epsilon是没办法确定的, 小小的爆破一下</span></span><br><span class="line">    v1 = vector([N,-M1*N,<span class="number">0</span>,N^<span class="number">2</span>])</span><br><span class="line">    v2 = vector([<span class="number">0</span>,M1*e1,-M2*e1,-e1*N])</span><br><span class="line">    v3 = vector([<span class="number">0</span>,<span class="number">0</span>,M2*e2,-e2*N])</span><br><span class="line">    v4 = vector([<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,e1*e2])</span><br><span class="line"></span><br><span class="line">    L = Matrix([v1,v2,v3,v4])</span><br><span class="line">    B = L.LLL()[<span class="number">0</span>]</span><br><span class="line">    B = L.solve_left(B)</span><br><span class="line"></span><br><span class="line">    phi = floor(e1 * B[<span class="number">1</span>]//B[<span class="number">0</span>])</span><br><span class="line">	<span class="comment"># 这边phi会前后差1或者差2</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(-<span class="number">2</span>,<span class="number">3</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            d1 = inverse_mod(e1,phi+j)</span><br><span class="line">            d2 = inverse_mod(e2,phi+j)</span><br><span class="line">            flag = long_to_bytes(<span class="built_in">pow</span>(c1,d1,N)) + long_to_bytes(<span class="built_in">pow</span>(c2,d2,N))</span><br><span class="line">            <span class="keyword">if</span> <span class="string">b&#x27;&#123;&#x27;</span> <span class="keyword">in</span> flag <span class="keyword">and</span> <span class="string">b&#x27;&#125;&#x27;</span> <span class="keyword">in</span> flag:</span><br><span class="line">                print(i,flag)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p><code>session.upload_progress.prefix</code>是服务端设置的, 默认为<code>upload_progress_</code><br><code>session.upload_progress.name</code>是用户<code>POST</code>的<code>data</code>: <code>PHP_SESSION_UPLOAD_PROGRESS</code>, 比如<code>POST</code> <code>PHP_SESSION_UPLOAD_PROGRESS= &lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;</code><br>那么用户在上传文件的时候, 就会生成这么一个<code>session</code>文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_progress_<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&quot;cmd&quot;</span>]);<span class="meta">?&gt;</span> | <span class="comment">// 后面是上传进度</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>看完了理论自己代码实现的时候还是会有不少问题的..</p>
-<p>这里有一个<code>Matrix.solve_left</code>和<code>Matrix.solve_right</code>的区别, 也没怎么搞懂, 主要是不知道这两个到底什么时候用什么, 只能先每次都试试这两个了.</p>
+
+
+<p>很显然这个文件如果被文件包含函数包含, 则可以执行一系列的命令<br><strong>但是这个<code>session</code>文件将在文件上传完成之后自动删除.<strong>这里就需要利用</strong>条件竞争</strong>了, 不停的上传同样的文件, 使得<code>session</code>一直存在.</p>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/15/">
