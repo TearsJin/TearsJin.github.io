@@ -117,128 +117,67 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2021/03/21/The-learning-of-php-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">The learning of php 文件包含</a>
+      <h1 class="post-title"><a class="post-link" href="/2021/03/24/writeup-for-2021-NepCTF/">writeup for 2021 NepCTF(To be continued</a>
         </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2021-03-21
+          2021-03-24
         </span><span class="post-category">
-            <a href="/categories/WebSummary/">WebSummary</a>
+            <a href="/categories/WriteUp/">WriteUp</a>
             </span>
         </div>
     </header>
 
-    <div class="post-content"><h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>文件包含顾名思义, 通过某些函数来引入一些文件但传入的文件名没有经过合理的验证, 从而操作了预想之外的文件, 就可能导致意外的文件泄漏甚至恶意代码注入。</p>
-<h2 id="常见的文件包含函数"><a href="#常见的文件包含函数" class="headerlink" title="常见的文件包含函数"></a>常见的文件包含函数</h2><ol>
-<li><p><code>include()</code></p>
-</li>
-<li><p><code>require()</code></p>
-</li>
-<li><p><code>include_once()</code></p>
-</li>
-<li><p><code>require_once()</code></p>
-</li>
-<li><p><code>highlight_file()</code></p>
-</li>
-<li><p><code>show_source()</code></p>
-</li>
-<li><p><code>readfile()</code></p>
-</li>
-<li><p><code>file_get_contents()</code></p>
-</li>
-<li><p><code>fopen()</code></p>
-</li>
-<li><p><code>file()</code></p>
-</li>
-</ol>
-<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>通常情况下有文件包含函数还不够, 需要搭配伪协议才能干更多的事情</p>
-<table>
-<thead>
-<tr>
-<th align="center">协议</th>
-<th align="center">PHP版本</th>
-<th align="center">alow_url_fopen</th>
-<th align="center">allow_url_include</th>
-<th align="left">用法示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">file://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">file://D:/soft/phpStudy/WWW/flag.txt</td>
-</tr>
-<tr>
-<td align="center">php://filter</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">php://filter/read=convert.base64-encode/resource=./index.php</td>
-</tr>
-<tr>
-<td align="center">php://input</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center"><strong>on</strong></td>
-<td align="left">php://input  [post data]: <code>&lt;?php phpinfo() ?&gt;</code></td>
-</tr>
-<tr>
-<td align="center">zip://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">zip://D:/soft/phpStudy/WWW/file.zip%23flag.txt</td>
-</tr>
-<tr>
-<td align="center">compress.bzip2://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">compress.bzip2://D:/soft/phpStudy/WWW/file.bz2<br />compress.bzip2://./file.bz2</td>
-</tr>
-<tr>
-<td align="center">compress.zlib://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center">off/on</td>
-<td align="center">off/on</td>
-<td align="left">同上</td>
-</tr>
-<tr>
-<td align="center">data://</td>
-<td align="center">&gt;=5.2</td>
-<td align="center"><strong>on</strong></td>
-<td align="center"><strong>on</strong></td>
-<td align="left">data://text/plain,<code>&lt;?php phpinfo()?&gt;</code><br />data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</td>
-</tr>
-</tbody></table>
-<h2 id="包含日志文件"><a href="#包含日志文件" class="headerlink" title="包含日志文件"></a>包含日志文件</h2><p>Web服务器一般会将用户的访问记录保存在日志文件当中. 如果存在文件包含的函数, 而且知道日志文件的路径, 可以构造请求把PHP代码写进日志文件中并引入执行</p>
-<h3 id="寻找日志文件"><a href="#寻找日志文件" class="headerlink" title="寻找日志文件"></a>寻找日志文件</h3><p>日志文件的目录一般会被修改, 可以寻找<code>httpd.conf,nginx,conf</code>或者根据<code>phpinfo()</code>中的信息来得知日志文件目录</p>
-<p>Apache:</p>
-<ol>
-<li><p>Windows: <code>&lt;Apache安装目录&gt;\logs\access.log | error.log</code></p>
-</li>
-<li><p>Linux: <code>/usr/local/apache/logs/access_log | error_log </code></p>
-</li>
-</ol>
-<p>Nginx:</p>
-<ol>
-<li><code>/var/log/nginx</code></li>
-</ol>
-<h2 id="包含session-upload-progress"><a href="#包含session-upload-progress" class="headerlink" title="包含session.upload_progress"></a>包含<code>session.upload_progress</code></h2><blockquote>
-<p>PHP版本: 5.4+</p>
+    <div class="post-content"><p>太菜了太菜了太菜了, 虽然说跑出去玩了两天, 但还是花了半天时间做的, 一道Coppersmith’s short-pad attack没有想到调$\beta$, 做了半天都没出来, 属实拉了. 最后也就做了个改表的base64….算是除了签到就没出吧(还有道古典不想查了5555</p>
+<h1 id="0x00-Real-Base"><a href="#0x00-Real-Base" class="headerlink" title="0x00 Real_Base"></a>0x00 Real_Base</h1><h2 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#py2</span></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag,b_char</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span>(<span class="params">s</span>):</span></span><br><span class="line">    res=<span class="string">&#x27;&#x27;</span></span><br><span class="line">    binstr=[ <span class="built_in">bin</span>(<span class="built_in">ord</span>(s[i])).replace(<span class="string">&#x27;0b&#x27;</span>,<span class="string">&#x27;&#x27;</span>).zfill(<span class="number">8</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s))]</span><br><span class="line">    p1=<span class="built_in">len</span>(binstr) // <span class="number">3</span></span><br><span class="line">    p2=<span class="built_in">len</span>(binstr) % <span class="number">3</span></span><br><span class="line">    part1 = binstr[<span class="number">0</span>:<span class="number">3</span>*p1]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p1):</span><br><span class="line">        str_p1=binstr[i*<span class="number">3</span>]+binstr[i*<span class="number">3</span>+<span class="number">1</span>]+binstr[i*<span class="number">3</span>+<span class="number">2</span>]</span><br><span class="line">        tmp_str = [str_p1[x: x + <span class="number">6</span>] <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">0</span>, <span class="number">6</span>, <span class="number">12</span>, <span class="number">18</span>]]</span><br><span class="line">        tmp_res = [b_char[<span class="built_in">int</span>(x,<span class="number">2</span>)]<span class="keyword">for</span> x <span class="keyword">in</span> tmp_str]</span><br><span class="line">        res+=<span class="string">&#x27;&#x27;</span>.join(tmp_res)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> p2:</span><br><span class="line">        part2 = binstr[<span class="number">3</span>*p1:]</span><br><span class="line">        str_p2 = <span class="string">&#x27;&#x27;</span>.join(part2)+(<span class="number">3</span>-p2)*<span class="string">&#x27;0&#x27;</span>*<span class="number">8</span></span><br><span class="line">        tmp_str = [str_p2[x: x + <span class="number">6</span>] <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">0</span>, <span class="number">6</span>, <span class="number">12</span>, <span class="number">18</span>]][:p2+<span class="number">1</span>]</span><br><span class="line">        tmp_res = [b_char[<span class="built_in">int</span>(x,<span class="number">2</span>)]<span class="keyword">for</span> x <span class="keyword">in</span> tmp_str]</span><br><span class="line">        res+=<span class="string">&#x27;&#x27;</span>.join(tmp_res)</span><br><span class="line">        res +=<span class="string">&#x27;=&#x27;</span>*(<span class="number">3</span>-p2)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"> </span><br><span class="line">m1=random.sample(<span class="built_in">list</span>(b_char),<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;&#x27;</span>.join(m1)</span><br><span class="line"><span class="built_in">print</span> encode(m1)</span><br><span class="line"><span class="built_in">print</span> encode(flag)</span><br><span class="line"><span class="comment"># rTcb1BR8YVW2EOUjweXpIiLt5QCNg7ZAsD9muq3ylMhvofnx/P</span></span><br><span class="line"><span class="comment"># 2Br9y9fcu97zvB2OruZv0D3Bwhbj0uNQnvfdtC2TwAfPrdBJ3xeP4wNn0hzLzCVUlRa=</span></span><br><span class="line"><span class="comment"># tCvM4R3TzvZ7nhjBxSiNyxmP28e7qCjVxQn91SRM3gBKzxQ=</span></span><br></pre></td></tr></table></figure>
+
+<p>看了一下整个过程, 就是个base64, 但是表未知, 直接通过一对明文和密文回推表, 得出部分表基本上就能猜出整个表了, 直接用改过的表解码就行了.</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><blockquote>
+<p> 当时做的时候的脚本不见了5555555</p>
 </blockquote>
-<p>在php5.4以上添加了一个新的功能 <code>session.upload_progress</code>, 这个功能在客户端上传文件的时候会创建一个<code>session</code>文件, 默认路径应该是<code>/tmp/tmp</code>, 这个文件里存储的上传文件的进度. </p>
-<p>不过, 要利用这个<code>session.upload_progress</code>, 还要依靠另外一个<code>php.ini</code>的默认选项<code>session.use_strict_mode = 0</code>, 当这个值为0的时候, 用户是可以自己定义<code>Session ID</code>的, 比如在<code>Cookies</code>中设置<code>PHPSESSID = k1rit0</code>, <code>php</code>将在服务器上创建一个<code>tmp/tmp/sess_k1rit0</code>, 并且自动初始化, 也就是会在里面写入</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.upload_progress.prefix + session.upload_progress.name</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-你们一天天的不写代码-难道是在等待爱情"><a href="#0x01-你们一天天的不写代码-难道是在等待爱情" class="headerlink" title="0x01 你们一天天的不写代码, 难道是在等待爱情"></a>0x01 你们一天天的不写代码, 难道是在等待爱情</h1><p>古典大混合, 什么银河字母, 古精灵…..不找了</p>
+<h1 id="0x02-ChildRSA"><a href="#0x02-ChildRSA" class="headerlink" title="0x02  ChildRSA"></a>0x02  ChildRSA</h1><h2 id="problem-1"><a href="#problem-1" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#childrsa.py</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> iroot</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag1,flag2,padding1,padding2</span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">len</span>(flag1)==<span class="number">20</span></span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">len</span>(flag1)&gt;<span class="built_in">len</span>(flag2)</span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">len</span>(flag2)==<span class="built_in">len</span>(padding2)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init1</span>():</span></span><br><span class="line">    m=(padding1*<span class="number">2</span>**<span class="number">200</span>+bytes_to_long(flag1))*<span class="number">2</span>**<span class="number">200</span></span><br><span class="line">    r1=getPrime(<span class="number">170</span>)</span><br><span class="line">    r2=getPrime(<span class="number">170</span>)</span><br><span class="line">    p=getPrime(<span class="number">1024</span>)</span><br><span class="line">    q=getPrime(<span class="number">1024</span>)</span><br><span class="line">    N=p*q</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> m,r1,r2,N</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enc1</span>(<span class="params">m,r1,r2,N</span>):</span></span><br><span class="line">    c1=<span class="built_in">pow</span>(m+r1,<span class="number">3</span>,N)</span><br><span class="line">    c2=<span class="built_in">pow</span>(m+r2,<span class="number">3</span>,N)</span><br><span class="line">    <span class="keyword">return</span> c1,c2</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init2</span>():</span></span><br><span class="line">    prefix = <span class="number">2</span>**<span class="number">1000</span></span><br><span class="line">    r3 = prefix+flag2*<span class="number">2</span>**<span class="number">200</span></span><br><span class="line">    r4 = <span class="number">2</span>*prefix+padding2*<span class="number">2</span>**<span class="number">200</span></span><br><span class="line">    <span class="keyword">return</span> r3,r4</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enc2</span>(<span class="params">r3,r4</span>):</span></span><br><span class="line">    c3 = <span class="built_in">pow</span>(r3*r4,<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">return</span> c3</span><br><span class="line"></span><br><span class="line">(m,r1,r2,N) = init1()</span><br><span class="line">(c1,c2)=enc1(m,r1,r2,N)</span><br><span class="line">(r3,r4) = init2()</span><br><span class="line">c3 = enc2(r3,r4)</span><br><span class="line"><span class="built_in">print</span> N</span><br><span class="line">print(c1,c2,c3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># output.txt</span></span><br><span class="line">N= ...</span><br><span class="line">(c1,c2,c3)= ...</span><br></pre></td></tr></table></figure>
 
-<p><code>session.upload_progress.prefix</code>是服务端设置的, 默认为<code>upload_progress_</code><br><code>session.upload_progress.name</code>是用户<code>POST</code>的<code>data</code>: <code>PHP_SESSION_UPLOAD_PROGRESS</code>, 比如<code>POST</code> <code>PHP_SESSION_UPLOAD_PROGRESS= &lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;</code><br>那么用户在上传文件的时候, 就会生成这么一个<code>session</code>文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upload_progress_<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&quot;cmd&quot;</span>]);<span class="meta">?&gt;</span> | <span class="comment">// 后面是上传进度</span></span><br></pre></td></tr></table></figure>
+<p>就是这道题做了半天都没出来, 当时试了好久的Coppersmith’s short-pad attack(后面简写为Csp atk, 连$\epsilon$都从0.01遍历到1了, 依旧没有出结果, 看了官方wp, WTF??? $\beta$调成1???, 为什么?</p>
+<p>抱着这个问题我又重新翻了一下Sagemath文档, 找到了<code>small_roots()</code>的解释:</p>
+<blockquote>
+<p><strong>sage.rings.polynomial.polynomial_modn_dense_ntl.small_roots(<em>self</em>, <em>X=None</em>, <em>beta=1.0</em>, <em>epsilon=None</em>, <em>**kwds</em>)</strong></p>
+<p>​        Let $N$ be the characteristic of the base ring this polynomial is defined over: <em><strong>N = self.base_ring().characteristic()</strong></em>. This method returns small roots of this polynomial modulo some factor $b$ of $N$ with the constraint that $b&gt;=N^β$. Small in this context means that if $x$ is a root of $f$ modulo $b$ then $|x|&lt;X$. This $X$ is either provided by the user or the maximum $X$ is chosen such that this algorithm terminates in polynomial time. If $X$ is chosen automatically it is $X=ceil(1/2N^{β^2/δ−ϵ})$. The algorithm may also return some roots which are larger than <em>X</em>. This algorithm in this context means Coppersmith’s algorithm for finding small roots using the LLL algorithm. The implementation of this algorithm follows Alexander May’s PhD thesis referenced below.</p>
+<p>INPUT:</p>
+<ul>
+<li><code>X</code> – an absolute bound for the root (default: see above)</li>
+<li><code>beta</code> – compute a root mod $b$ where $b$ is a factor of <em>N</em> and $b ≥N^β.$ ( Default: 1.0, so $b=N$. )</li>
+<li><code>epsilon</code> – the parameter $ϵ$ described above. (Default: $β/8$)</li>
+<li><code>**kwds</code> – passed through to method <a target="_blank" rel="noopener" href="https://doc.sagemath.org/html/en/reference/matrices/sage/matrix/matrix_integer_dense.html#sage.matrix.matrix_integer_dense.Matrix_integer_dense.LLL"><code>Matrix_integer_dense.LLL()</code></a>.</li>
+</ul>
+<p>REFERENCES:</p>
+<p>Don Coppersmith. <em>Finding a small root of a univariate modular equation.</em> In Advances in Cryptology, EuroCrypt 1996, volume 1070 of Lecture Notes in Computer Science, p. 155–165. Springer, 1996. <a target="_blank" rel="noopener" href="http://cr.yp.to/bib/2001/coppersmith.pdf">http://cr.yp.to/bib/2001/coppersmith.pdf</a></p>
+<p>Alexander May. <em>New RSA Vulnerabilities Using Lattice Reduction Methods.</em> PhD thesis, University of Paderborn, 2003. <a target="_blank" rel="noopener" href="http://www.cs.uni-paderborn.de/uploads/tx_sibibtex/bp.pdf">http://www.cs.uni-paderborn.de/uploads/tx_sibibtex/bp.pdf</a></p>
+</blockquote>
+<p>文档里面给出了<code>small_roots()</code>使用的算法的paper, 有时间好好看一下.<br>这个函数需要注意的有三个参数<code>X,beta,epsilon</code>, 其中<code>beta</code>和<code>epsilon</code>也就是$\beta$和$ \epsilon$ .</p>
+<p>来看看这三个参数都该怎么填</p>
+<ul>
+<li>$X$:  这个算是最好填的, 可以理解成<code>smallroot</code>的上界, 一般来说题目中给出了要解的小根的位数<code>kbits</code>就设置$X = 2^{kbits}$. 而在Csp atk中, 理论可解上界是$N.nbits \over e^2$ </li>
+<li>$\beta$:   这个$\beta$可以理解成$N$的因子的下界, 对于常规RSA中的$N$, 一般就只有$1,N,p,q$四个因子, 我们可以选取$N,p,q$作为算法使用的因子, 所以其实$\beta$可以从0取到1, 因为都可能成立, 但真正用的时候一般取$[0.4,0.6] \cup {1}$.</li>
+<li>$\epsilon$: 神奇的参数, 不填就是$\beta \over 8$, 文档中给出了一个关系式$X=ceil(1/2N^{β^2/δ−ϵ})$, 其实这个$ceil$可以暂时忽略掉, 所以就有$2X=N^{\beta^2/\delta-\epsilon}$, 文档里并没有给出$\delta$ 到底该如何取, 但从这题的官方wp中是给出了$\delta = e^2$, 其实就是多项式的次数. 所以对于Csp atk来说, $\epsilon = \beta^{2} / e^2 - x$, $x$的取法为$N^x = X.nbits $</li>
+</ul>
+<p>所以说,$\beta$填1也是阔以的! 因为factor里面是有$N$的!</p>
+<p>按着上面的分析, 把从La佬那边拿来的Csp atk的板子稍微修改一下( 以后就用改进过的板子了嘿嘿嘿….</p>
+<h3 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">short_pad_attack</span>(<span class="params">c1, c2, e, n , kbits = <span class="number">0</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span> kbits == <span class="number">0</span> :</span><br><span class="line">            kbits = n.nbits()//(e*e)</span><br><span class="line">        PRxy.&lt;x,y&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">        PRx.&lt;xn&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">        PRZZ.&lt;xz,yz&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">        g1 = x^e - c1</span><br><span class="line">        g2 = (x+y)^e - c2</span><br><span class="line">        q1 = g1.change_ring(PRZZ)</span><br><span class="line">        q2 = g2.change_ring(PRZZ)</span><br><span class="line">        h = q2.resultant(q1)</span><br><span class="line">        h = h.univariate_polynomial()</span><br><span class="line">        h = h.change_ring(PRx).subs(y=xn)</span><br><span class="line">        h = h.monic()</span><br><span class="line">        x = ceil(n.nbits() // kbits)</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> [<span class="number">0.4</span>,<span class="number">0.5</span>,<span class="number">0.6</span>,<span class="number">1</span>]:</span><br><span class="line">            eps = (b^<span class="number">2</span>) / (e^<span class="number">2</span>) - (<span class="number">1</span>/x)</span><br><span class="line">            print(eps)</span><br><span class="line">            <span class="keyword">if</span> eps &lt;= <span class="number">0</span>:</span><br><span class="line">                eps = b / <span class="number">8</span></span><br><span class="line">            print(<span class="string">&#x27;[+] try beta=&#123;&#125; epsilon=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="built_in">float</span>(b),<span class="built_in">float</span>(eps)))</span><br><span class="line">            diff = h.small_roots(X=<span class="number">2</span>^kbits, beta=b,epsilon=eps)</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(diff) &gt; <span class="number">0</span> :</span><br><span class="line">                print(<span class="string">&#x27;[+] find diff with beta=&#123;&#125; and epsilon=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(b,eps))</span><br><span class="line">                <span class="keyword">return</span> diff</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;[-] can not find the diff&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> diff</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">related_message_attack</span>(<span class="params">c1, c2, diff, e, n</span>):</span></span><br><span class="line">    PRx.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">    g1 = x^e - c1</span><br><span class="line">    g2 = (x+diff)^e - c2</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gcd</span>(<span class="params">g1, g2</span>):</span></span><br><span class="line">        <span class="keyword">while</span> g2:</span><br><span class="line">            g1, g2 = g2, g1 % g2</span><br><span class="line">        <span class="keyword">return</span> g1.monic()</span><br><span class="line">    <span class="keyword">return</span> -gcd(g1, g2)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes <span class="keyword">as</span> l2b</span><br><span class="line">n = ...</span><br><span class="line">(c1,c2,c3)= ...</span><br><span class="line">e= <span class="number">3</span></span><br><span class="line">diff = short_pad_attack(c1,c2,e,n,kbits=<span class="number">170</span>)[<span class="number">0</span>]</span><br><span class="line">res = related_message_attack(c1,c2,diff,e,n)</span><br><span class="line">l2b(res)</span><br><span class="line"><span class="comment"># b&#x27;\xd4!I\x80M\xf0\x80\\\xd9&gt;\x19\xad\xdd^\x1d$\x99\xc1V\xc9/+\xdc\x97&quot;\xb3 \x03\xef3\xd1\xea\x04\xf4\x81z$\xd2]&#123;\xcb\xc4\x93\xe7\xf6\xb7\x9a\xb2\xe6a\x9fl\x99\xady\xa8\x9e\xa2\xf5\&#x27;\xa2\xfc\xe0Z\xa1\x1c\x15\rQ\x7fM\x99T\x93\x04\xc5\xdd\xdc\x80\xe4\x0f\x85)\x9f\xc3p\xdc\x03j.\x87kU\&#x27;Ud\x0bD&quot;)\x00\x00\x00\x00\x00Nep&#123;Nep_n3p_ba4_bad_\x00\x00\x00\x03\tx@Q2\x1b3\x1f\r\xb2\x95\x86?kE\x1f\xe6\xaay\xf1\xe5&#x27;</span></span><br></pre></td></tr></table></figure>
 
+<p>可以看到flag已经出来一部分了<code>Nep&#123;Nep_n3p_ba4_bad_</code></p>
+<p>来看看怎么求<code>flag2</code>, 先把给的条件写出来, 我们记$flag_2 = f , padding = pd$<br>$$<br>r_3 = 2^{1000}+ 2^{200}f \\<br>r_4 = 2^{1001}+ 2^{200}pd \\<br>(r_3r_4)^3 = c_3<br>$$<br>官方wp上面说想考一下二元的Coopersmith, 先放着, 有空了学习一波. 这题还可以直接解一元二次方程直接出</p>
+<h2 id="解方程解法"><a href="#解方程解法" class="headerlink" title="解方程解法"></a>解方程解法</h2><p>我们可以直接通过开三次方得出$r_3r_4 = R$<br>咱们先联立一下$r3,r4$的两个式子<br>$$<br>2^{2001} + 2^{1200}pd +2^{1201}f+ 2^{400} pd \cdot f = r_{34} \tag1<br>$$<br>这里要注意一下, $pd,f \le 2^{160}$, 也就是说$2^{400} pd \cdot f &lt; 2^{1200}$所以其实咱们可以直接有<br>$$<br>2^{2001} + 2^{1200}pd +2^{1201}f+ 2^{400} pd \cdot f \equiv 2^{400}pd \cdot f \equiv r_{34} \mod 2^{1200} \\<br>2^{400}pd \cdot f = r_{34} % \ 2^{1200}<br>$$<br>这样我们就能求出$pd \cdot f = a$了, 然后我们直接$(1)$式两边同时乘$f$, 把$pd \cdot f$带入, 就可以构造出一个关于$f$的一元二次方程了.<br>$$<br>2^{2001} \cdot f + 2^{1200} a +2^{1201}f^2+ 2^{400} a \cdot f = r_{34} \cdot f<br>$$<br>解出$f$发现…是假flag, md我算了那么久居然是个假的??? 突然想到会不会padding2才是真正的flag, 又把padding2算出来了, 果然….padding2才是真flag</p>
+<h3 id="exp-2"><a href="#exp-2" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c = <span class="built_in">int</span>(c3.nth_root(<span class="number">3</span>) % (<span class="number">2</span>^<span class="number">2001</span>))</span><br><span class="line">pdf =  <span class="built_in">int</span>(c %<span class="number">2</span>^<span class="number">1200</span> // <span class="number">2</span>^<span class="number">400</span>)</span><br><span class="line">x = var(<span class="string">&#x27;x&#x27;</span>)</span><br><span class="line">f = <span class="number">2</span>^<span class="number">1200</span> * pdf - c * x + <span class="number">2</span>^<span class="number">1201</span> * x^<span class="number">2</span> + <span class="number">2</span>^<span class="number">400</span> * x * pdf</span><br><span class="line">flag2  = <span class="built_in">int</span>(f.roots()[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line">padding = pdf // flag2</span><br><span class="line">l2b(padding)</span><br><span class="line"><span class="comment"># b&#x27;1_l0v3_9ou&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
 
-
-<p>很显然这个文件如果被文件包含函数包含, 则可以执行一系列的命令<br><strong>但是这个<code>session</code>文件将在文件上传完成之后自动删除.<strong>这里就需要利用</strong>条件竞争</strong>了, 不停的上传同样的文件, 使得<code>session</code>一直存在.</p>
+<p>所以最后的flag就是<code>Nep&#123;Nep_n3p_ba4_bad_1_l0v3_9ou&#125;</code></p>
+<h1 id="0x03-easyEncryption"><a href="#0x03-easyEncryption" class="headerlink" title="0x03 easyEncryption"></a>0x03 easyEncryption</h1><blockquote>
+<p>暂时还没时间, 有空看看</p>
+</blockquote>
+<h1 id="0x04-lowExponent"><a href="#0x04-lowExponent" class="headerlink" title="0x04 lowExponent"></a>0x04 lowExponent</h1><blockquote>
+<p>暂时还没时间, 有空看看</p>
+</blockquote>
 
         </div></article>
       <nav class="pagination"><a class="prev" href="/page/16/">
