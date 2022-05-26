@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="writeup for 2021 ByteCTF 线上"/><meta name="keywords" content="Crypto, WriteUp, K1rit0's Blog" /><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://tearsjin.github.io/2021/10/18/writeup-for-2021-ByteCTF-线上/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>writeup for 2021 ByteCTF 线上 - K1rit0's Blog</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">K1rit0's Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a><a href="/link/">
+        <li class="mobile-menu-item">Link
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">K1rit0's Blog</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/link/">
+            Link
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">writeup for 2021 ByteCTF 线上
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-10-18
+        </span><span class="post-category">
+            <a href="/categories/WriteUp/">WriteUp</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#easyxor"><span class="toc-text">easyxor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#abusedkey"><span class="toc-text">abusedkey</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Overheard"><span class="toc-text">Overheard</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JustDecrypt"><span class="toc-text">JustDecrypt</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><blockquote>
+<p>Byte线上, 勉强前20挤进线下了, 属实刺激</p>
+<p>题目难度中等把, 不会特别白给但也不会特别难, 就是某道题CFB搞不懂摸了将近一天才在最后一个小时摸出来</p>
+</blockquote>
+<h1 id="easyxor"><a href="#easyxor" class="headerlink" title="easyxor"></a>easyxor</h1><p>题目把$flag$分成两部分$flagFront \ and \ flagBack$, 并且给了一个加密用的函数$convert$, 看了眼$key$的大小, $2^{24}$是吧, 喜欢短的是吧, 待会就把它给爆了</p>
+<p>先来看$flagFront$, 加密用的模式是$OFB$, 这里有一个点要想到, $flag$的前缀是<code>ByteCTF&#123;</code>刚好8字节也就是一个分组. </p>
+<p><img src="https://wiki.x10sec.org/crypto/blockcipher/mode/figure/ofb_decryption.png" alt="img"></p>
+<p>对着上面的解密过程, 因为第一个明文<code>ByteCTF&#123;</code>密文分组都有了, 可以直接异或计算出第一块的$Block \ Cipher \ $ 第二块的$Block \ Cipher$是第一块加密得到, 如果我们能够运行加密程序, 我们就能还原出后面的明文, 但我们没有key, 没办法跑加密</p>
+<p>不过一开始有提到, $key$的大小就$2^{24}$这么大, 完全可以花一点时间爆破, 所以思路有了, 直接穷举所有的$key$, 能把后面的两组密文还原成uuid(这个uuid形式也是猜出来的, 觉得有可能就试了一下)那种形式的字符串的$key$就是对的$key$. </p>
+<p>爆破出$key$以后就是考虑怎么写$convert$的逆操作, 也就是解密操作,逆出来了就能拿到$IV$了,但是,整了半天没啥头绪, 干脆上Z3直接日, 没想到真的能日出来. </p>
+<p>拿到了$IV$和$Key$, 我们又可能逆操作$convert$, $flagBack$用的是$CBC$模式, 那不是要什么有什么?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># key爆破</span></span><br><span class="line">cip = <span class="string">&#x27;89b8aca257ee2748f030e7f6599cbe0cbb5db25db6d3990d3b752eda9689e30fa2b03ee748e0da3c989da2bba657b912&#x27;</span></span><br><span class="line">cp = [cip[i:i+<span class="number">16</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(cip),<span class="number">16</span>)]</span><br><span class="line"></span><br><span class="line">flag = <span class="string">b&#x27;ByteCTF&#123;&#x27;</span></span><br><span class="line">last = bytes_to_long(flag) ^ <span class="built_in">int</span>(cp[<span class="number">0</span>],<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(-<span class="number">32</span>, <span class="number">33</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(-<span class="number">32</span>, <span class="number">33</span>):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(-<span class="number">32</span>, <span class="number">33</span>):</span><br><span class="line">            <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(-<span class="number">32</span>, <span class="number">33</span>):</span><br><span class="line">                last = bytes_to_long(flag) ^ <span class="built_in">int</span>(cp[<span class="number">0</span>],<span class="number">16</span>)</span><br><span class="line">                keys = [i,j,k,l]</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    m1,last = decry_ofb(<span class="built_in">int</span>(cp[<span class="number">1</span>],<span class="number">16</span>),keys,last)</span><br><span class="line">                    M = m1.decode(<span class="string">&#x27;ASCII&#x27;</span>)</span><br><span class="line">                    m2,last = decry_ofb(<span class="built_in">int</span>(cp[<span class="number">2</span>],<span class="number">16</span>),keys,last)</span><br><span class="line">                    M = M + m2.decode(<span class="string">&#x27;ASCII&#x27;</span>)</span><br><span class="line">                    <span class="keyword">if</span> check(M):</span><br><span class="line">                        print(M,keys)</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># [-12, 26, -3, -31]</span></span><br><span class="line">key = [-<span class="number">12</span>, <span class="number">26</span>, -<span class="number">3</span>, -<span class="number">31</span>]</span><br><span class="line">IV = <span class="number">16476971533267772345</span></span><br><span class="line"></span><br><span class="line">S = z3.Solver()</span><br><span class="line">x = z3.BitVec(<span class="string">&#x27;x&#x27;</span>,<span class="number">65</span>)</span><br><span class="line">S.add(convert(x,key) == <span class="built_in">int</span>(cp[<span class="number">5</span>],<span class="number">16</span>))</span><br><span class="line"><span class="keyword">if</span> S.check():</span><br><span class="line">    print(S.model())</span><br><span class="line"></span><br><span class="line">print(long_to_bytes(<span class="number">10936161096540945944</span> ^ <span class="built_in">int</span>(cp[<span class="number">4</span>],<span class="number">16</span>)))</span><br><span class="line"><span class="comment"># 这是最后一个密文分组的Z3脚本, 每个分组都是手动填参数算出来的, 一共四个分组, OFB一个分组, CBC三个分组都需要Z3</span></span><br><span class="line"><span class="comment"># 注意的是有时候Z3会有多个解, 需要转成字符串判断是不是正确的解, 不正确的排除掉</span></span><br></pre></td></tr></table></figure>
+
+<p>md爆破key的时候忘了每次都重置一下<code>last</code>, 爆了一上午的key都没有结果, 属实纯铸币了这波, 还好下午赶着打apex, 硬是重新写了遍脚本才发现问题. </p>
+<p>总之z3 yyds!</p>
+<h1 id="abusedkey"><a href="#abusedkey" class="headerlink" title="abusedkey"></a>abusedkey</h1><p>两个没有见过的协议, 看到就想摸了, 后面没新题属实是摸不下去了, 题目都快穿了都, 赶紧解压附件看题. 这协议也就是看着烦而已, 认真看下去还是可以做的, 就是tm给hint还给的这么麻烦, 直接跳过hint了</p>
+<p>题目给的协议过程就不复述了, 第一个协议的关键部分在下面</p>
+<p>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; $\underleftarrow{\qquad \ \ \ \ \ msg_{12} = T_S \qquad \ \ \ \ \ }$</p>
+<p>&emsp;&emsp;&emsp;&emsp;$t_C \stackrel{R}{\leftarrow} {\mathbb Z}_p^*$</p>
+<p>&emsp;&emsp;&emsp;&emsp;$T_C = r_C \cdot G$</p>
+<p>&emsp;&emsp;&emsp;&emsp;$K_{CS} = (d_C+t_C)\cdot T_S + t_C\cdot P_S$</p>
+<p>&emsp;&emsp;&emsp;&emsp;$sk_1 = \mathcal{H}({K_{CS}}_x)$</p>
+<p>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;$\underrightarrow{\qquad \ msg_{13} = sid_1||T_C\qquad \ }$</p>
+<p>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$K_{CS} = (d_S+t_S)\cdot T_C + t_S\cdot P_C$</p>
+<p>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$sk_1 = \mathcal{H}({K_{CS}}_x)$</p>
+<p>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$C_{flag} = E_{sk_1}(flag)$</p>
+<p>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; $\underleftarrow{\qquad \ \ \ msg_{14} = C_{flag} \qquad \ \ \ \ }$</p>
+<p>&emsp;&emsp;&emsp;&emsp;$flag = D_{sk_1}(C_{flag})$</p>
+<p>最后得到的是$AES-GCM$加密过后的$flag$, 要解密肯定得知道$sk$也就是要知道$K_{CS}$, 问题在于这题我们不知道应该知道的$d_C$和$P_S$ , 这就没办法算$K_{CS}$了.</p>
+<p>不过后面有提到: </p>
+<blockquote>
+<p>Server的私钥/口令哈希，都源自同一个2字节口令，即$\pi_S \in {0,1}^{16}$，并且$d_S = {\mathcal H}(\pi_S)$；</p>
+</blockquote>
+<p>好家伙$16$位的口令, 又是这么短的, $d_S$那不是直接爆吗老哥, </p>
+<p>有$d_S$就等于有$P_S$了, 那么问题的关键就在于怎么去选择$t_C$, 使得$d_C$不用知道也能计算$sk$, 那第一眼看到的不就是$d_C+t_C$这一项吗? 直接取$t_C = - d_C$, 那整个$K_{CS}$的计算就变成<br>$$<br>K_{CS} = t_C \cdot P_S = -d_C \cdot d_S \cdot G = -P_C \cdot d_S<br>$$<br>$P_C$就是客户的公钥, 这个是有的, </p>
+<p>到这里我们就能够计算$K_{CS}$再计算$sk$,最后用$sk$解密$flag$就行</p>
+<p>至于协议二, 没研究怎么整, 赛后听L-team的帝叁叁币四踢零爷说协议二就是给$d_S$的, 所以结果是我太暴力了是吗?</p>
+<p>爆, 能爆的都可以爆, 爆就完事了, 就是爆$d_S$的时候发现小小的一个16位居然要花我20分钟, 赶紧打开TIMI来一把, 没想到十分钟$flag$就出来了, 果断点了投降交$flag$了.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes,bytes_to_long</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line">url = <span class="string">&#x27;http://39.105.181.182:30000/abusedkey/server/msg11&#x27;</span></span><br><span class="line">session_id = <span class="string">&#x27;8cae789b1eac36ad274ee14cac147bdf2dde49585c8db2463d5b6b5f7f44e4da&#x27;</span></span><br><span class="line">p = <span class="number">2</span> ^ <span class="number">256</span> - <span class="number">2</span>^<span class="number">32</span> - <span class="number">977</span></span><br><span class="line">Ep = EllipticCurve(GF(p),[<span class="number">0</span>,<span class="number">7</span>])</span><br><span class="line">G = Ep((<span class="number">0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798</span>,<span class="number">0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8</span>))</span><br><span class="line">Pc = Ep((<span class="number">0xb5b1b07d251b299844d968be56284ef32dffd0baa6a0353baf10c90298dfd117</span>,<span class="number">0xea62978d102a76c3d6747e283091ac5f2b4c3ba5fc7a906fe023ee3bc61b50fe</span>))</span><br><span class="line"></span><br><span class="line">Msg12 = requests.get(url,data=session_id).text</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://39.105.181.182:30000/abusedkey/server/msg13&#x27;</span></span><br><span class="line">Tc = -Pc</span><br><span class="line"></span><br><span class="line">data13 =  session_id + <span class="built_in">hex</span>(Tc[<span class="number">0</span>])[<span class="number">2</span>:].ljust(<span class="number">64</span>,<span class="string">&#x27;0&#x27;</span>) + <span class="built_in">hex</span>(Tc[<span class="number">1</span>])[<span class="number">2</span>:].ljust(<span class="number">64</span>,<span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">Msg14 = long_to_bytes(<span class="built_in">int</span>(requests.get(url,data=data13).text,<span class="number">16</span>))</span><br><span class="line">iv = Msg14[:<span class="number">12</span>]</span><br><span class="line">enc_flag = Msg14[<span class="number">12</span>:-<span class="number">16</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(<span class="number">2</span>**<span class="number">16</span>)):</span><br><span class="line">    ds = bytes_to_long(sha256(long_to_bytes(i)).digest())</span><br><span class="line">    KCS = -ds * Pc</span><br><span class="line">    sk = sha256(long_to_bytes(KCS[<span class="number">0</span>])).digest()</span><br><span class="line">    A = AES.new(sk,AES.MODE_GCM,iv)</span><br><span class="line">    flag = A.decrypt(enc_flag)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">b&#x27;Byte&#x27;</span> <span class="keyword">in</span> flag:</span><br><span class="line">        print(flag)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Overheard"><a href="#Overheard" class="headerlink" title="Overheard"></a>Overheard</h1><p>题目就那么几行, 流程倒是挺容易懂的, 就是一开始以为考点是Elgamal啥的, 后来才发现就是日格子?</p>
+<p>题目给的条件先列举一下<br>$$<br>Alice : g^a = A\mod p \<br>Bob : g^b = B\mod p \<br>g^{ab} = C_1 + x_1 \mod p  \<br>g^{2ab}  = C_2 + x_2 \mod p<br>$$<br>$A,B,C_1,C_2$是已知的, 解释一下后面两行, 后面两行就是利用<code>to_bob()</code>函数, 传$g^a,g^{2a}$得到的, 重点就是后面那两行式子, 把$g^{ab}$代进最后一行就可以有<br>$$<br>(C_1 + x_1)^2 = C_2 + x_2 + kp \<br>=&gt; x_1^2 - x_2 = (C_2 - C_1^2) - 2C_1x_1 + kp<br>$$<br>看到这种等式马上就想到鸽鸡龟约了, 而且$x$都很小, 64位, 直接根据等式造格子就vans了<br>$$<br>(1,x_1,k)<br>\begin{pmatrix}<br>R &amp; 0 &amp; C_2 - C_1^2 \<br>0 &amp; 1 &amp; -2C_1 \<br>0 &amp; 0 &amp; p<br>\end{pmatrix}<br>=<br>(R,x_1,x_1^2 - x_2)<br>$$<br>这个格子有个细节就是第三行得是$p$而不是$-2C_1$, 否则目标向量里会有$k$, 而不是$x_1$, $x_1$才是我们想要的啊. 这波细不细</p>
+<p>$R$喜闻乐见就是调$det$用的, 从$1$遍历到$128$就行了</p>
+<p>规约出短向量就有$x_1$了, 直接算$C_1 + x_1$就是$g^{ab} \mod p$了</p>
+<p>由于sagemath很难装pwntools, 我的机器没办法直接写一次性打的脚本, 只能靠手速把条件复制出来扔进sage里跑再手动扔回给服务器(其实就是懒得开wsl了, 你还别说, 这10s内复制黏贴进sage再复制结果回来发过去还真有些难, 还好平时有锻炼手速, 不然还真拿不到这题的二血</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 连接用脚本</span></span><br><span class="line"><span class="keyword">import</span> pwn</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> invert</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line">p = <span class="number">62606792596600834911820789765744078048692259104005438531455193685836606544743</span></span><br><span class="line">g = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">con = pwn.remote(<span class="string">&#x27;39.105.38.192&#x27;</span>,<span class="number">30000</span>)</span><br><span class="line">resp = con.recvuntil(<span class="string">&quot;$ &quot;</span>).decode()</span><br><span class="line">con.sendline(<span class="string">&#x27;1&#x27;</span>.encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&quot;$ &quot;</span>).decode()</span><br><span class="line">Alice = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">con.sendline(<span class="string">&#x27;2&#x27;</span>.encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&quot;$ &quot;</span>).decode()</span><br><span class="line">Bob = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">con.sendline(<span class="string">&#x27;3&#x27;</span>.encode())</span><br><span class="line">resp = con.recv(<span class="number">1024</span>).decode()</span><br><span class="line">con.sendline(<span class="built_in">str</span>(Alice).encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&quot;$ &quot;</span>).decode()</span><br><span class="line">AliceBob = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">&#x27;c1 = &#x27;</span>,AliceBob)</span><br><span class="line"></span><br><span class="line">con.sendline(<span class="string">&#x27;3&#x27;</span>.encode())</span><br><span class="line">resp = con.recv(<span class="number">1024</span>).decode()</span><br><span class="line">con.sendline(<span class="built_in">str</span>(<span class="built_in">pow</span>(Alice,<span class="number">2</span>,p)).encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&quot;$ &quot;</span>).decode()</span><br><span class="line">AliceBob = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">&#x27;c2 = &#x27;</span>,AliceBob)</span><br><span class="line"></span><br><span class="line">con.sendline(<span class="string">&#x27;4&#x27;</span>.encode())</span><br><span class="line">resp = con.recv(<span class="number">1024</span>).decode()</span><br><span class="line">SEND = <span class="built_in">input</span>(<span class="string">&#x27;send: &#x27;</span>)</span><br><span class="line">con.sendline(<span class="built_in">str</span>(SEND).encode())</span><br><span class="line">resp = con.recv()</span><br><span class="line">print(resp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># sage</span></span><br><span class="line">c1 =  <span class="number">29599245400103510126844665705234428663959969687042945989429410277722893058048</span></span><br><span class="line">c2 =  <span class="number">17549134874331317464534964139671627000441097203060226867571953366738719997952</span></span><br><span class="line">p = <span class="number">62606792596600834911820789765744078048692259104005438531455193685836606544743</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">128</span>):</span><br><span class="line">    M = Matrix([[<span class="number">2</span>^i,<span class="number">0</span>,c2 - c1 ^<span class="number">2</span>],[<span class="number">0</span>,<span class="number">1</span>,-<span class="number">2</span> * c1],[<span class="number">0</span>,<span class="number">0</span>,-p]])</span><br><span class="line">    <span class="keyword">if</span> M.LLL()[<span class="number">0</span>][<span class="number">0</span>] //  (<span class="number">2</span> ^ i) == <span class="number">1</span>:</span><br><span class="line">        res = M.LLL()[<span class="number">0</span>]</span><br><span class="line">        print(M.LLL()[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">        </span><br><span class="line">x1 = res[<span class="number">1</span>]</span><br><span class="line">x1 + c1  <span class="comment"># g^ab</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="JustDecrypt"><a href="#JustDecrypt" class="headerlink" title="JustDecrypt"></a>JustDecrypt</h1><p>就是这题试了快一天, 在别人家的学校的图书馆吹风坐了一下午cao</p>
+<p>说实话这题整了半天到现在也没搞懂这Crypto库的<code>AES-CFB</code>是怎样的模式, 反正就很离谱, 那个IV就不知道它是拿来怎么用的,还好硬是看规律摸出来了</p>
+<p>要关注的第一个点是<code>unpad()</code>函数, 这个函数太简单了,出大问题, 可以通过控制解密出的明文的最后一个字节, 来进行对解密的明文按自己需要来截断</p>
+<p>第二个点就是这个奇怪的<code>Crypto.AES_CFB</code> , 反正就是乱传各种数字给服务器, 传了可能一个上午吧大概,发了一堆0和1后发现,</p>
+<ol>
+<li>更改密文的某一个字节的时候, 最多影响后面的16个字节的解密</li>
+<li>某个字节从<code>\x00</code>更改到<code>\x??</code>, 那么解密出的明文对应的那个字节会异或<code>\x??</code></li>
+<li>每次解密用的$IV$, 似乎是上一个密文的后$16$个字节(?存疑问</li>
+</ol>
+<p>用上面三个结论, 我们就能构造目标明文对应的密文了</p>
+<ol>
+<li><p>我们先传2048 * <code>\x00</code>, 会得到一串<code>abababababab</code>这种形式的明文, 根据这个明文计算<code>END = ab ^ 1</code> , 以后每次传的密文最后都带着<code>END</code>, 并且<code>END</code>前面的密文的16个字节都是<code>\x00</code> ,就能控制解密出的明文的最后一个字节是<code>\x01</code>, 这样把返回的明文的长度控制在最长, 我们可以更改<code>END = ab ^ 1</code>中的1, 从而可以控制返回的明文为任意长度.</p>
+</li>
+<li><p><code>Hello, I&#39;m a Bytedancer. Please give me the flag!</code>对应的十六进制是</p>
+<p><code>48656c6c6f2c2049276d2061204279746564616e6365722e20506c656173652067697665206d652074686520666c616721</code></p>
+</li>
+<li><p>假设我们第一步得到的<code>ababababab</code>形式的明文是<code>7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c</code></p>
+<p>那么构造的密文的第一位就是<code>0x7c ^ 0x48 = 0x34</code>, 接下来就传<code>\x00</code> * 32 +<code>\x34</code> + <code>\x00</code> * 2012 + <code>END</code></p>
+<p>假设返回的明文是<code>xxxxxxxxxxxxxxxxxxxxxxx4820506c656173xxxxxxxxx7c7c7c7c7c7c7c7c7c7c7c7c7c7cc7c7c7</code>c</p>
+<p>那么构造的密文的第二位就是<code>0x20 ^ 0x65 = 0x45</code> (<code>0x20</code>是上面<code>48</code>的后面一个字节, <code>0x65</code>是我的目标明文也就是<code>Hello</code>中的<code>e</code>), 然后继续传<code>\x00</code> * 32 +<code>\x34\x45</code> + <code>\x00</code> * 2010 + <code>END</code> 以此类推</p>
+</li>
+<li><p>最后构造出我们需要的密文后, 再用1中控制返回明文长度的方法, 把明文截断到刚好是</p>
+<p><code>Hello, I&#39;m a Bytedancer. Please give me the flag!</code>即可</p>
+</li>
+</ol>
+<p>上面的过程需要不断的调试才能整的明白… 由于远程是有<code>proof_of_work()</code>的, 建议在本地关掉<code>proof_of_work()</code>打完本地再打远程, 不然可能就会感受半分钟调试一次, 半年拿到flag的感觉吧</p>
+<p>下面的脚本是打比赛的时候写的, 在构造密文的时候把传的密文分成了三段来进行上述的过程, 效果是一样的.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pwn</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proof</span>(<span class="params">END, HASH</span>):</span></span><br><span class="line">    table = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> table:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> table:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> table:</span><br><span class="line">                <span class="keyword">for</span> l <span class="keyword">in</span> table:</span><br><span class="line">                    STR = i + j + k + l + END</span><br><span class="line">                    <span class="keyword">if</span> sha256(STR.encode()).hexdigest() == HASH:</span><br><span class="line">                        print(i + j + k + l)</span><br><span class="line">                        <span class="keyword">return</span> i + j + k + l</span><br><span class="line"></span><br><span class="line">pt = <span class="string">b&quot;Hello, I&#x27;m a Bytedancer. Please give me the flag!&quot;</span></span><br><span class="line">con = pwn.remote(<span class="string">&#x27;39.105.181.182&#x27;</span>, <span class="number">30001</span>)</span><br><span class="line">resp = con.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>).decode().split(<span class="string">&#x27;\n&#x27;</span>)[-<span class="number">2</span>]</span><br><span class="line">END = resp[<span class="number">12</span>:<span class="number">40</span>]</span><br><span class="line">HASH = resp[<span class="number">45</span>:]</span><br><span class="line">con.sendline(proof(END,HASH).encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>).decode()</span><br><span class="line">con.sendline((<span class="string">&#x27;0&#x27;</span> * <span class="number">1024</span>).encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>).decode()</span><br><span class="line">tmp = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">1</span>][<span class="number">32</span>:<span class="number">34</span>], <span class="number">16</span>)</span><br><span class="line">END = <span class="built_in">hex</span>(tmp ^ <span class="number">1</span>)[<span class="number">2</span>:].ljust(<span class="number">2</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">DATA = [<span class="string">&#x27;0&#x27;</span>] * <span class="number">1022</span> + [END[<span class="number">0</span>] , END[<span class="number">1</span>]]</span><br><span class="line">roundnum = <span class="string">&#x27;&#x27;</span></span><br><span class="line">TABLE = [<span class="number">50</span>,<span class="number">250</span>,<span class="number">450</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">49</span>):</span><br><span class="line">    sleep(<span class="number">1</span>)</span><br><span class="line">    idx = TABLE[i % <span class="number">3</span>]</span><br><span class="line">    roundnum += <span class="built_in">hex</span>(tmp ^ pt[i])[<span class="number">2</span>:].rjust(<span class="number">2</span>,<span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(roundnum)):</span><br><span class="line">        DATA[idx + j] = roundnum[j]</span><br><span class="line">    con.sendline((<span class="string">&#x27;&#x27;</span>.join(DATA)).encode())</span><br><span class="line">    resp = con.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>).decode()    </span><br><span class="line">    print(i,roundnum.zfill(<span class="number">98</span>))</span><br><span class="line">    tmp = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">1</span>][TABLE[i%<span class="number">3</span>]+<span class="number">2</span>*i + <span class="number">2</span>:TABLE[i%<span class="number">3</span>]+<span class="number">2</span>+<span class="number">2</span>*i + <span class="number">2</span>],<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">roundnum += <span class="built_in">hex</span>(tmp ^ pt[i])[<span class="number">2</span>:].ljust(<span class="number">2</span>,<span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">con.sendline((<span class="string">&#x27;0&#x27;</span> * <span class="number">2048</span>).encode())</span><br><span class="line">resp = con.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>).decode()</span><br><span class="line">tmp = <span class="built_in">int</span>(resp.split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">1</span>][<span class="number">32</span>:<span class="number">34</span>], <span class="number">16</span>)</span><br><span class="line">print(<span class="built_in">hex</span>(tmp))</span><br><span class="line">END = <span class="built_in">hex</span>(tmp ^ <span class="number">31</span>)[<span class="number">2</span>:].ljust(<span class="number">2</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">print(<span class="built_in">len</span>(roundnum),<span class="built_in">len</span>(roundnum + END * <span class="number">15</span>))</span><br><span class="line">con.sendline((roundnum + <span class="number">58</span> * <span class="string">&#x27;0&#x27;</span>+ END).encode())</span><br><span class="line">resp = con.recv()</span><br><span class="line">print(resp)</span><br><span class="line">resp = con.recv()</span><br><span class="line">print(resp)</span><br><span class="line">resp = con.recv()</span><br><span class="line">print(resp)</span><br></pre></td></tr></table></figure>
+
+<p>总之就是硬摸, 反正也不是什么复杂的过程, 看图找规律了属于是</p>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="http://tearsjin.github.io">K1rit0</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="http://tearsjin.github.io/2021/10/18/writeup-for-2021-ByteCTF-%E7%BA%BF%E4%B8%8A/">http://tearsjin.github.io/2021/10/18/writeup-for-2021-ByteCTF-%E7%BA%BF%E4%B8%8A/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Crypto/">Crypto</a>
+            <a href="/tags/WriteUp/">WriteUp</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2022/02/21/2021%E9%95%BF%E5%9F%8E%E6%9D%AF/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">crypto复健-2021长城杯</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2021/09/18/writeup-for-2021-%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4/">
+        <span class="next-text nav-default">writeup-for-2021-第五空间</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/tearsjin" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2022<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">K1rit0</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
