@@ -1,6 +1,118 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="k1rit0"><title>writeup-for-2021-第五空间 · K1rit0's Blog</title><meta name="description" content="算是第一次AK密码?
 
-eccproblem1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465print '"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="/links">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="https://avatars.githubusercontent.com/u/56160386?s=96&amp;v=4"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="https://avatars.githubusercontent.com/u/56160386?s=400&amp;v=4" style="width:220px;" alt="favicon"><h3 title=""><a href="/">K1rit0's Blog</a></h3><div class="description"><p>just for fun</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/tearsjin"><i class="fa fa-github"></i></a></li><li><a href="mailto:k1rit0@qq.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=3519728596"><i class="fa fa-qq"></i></a></li></ul></div></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> k1rit0</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>writeup-for-2021-第五空间</a></h3></div><div class="post-content"><p><blockquote>
+eccproblem1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465print '"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 5.4.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="/links">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="https://avatars.githubusercontent.com/u/56160386?s=96&amp;v=4"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="https://avatars.githubusercontent.com/u/56160386?s=400&amp;v=4" style="width:220px;" alt="favicon"><h3 title=""><a href="/">K1rit0's Blog</a></h3><div class="description"><p>just for fun</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/tearsjin"><i class="fa fa-github"></i></a></li><li><a href="mailto:k1rit0@qq.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=3519728596"><i class="fa fa-qq"></i></a></li></ul></div></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> k1rit0</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>writeup-for-2021-第五空间</a></h3></div><div class="post-content"><p><blockquote>
 <p>算是第一次AK密码?</p>
 </blockquote>
 <h1 id="ecc"><a href="#ecc" class="headerlink" title="ecc"></a>ecc</h1><h2 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span> <span class="string">'Try to solve the 3 ECC'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">assert</span>(flag[:<span class="number">5</span>]==<span class="string">'flag{'</span>)</span><br><span class="line">flag = flag[<span class="number">5</span>:-<span class="number">1</span>]</span><br><span class="line">num1 = bytes_to_long(flag[:<span class="number">7</span>])</span><br><span class="line">num2 = bytes_to_long(flag[<span class="number">7</span>:<span class="number">14</span>])</span><br><span class="line">num3 = bytes_to_long(flag[<span class="number">14</span>:])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ECC1</span>(<span class="params">num</span>):</span></span><br><span class="line">	p = <span class="number">146808027458411567</span></span><br><span class="line">	A = <span class="number">46056180</span></span><br><span class="line">	B = <span class="number">2316783294673</span></span><br><span class="line">	E = EllipticCurve(GF(p),[A,B])</span><br><span class="line">	P = E.random_point() </span><br><span class="line">	Q = num*P</span><br><span class="line">	<span class="built_in">print</span> E</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'P:'</span>,P</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'Q:'</span>,Q</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ECC2</span>(<span class="params">num</span>):</span></span><br><span class="line">	p = <span class="number">1256438680873352167711863680253958927079458741172412327087203</span></span><br><span class="line">	<span class="comment">#import random</span></span><br><span class="line">	<span class="comment">#A = random.randrange(389718923781273978681723687163812)</span></span><br><span class="line">	<span class="comment">#B = random.randrange(816378675675716537126387613131232121431231)</span></span><br><span class="line">	A = <span class="number">377999945830334462584412960368612</span></span><br><span class="line">	B = <span class="number">604811648267717218711247799143415167229480</span></span><br><span class="line">	E = EllipticCurve(GF(p),[A,B])</span><br><span class="line">	P = E.random_point() </span><br><span class="line">	Q = num*P</span><br><span class="line">	<span class="built_in">print</span> E</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'P:'</span>,P</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'Q:'</span>,Q</span><br><span class="line">	factors, exponents = <span class="built_in">zip</span>(*factor(E.order()))</span><br><span class="line">	primes = [factors[i] ^ exponents[i] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(factors))][:-<span class="number">1</span>]</span><br><span class="line">	<span class="built_in">print</span> primes</span><br><span class="line">	dlogs = []</span><br><span class="line">	<span class="keyword">for</span> fac <span class="keyword">in</span> primes:</span><br><span class="line">		t = <span class="built_in">int</span>(<span class="built_in">int</span>(P.order()) / <span class="built_in">int</span>(fac))</span><br><span class="line">		dlog = discrete_log(t*Q,t*P,operation=<span class="string">"+"</span>)</span><br><span class="line">		dlogs += [dlog]</span><br><span class="line">		print(<span class="string">"factor: "</span>+<span class="built_in">str</span>(fac)+<span class="string">", Discrete Log: "</span>+<span class="built_in">str</span>(dlog)) <span class="comment">#calculates discrete logarithm for each prime order</span></span><br><span class="line">	<span class="built_in">print</span> num</span><br><span class="line">	<span class="built_in">print</span> crt(dlogs,primes)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ECC3</span>(<span class="params">num</span>):</span></span><br><span class="line">	p = <span class="number">0xd3ceec4c84af8fa5f3e9af91e00cabacaaaecec3da619400e29a25abececfdc9bd678e2708a58acb1bd15370acc39c596807dab6229dca11fd3a217510258d1b</span></span><br><span class="line">	A = <span class="number">0x95fc77eb3119991a0022168c83eee7178e6c3eeaf75e0fdf1853b8ef4cb97a9058c271ee193b8b27938a07052f918c35eccb027b0b168b4e2566b247b91dc07</span></span><br><span class="line">	B = <span class="number">0x926b0e42376d112ca971569a8d3b3eda12172dfb4929aea13da7f10fb81f3b96bf1e28b4a396a1fcf38d80b463582e45d06a548e0dc0d567fc668bd119c346b2</span></span><br><span class="line">	E = EllipticCurve(GF(p),[A,B])</span><br><span class="line">	P = E.random_point() </span><br><span class="line">	Q = num*P</span><br><span class="line">	<span class="built_in">print</span> E</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'P:'</span>,P</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'Q:'</span>,Q</span><br><span class="line"></span><br><span class="line">ECC1(num1)</span><br><span class="line"><span class="built_in">print</span> <span class="string">'=============='</span></span><br><span class="line">ECC2(num2)</span><br><span class="line"><span class="built_in">print</span> <span class="string">'=============='</span></span><br><span class="line">ECC3(num3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>

