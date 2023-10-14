@@ -1,6 +1,60 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="k1rit0"><title>writeup-for-2021-第五空间 · K1rit0's Blog</title><meta name="description" content="算是第一次AK密码?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
 
-eccproblem1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465print '"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 5.4.0"><style>mjx-container[jax="SVG"] {
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tearsjin.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="算是第一次AK密码?  eccproblem1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465print &#39;Try to solve the 3 ECC&#39;from secret import flagfro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="writeup-for-2021-第五空间">
+<meta property="og:url" content="http://tearsjin.github.io/2021/09/18/writeup-for-2021-%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4/index.html">
+<meta property="og:site_name" content="K1rit0&#39;s Blog">
+<meta property="og:description" content="算是第一次AK密码?  eccproblem1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465print &#39;Try to solve the 3 ECC&#39;from secret import flagfro">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-09-17T16:03:08.000Z">
+<meta property="article:modified_time" content="2022-09-11T02:29:16.000Z">
+<meta property="article:author" content="K1rit0">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="WriteUp">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://tearsjin.github.io/2021/09/18/writeup-for-2021-%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://tearsjin.github.io/2021/09/18/writeup-for-2021-%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4/","path":"2021/09/18/writeup-for-2021-第五空间/","title":"writeup-for-2021-第五空间"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>writeup-for-2021-第五空间 | K1rit0's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
 
@@ -112,7 +166,201 @@ mjx-container[display="true"] {
 mjx-container[display="true"] + br {
   display: none;
 }
-</style></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="/links">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="https://avatars.githubusercontent.com/u/56160386?s=96&amp;v=4"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="https://avatars.githubusercontent.com/u/56160386?s=400&amp;v=4" style="width:220px;" alt="favicon"><h3 title=""><a href="/">K1rit0's Blog</a></h3><div class="description"><p>just for fun</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/tearsjin"><i class="fa fa-github"></i></a></li><li><a href="mailto:k1rit0@qq.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=3519728596"><i class="fa fa-qq"></i></a></li></ul></div></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> k1rit0</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>writeup-for-2021-第五空间</a></h3></div><div class="post-content"><p><blockquote>
+</style><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">K1rit0's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description"> </p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>links</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ecc"><span class="nav-number">1.</span> <span class="nav-text">ecc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#problem"><span class="nav-number">1.1.</span> <span class="nav-text">problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp"><span class="nav-number">1.2.</span> <span class="nav-text">exp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#doublesage"><span class="nav-number">2.</span> <span class="nav-text">doublesage</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#problem-1"><span class="nav-number">2.1.</span> <span class="nav-text">problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp-1"><span class="nav-number">2.2.</span> <span class="nav-text">exp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#secrets"><span class="nav-number">3.</span> <span class="nav-text">secrets</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#problem-2"><span class="nav-number">3.1.</span> <span class="nav-text">problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp-2"><span class="nav-number">3.2.</span> <span class="nav-text">exp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#signin"><span class="nav-number">4.</span> <span class="nav-text">signin</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#problem-3"><span class="nav-number">4.1.</span> <span class="nav-text">problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp-3"><span class="nav-number">4.2.</span> <span class="nav-text">exp</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="K1rit0"
+      src="https://avatars.githubusercontent.com/u/56160386?s=96&v=4">
+  <p class="site-author-name" itemprop="name">K1rit0</p>
+  <div class="site-description" itemprop="description"> </div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tearsjin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tearsjin" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:k1rit0@qq.com" title="E-Mail → mailto:k1rit0@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://tearsjin.github.io/2021/09/18/writeup-for-2021-%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/56160386?s=96&v=4">
+      <meta itemprop="name" content="K1rit0">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="K1rit0's Blog">
+      <meta itemprop="description" content=" ">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="writeup-for-2021-第五空间 | K1rit0's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          writeup-for-2021-第五空间
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-18 00:03:08" itemprop="dateCreated datePublished" datetime="2021-09-18T00:03:08+08:00">2021-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-09-11 10:29:16" itemprop="dateModified" datetime="2022-09-11T10:29:16+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>21k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>19 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
 <p>算是第一次AK密码?</p>
 </blockquote>
 <h1 id="ecc"><a href="#ecc" class="headerlink" title="ecc"></a>ecc</h1><h2 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span> <span class="string">'Try to solve the 3 ECC'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">assert</span>(flag[:<span class="number">5</span>]==<span class="string">'flag{'</span>)</span><br><span class="line">flag = flag[<span class="number">5</span>:-<span class="number">1</span>]</span><br><span class="line">num1 = bytes_to_long(flag[:<span class="number">7</span>])</span><br><span class="line">num2 = bytes_to_long(flag[<span class="number">7</span>:<span class="number">14</span>])</span><br><span class="line">num3 = bytes_to_long(flag[<span class="number">14</span>:])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ECC1</span>(<span class="params">num</span>):</span></span><br><span class="line">	p = <span class="number">146808027458411567</span></span><br><span class="line">	A = <span class="number">46056180</span></span><br><span class="line">	B = <span class="number">2316783294673</span></span><br><span class="line">	E = EllipticCurve(GF(p),[A,B])</span><br><span class="line">	P = E.random_point() </span><br><span class="line">	Q = num*P</span><br><span class="line">	<span class="built_in">print</span> E</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'P:'</span>,P</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'Q:'</span>,Q</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ECC2</span>(<span class="params">num</span>):</span></span><br><span class="line">	p = <span class="number">1256438680873352167711863680253958927079458741172412327087203</span></span><br><span class="line">	<span class="comment">#import random</span></span><br><span class="line">	<span class="comment">#A = random.randrange(389718923781273978681723687163812)</span></span><br><span class="line">	<span class="comment">#B = random.randrange(816378675675716537126387613131232121431231)</span></span><br><span class="line">	A = <span class="number">377999945830334462584412960368612</span></span><br><span class="line">	B = <span class="number">604811648267717218711247799143415167229480</span></span><br><span class="line">	E = EllipticCurve(GF(p),[A,B])</span><br><span class="line">	P = E.random_point() </span><br><span class="line">	Q = num*P</span><br><span class="line">	<span class="built_in">print</span> E</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'P:'</span>,P</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'Q:'</span>,Q</span><br><span class="line">	factors, exponents = <span class="built_in">zip</span>(*factor(E.order()))</span><br><span class="line">	primes = [factors[i] ^ exponents[i] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(factors))][:-<span class="number">1</span>]</span><br><span class="line">	<span class="built_in">print</span> primes</span><br><span class="line">	dlogs = []</span><br><span class="line">	<span class="keyword">for</span> fac <span class="keyword">in</span> primes:</span><br><span class="line">		t = <span class="built_in">int</span>(<span class="built_in">int</span>(P.order()) / <span class="built_in">int</span>(fac))</span><br><span class="line">		dlog = discrete_log(t*Q,t*P,operation=<span class="string">"+"</span>)</span><br><span class="line">		dlogs += [dlog]</span><br><span class="line">		print(<span class="string">"factor: "</span>+<span class="built_in">str</span>(fac)+<span class="string">", Discrete Log: "</span>+<span class="built_in">str</span>(dlog)) <span class="comment">#calculates discrete logarithm for each prime order</span></span><br><span class="line">	<span class="built_in">print</span> num</span><br><span class="line">	<span class="built_in">print</span> crt(dlogs,primes)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ECC3</span>(<span class="params">num</span>):</span></span><br><span class="line">	p = <span class="number">0xd3ceec4c84af8fa5f3e9af91e00cabacaaaecec3da619400e29a25abececfdc9bd678e2708a58acb1bd15370acc39c596807dab6229dca11fd3a217510258d1b</span></span><br><span class="line">	A = <span class="number">0x95fc77eb3119991a0022168c83eee7178e6c3eeaf75e0fdf1853b8ef4cb97a9058c271ee193b8b27938a07052f918c35eccb027b0b168b4e2566b247b91dc07</span></span><br><span class="line">	B = <span class="number">0x926b0e42376d112ca971569a8d3b3eda12172dfb4929aea13da7f10fb81f3b96bf1e28b4a396a1fcf38d80b463582e45d06a548e0dc0d567fc668bd119c346b2</span></span><br><span class="line">	E = EllipticCurve(GF(p),[A,B])</span><br><span class="line">	P = E.random_point() </span><br><span class="line">	Q = num*P</span><br><span class="line">	<span class="built_in">print</span> E</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'P:'</span>,P</span><br><span class="line">	<span class="built_in">print</span> <span class="string">'Q:'</span>,Q</span><br><span class="line"></span><br><span class="line">ECC1(num1)</span><br><span class="line"><span class="built_in">print</span> <span class="string">'=============='</span></span><br><span class="line">ECC2(num2)</span><br><span class="line"><span class="built_in">print</span> <span class="string">'=============='</span></span><br><span class="line">ECC3(num3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -134,4 +382,109 @@ mjx-container[display="true"] + br {
 <p>依旧可以用bfs得到p的低400左右的位数</p>
 <p>然后copper   p一共就512位</p>
 <h2 id="exp-3"><a href="#exp-3" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line">c = <span class="number">41079136228776331983513986502894911009747944746334405367181525535644429164244074690458675696682154772257649811625401364517966224711291000199478649309514306511977247475050430881892635166215911325729515065570801798281126631754714292634605360578171629351703909902943766832088848829679735266081587467028354629832</span></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">n = <span class="number">88873300622677925132392673651975872286851841516213062658793503010409158793653030553313986481205677326846210604582870123515082097235868012724220463515351466605298734168814756198761860328588678124560858545154560701982246840286690871368569184620040790812223630254910190657002367120010677907467764741789052920477</span></span><br><span class="line">x = <span class="built_in">bin</span>(<span class="number">138384108215091704603441412066611031482512354164750119910659929381838248956079740784293945420743011870999379776464932828</span>)[<span class="number">2</span>:]</span><br><span class="line">P = []</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find</span>(<span class="params">guessp,i</span>):</span></span><br><span class="line">    p = <span class="built_in">int</span>(guessp,<span class="number">2</span>)</span><br><span class="line">    q = <span class="built_in">int</span>(x[-i:],<span class="number">2</span>) ^^ p</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (q * p) % <span class="number">2</span> ** i == n % <span class="number">2</span> ** i:</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">399</span>:</span><br><span class="line">            P.append(p)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            find(<span class="string">'1'</span>+guessp,i+<span class="number">1</span>)</span><br><span class="line">            find(<span class="string">'0'</span>+guessp,i+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">find(<span class="string">'1'</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="built_in">len</span>(P))</span><br><span class="line">pbits = <span class="number">512</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(<span class="built_in">len</span>(P))):</span><br><span class="line">    _p = P[i]</span><br><span class="line">    kbits = <span class="number">512</span> - <span class="built_in">len</span>(<span class="built_in">bin</span>(_p)[<span class="number">2</span>:])</span><br><span class="line">    R.&lt;x&gt; = Zmod(n)[]</span><br><span class="line">    f = P[i] + x * <span class="number">2</span>^<span class="built_in">len</span>(<span class="built_in">bin</span>(_p)[<span class="number">2</span>:])</span><br><span class="line">    f = f.monic()</span><br><span class="line">    roots = f.small_roots(X=<span class="number">2</span>^kbits,beta=<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">if</span> roots:</span><br><span class="line">        p = <span class="built_in">int</span>(_p + roots[<span class="number">0</span>]* <span class="number">2</span>^<span class="built_in">len</span>(<span class="built_in">bin</span>(_p)[<span class="number">2</span>:]))</span><br><span class="line">        print(_p + roots[<span class="number">0</span>]* <span class="number">2</span>^<span class="built_in">len</span>(<span class="built_in">bin</span>(_p)[<span class="number">2</span>:]))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">q = n // p</span><br><span class="line"><span class="keyword">assert</span> p * q == n</span><br><span class="line">phi = (q - <span class="number">1</span>) * (p - <span class="number">1</span>)</span><br><span class="line">d = inverse_mod(e,phi)</span><br><span class="line">long_to_bytes(<span class="built_in">pow</span>(c,d,n))</span><br></pre></td></tr></table></figure>
-</p><div class="tip">本文采用CC-BY-SA-3.0协议，转载请注明出处<br>Author: k1rit0</div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2021-09-18</span><a class="tag" href="/categories/WriteUp/" title="WriteUp">WriteUp </a><i class="fa fa-tag"></i><a class="tag" href="/tags/Crypto/" title="Crypto">Crypto </a><i class="fa fa-tag"></i><a class="tag" href="/tags/WriteUp/" title="WriteUp">WriteUp </a><span class="leancloud_visitors"></span><span>About 1673 words, 5 min 34 sec  read</span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://tearsjin.github.io/2021/09/18/writeup-for-2021-第五空间/,K1rit0's Blog,writeup-for-2021-第五空间,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2021/10/18/writeup-for-2021-ByteCTF-%E7%BA%BF%E4%B8%8A/" title="writeup for 2021 ByteCTF 线上">Previous</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2021/09/14/writeup-for-2021-RCTF/" title="writeup-for-2021-RCTF">Next</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:"Posts",PAGES:"Pages",CATEGORIES:"Categories",TAGS:"Tags",UNTITLED:"(Untitled)",},CONTENT_URL:"/content.json",};window.INSIGHT_CONFIG=INSIGHT_CONFIG})(window);</script><script src="/js/insight.js" defer></script><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="Search..."><span class="searchbox-close"><a class="fa fa-times-circle" onclick="closeWindow();"></a></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"><p>Seraching...</p></div></div></div></div></body></html>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+              <a href="/tags/WriteUp/" rel="tag"># WriteUp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/14/writeup-for-2021-RCTF/" rel="prev" title="writeup-for-2021-RCTF">
+                  <i class="fa fa-angle-left"></i> writeup-for-2021-RCTF
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/18/writeup-for-2021-ByteCTF-%E7%BA%BF%E4%B8%8A/" rel="next" title="writeup for 2021 ByteCTF 线上">
+                  writeup for 2021 ByteCTF 线上 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">K1rit0</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">350k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:18</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

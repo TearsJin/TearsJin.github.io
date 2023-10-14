@@ -1,8 +1,60 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="k1rit0"><title>PHP Weak type about MD5 · K1rit0's Blog</title><meta name="description" content="主要就是对一些在PHP中MD5值判断的漏洞的积累吧(每次都要查payload很麻烦的
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
 
-为了方便, 文章中的所有变量都不带$
-1. a != b and md5(a) == md5(b)
-用==来判断两个变量(这样写肯定会被学长骂的!!!, 怎么绕过呢?先给出两个字符串吧QNKCDZO 和 2406"><meta name="keywords" content="Blog,博客,Hexo"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/insight.css"><link rel="stylesheet" href="/css/search.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 5.4.0"><style>mjx-container[jax="SVG"] {
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tearsjin.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="主要就是对一些在PHP中MD5值判断的漏洞的积累吧(每次都要查payload很麻烦的  为了方便, 文章中的所有变量都不带$ 1. a !&#x3D; b and md5(a) &#x3D;&#x3D; md5(b) 用&#x3D;&#x3D;来判断两个变量(这样写肯定会被学长骂的!!!, 怎么绕过呢?先给出两个字符串吧QNKCDZO 和 240610708 而这两个字符串的MD5值为120e830400451993494058024219903">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP Weak type about MD5">
+<meta property="og:url" content="http://tearsjin.github.io/2020/10/22/web-md5%E5%BC%B1%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="K1rit0&#39;s Blog">
+<meta property="og:description" content="主要就是对一些在PHP中MD5值判断的漏洞的积累吧(每次都要查payload很麻烦的  为了方便, 文章中的所有变量都不带$ 1. a !&#x3D; b and md5(a) &#x3D;&#x3D; md5(b) 用&#x3D;&#x3D;来判断两个变量(这样写肯定会被学长骂的!!!, 怎么绕过呢?先给出两个字符串吧QNKCDZO 和 240610708 而这两个字符串的MD5值为120e830400451993494058024219903">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-21T16:02:00.000Z">
+<meta property="article:modified_time" content="2022-09-11T02:28:49.000Z">
+<meta property="article:author" content="K1rit0">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="MD5">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://tearsjin.github.io/2020/10/22/web-md5%E5%BC%B1%E7%B1%BB%E5%9E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://tearsjin.github.io/2020/10/22/web-md5%E5%BC%B1%E7%B1%BB%E5%9E%8B/","path":"2020/10/22/web-md5弱类型/","title":"PHP Weak type about MD5"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PHP Weak type about MD5 | K1rit0's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
 
@@ -114,11 +166,310 @@ mjx-container[display="true"] {
 mjx-container[display="true"] + br {
   display: none;
 }
-</style></head><body><div class="page-top animated fadeInDown"><div class="nav"><li> <a href="/">Home</a></li><li> <a href="/archives">Archives</a></li><li> <a href="/tags">Tags</a></li><li> <a href="/about">About</a></li><li> <a href="/links">Links</a></li></div><div class="information"><div class="nav_right_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li><li><a class="fa fa-search" onclick="openWindow();"></a></li></div><div class="avatar"><img src="https://avatars.githubusercontent.com/u/56160386?s=96&amp;v=4"></div></div></div><div class="sidebar animated fadeInDown"><div class="sidebar-top"><div class="logo-title"><div class="title"><img src="https://avatars.githubusercontent.com/u/56160386?s=400&amp;v=4" style="width:220px;" alt="favicon"><h3 title=""><a href="/">K1rit0's Blog</a></h3><div class="description"><p>just for fun</p></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="https://github.com/tearsjin"><i class="fa fa-github"></i></a></li><li><a href="mailto:k1rit0@qq.com"><i class="fa fa-envelope"></i></a></li><li><a target="_blank" rel="noopener" href="http://sighttp.qq.com/authd?IDKEY=3519728596"><i class="fa fa-qq"></i></a></li></ul></div></div><div class="footer"><div class="p"> <span> 全站CC-BY-SA-3.0 </span><i class="fa fa-star"></i><span> k1rit0</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><span>Anatolo </span></div><div class="beian"></div></div></div><div class="main"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>PHP Weak type about MD5</a></h3></div><div class="post-content"><p><p>主要就是对一些在PHP中MD5值判断的漏洞的积累吧(<del>每次都要查payload很麻烦的</del></p>
+</style><link rel="alternate" href="/atom.xml" title="K1rit0's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">K1rit0's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description"> </p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>links</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-a-b-and-md5-a-md5-b"><span class="nav-number">1.</span> <span class="nav-text">1. a !&#x3D; b and md5(a) &#x3D;&#x3D; md5(b)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-a-b-and-md5-a-md5-b"><span class="nav-number">2.</span> <span class="nav-text">2. a !&#x3D;&#x3D; b and md5(a) &#x3D;&#x3D;&#x3D; md5(b)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-string-a-string-b-and-md5-a-md5-b"><span class="nav-number">3.</span> <span class="nav-text">3. (string)a !&#x3D;&#x3D; (string)b and md5(a) &#x3D;&#x3D;&#x3D; md5(b)</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="K1rit0"
+      src="https://avatars.githubusercontent.com/u/56160386?s=96&v=4">
+  <p class="site-author-name" itemprop="name">K1rit0</p>
+  <div class="site-description" itemprop="description"> </div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tearsjin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tearsjin" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:k1rit0@qq.com" title="E-Mail → mailto:k1rit0@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://tearsjin.github.io/2020/10/22/web-md5%E5%BC%B1%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/56160386?s=96&v=4">
+      <meta itemprop="name" content="K1rit0">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="K1rit0's Blog">
+      <meta itemprop="description" content=" ">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PHP Weak type about MD5 | K1rit0's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PHP Weak type about MD5
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-10-22 00:02:00" itemprop="dateCreated datePublished" datetime="2020-10-22T00:02:00+08:00">2020-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-09-11 10:28:49" itemprop="dateModified" datetime="2022-09-11T10:28:49+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/WebSummary/" itemprop="url" rel="index"><span itemprop="name">WebSummary</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>主要就是对一些在PHP中MD5值判断的漏洞的积累吧(<del>每次都要查payload很麻烦的</del></p>
 <blockquote>
 <p>为了方便, 文章中的所有变量都不带$</p>
 <h2 id="1-a-b-and-md5-a-md5-b"><a href="#1-a-b-and-md5-a-md5-b" class="headerlink" title="1. a != b and md5(a) == md5(b)"></a>1. a != b and md5(a) == md5(b)</h2></blockquote>
 <p>用==来判断两个变量(<del>这样写肯定会被学长骂的!!!</del>, 怎么绕过呢?<br>先给出两个字符串吧<code>QNKCDZO</code> 和 <code>240610708</code> 而这两个字符串的MD5值为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0e830400451993494058024219903391</span></span><br><span class="line"><span class="number">0e462097431906509019562988736854</span></span><br></pre></td></tr></table></figure><br>PHP在处理哈希字符串时, 它把每一个以“0E”开头的哈希值都解释为0, 具体的原因呢是因为0e开头会被认为是科学计数法, e后面的数会被认为是次幂, 而不管0乘10的几次幂都是0. 所以如果两个不同的密码经过哈希以后, 其哈希值都是以“0E”开头的, 那么PHP将会认为他们相同, 都是0.</p>
 <h2 id="2-a-b-and-md5-a-md5-b"><a href="#2-a-b-and-md5-a-md5-b" class="headerlink" title="2. a !== b and md5(a) === md5(b)"></a>2. a !== b and md5(a) === md5(b)</h2><p>要通过这个判断, 要利用MD5不能处理数组这个漏洞, 就是说当a和b都是数组的时候, md5(a) === md5(b) 会判断为真. 至于怎么让a !== b, <code>a[]=1;b[]=2</code>就行了.</p>
 <h2 id="3-string-a-string-b-and-md5-a-md5-b"><a href="#3-string-a-string-b-and-md5-a-md5-b" class="headerlink" title="3. (string)a !== (string)b and md5(a) === md5(b)"></a>3. (string)a !== (string)b and md5(a) === md5(b)</h2><p>啊这…这个可以直接去找两个相等md5的字符串.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$Param1</span>=<span class="string">"\x4d\xc9\x68\xff\x0e\xe3\x5c\x20\x95\x72\xd4\x77\x7b\x72\x15\x87\xd3\x6f\xa7\xb2\x1b\xdc\x56\xb7\x4a\x3d\xc0\x78\x3e\x7b\x95\x18\xaf\xbf\xa2\x00\xa8\x28\x4b\xf3\x6e\x8e\x4b\x55\xb3\x5f\x42\x75\x93\xd8\x49\x67\x6d\xa0\xd1\x55\x5d\x83\x60\xfb\x5f\x07\xfe\xa2"</span>;</span><br><span class="line"><span class="variable">$Param2</span>=<span class="string">"\x4d\xc9\x68\xff\x0e\xe3\x5c\x20\x95\x72\xd4\x77\x7b\x72\x15\x87\xd3\x6f\xa7\xb2\x1b\xdc\x56\xb7\x4a\x3d\xc0\x78\x3e\x7b\x95\x18\xaf\xbf\xa2\x02\xa8\x28\x4b\xf3\x6e\x8e\x4b\x55\xb3\x5f\x42\x75\x93\xd8\x49\x67\x6d\xa0\xd1\xd5\x5d\x83\x60\xfb\x5f\x07\xfe\xa2"</span>;</span><br><span class="line"><span class="comment">#008ee33a9d58b51cfeb425b0959121c9</span></span><br></pre></td></tr></table></figure><br>使用的时候记得直接添加到包里面去, 浏览器上输入是无效的</p>
-</p><div class="tip">本文采用CC-BY-SA-3.0协议，转载请注明出处<br>Author: k1rit0</div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-10-22</span><a class="tag" href="/categories/WebSummary/" title="WebSummary">WebSummary </a><i class="fa fa-tag"></i><a class="tag" href="/tags/Web/" title="Web">Web </a><i class="fa fa-tag"></i><a class="tag" href="/tags/MD5/" title="MD5">MD5 </a><span class="leancloud_visitors"></span><span>About 508 words, 1 min 41 sec  read</span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://tearsjin.github.io/2020/10/22/web-md5弱类型/,K1rit0's Blog,PHP Weak type about MD5,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/10/30/Crypto-onetimepad2-understand-the-nature-of-the-algorithm/" title="Crypto - onetimepad2, understand the nature of the algorithm">Previous</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/10/10/cryptopals/" title="cryptopals">Next</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script>(function(window){var INSIGHT_CONFIG={TRANSLATION:{POSTS:"Posts",PAGES:"Pages",CATEGORIES:"Categories",TAGS:"Tags",UNTITLED:"(Untitled)",},CONTENT_URL:"/content.json",};window.INSIGHT_CONFIG=INSIGHT_CONFIG})(window);</script><script src="/js/insight.js" defer></script><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="Search..."><span class="searchbox-close"><a class="fa fa-times-circle" onclick="closeWindow();"></a></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"><p>Seraching...</p></div></div></div></div></body></html>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web/" rel="tag"># Web</a>
+              <a href="/tags/MD5/" rel="tag"># MD5</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/10/10/cryptopals/" rel="prev" title="cryptopals">
+                  <i class="fa fa-angle-left"></i> cryptopals
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/10/30/Crypto-onetimepad2-understand-the-nature-of-the-algorithm/" rel="next" title="Crypto - onetimepad2, understand the nature of the algorithm">
+                  Crypto - onetimepad2, understand the nature of the algorithm <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">K1rit0</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">350k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:18</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
